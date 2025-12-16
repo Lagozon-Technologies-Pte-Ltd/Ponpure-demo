@@ -1,0 +1,79 @@
+[
+  {
+    "input": "Show the most recent 10 quotations.",
+    "query": "SELECT TOP 10 header_id, quotation_number, quotation_date, customer_id, company_id, status_id FROM Ponpure_Quotationhdrs ORDER BY quotation_date DESC;"
+  },
+  {
+    "input": "List all quotations for a specific customer.",
+    "query": "SELECT quotation_number, quotation_date, status_id FROM Ponpure_Quotationhdrs WHERE customer_id = 101;"
+  },
+  {
+    "input": "Count quotations grouped by status.",
+    "query": "SELECT status_id, COUNT(*) AS quotation_count FROM Ponpure_Quotationhdrs GROUP BY status_id;"
+  },
+
+  {
+    "input": "Show the latest 10 sale orders.",
+    "query": "SELECT TOP 10 header_id, order_number, order_date, customer_id, company_id FROM Ponpure_SaleorderHdrs ORDER BY order_date DESC;"
+  },
+  {
+    "input": "List sale orders for a specific customer.",
+    "query": "SELECT order_number, order_date FROM Ponpure_SaleorderHdrs WHERE customer_id = 101;"
+  },
+  {
+    "input": "Count sale orders per customer.",
+    "query": "SELECT customer_id, COUNT(*) AS total_orders FROM Ponpure_SaleorderHdrs GROUP BY customer_id;"
+  },
+
+  {
+    "input": "Show all line items for a sale order.",
+    "query": "SELECT line_id, item_id, sale_quantity, unit_price, total_value FROM Ponpure_SaleOrderdtls WHERE header_id = 1091149;"
+  },
+  {
+    "input": "List the top 10 most ordered items.",
+    "query": "SELECT TOP 10 item_id, SUM(sale_quantity) AS total_qty FROM Ponpure_SaleOrderdtls GROUP BY item_id ORDER BY total_qty DESC;"
+  },
+  {
+    "input": "Find line items with unit price above 1000.",
+    "query": "SELECT line_id, item_id, sale_quantity, unit_price FROM Ponpure_SaleOrderdtls WHERE unit_price > 1000;"
+  },
+
+  {
+    "input": "Show the last 10 dispatch records.",
+    "query": "SELECT TOP 10 sale_order_header_id, sale_order_detail_line_id, schedule_quantity, sale_quantity, total_value, schedule_date FROM Ponpure_DispatchDetails ORDER BY schedule_date DESC;"
+  },
+  {
+    "input": "Get dispatch summary for a sale order.",
+    "query": "SELECT sale_order_detail_line_id, schedule_quantity, sale_quantity, (schedule_quantity - sale_quantity) AS pending_qty FROM Ponpure_DispatchDetails WHERE sale_order_header_id = 1091149;"
+  },
+  {
+    "input": "Show total dispatched value per sale order.",
+    "query": "SELECT sale_order_header_id, SUM(total_value) AS total_dispatch_value FROM Ponpure_DispatchDetails GROUP BY sale_order_header_id;"
+  },
+
+  {
+    "input": "Show the latest 10 leads.",
+    "query": "SELECT TOP 10 lead_id, created_by, creation_date FROM Ponpure_LeadDetails ORDER BY creation_date DESC;"
+  },
+  {
+    "input": "List leads created by a specific employee.",
+    "query": "SELECT lead_id, creation_date FROM Ponpure_LeadDetails WHERE created_by = 55;"
+  },
+  {
+    "input": "Count leads by creator.",
+    "query": "SELECT created_by, COUNT(*) AS total_leads FROM Ponpure_LeadDetails GROUP BY created_by;"
+  },
+
+  {
+    "input": "Show upcoming schedules.",
+    "query": "SELECT schedule_id, schedule_date, assigned_to FROM Ponpure_Schedules WHERE schedule_date >= GETDATE();"
+  },
+  {
+    "input": "Count schedules assigned per person.",
+    "query": "SELECT assigned_to, COUNT(*) AS schedule_count FROM Ponpure_Schedules GROUP BY assigned_to;"
+  },
+  {
+    "input": "List schedules on a given date.",
+    "query": "SELECT schedule_id, assigned_to FROM Ponpure_Schedules WHERE schedule_date = '2025-01-01';"
+  }
+]

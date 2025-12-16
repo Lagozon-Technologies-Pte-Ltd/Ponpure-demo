@@ -1,0 +1,6378 @@
+[
+  {
+    "column_name": "Ponpure_LeadDetails.lead_id",
+    "column_desc": "Lead Id in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 216200, 216199",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "216200",
+      "216199"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.lead_no",
+    "column_desc": "Lead No in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: MOBILE, MOBILE",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "MOBILE",
+      "MOBILE"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.email_id",
+    "column_desc": "Email Id in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: abindutries2012@gmail.com, Purchase@savantindia.in",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "abindutries2012@gmail.com",
+      "Purchase@savantindia.in"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.interest",
+    "column_desc": "Interest in Ponpure_LeadDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.firstname",
+    "column_desc": "Firstname in Ponpure_LeadDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.salutation",
+    "column_desc": "Salutation in Ponpure_LeadDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.lastname",
+    "column_desc": "Lastname in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 40:41.3",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "40:41.3"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.industry",
+    "column_desc": "Industry in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: ELECTRONICS, ELECTRONICS",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "ELECTRONICS",
+      "ELECTRONICS"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.website",
+    "column_desc": "Website in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: coi02@pure-chemical.com , coi02@pure-chemical.com ",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "coi02@pure-chemical.com ",
+      "coi02@pure-chemical.com "
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.user_branch",
+    "column_desc": "User Branch in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: COIMBATORE, COIMBATORE",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "COIMBATORE",
+      "COIMBATORE"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.converted",
+    "column_desc": "Converted in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.designation",
+    "column_desc": "Designation in Ponpure_LeadDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.lead_crm_soc_no",
+    "column_desc": "Lead Crm Soc No in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 21641133.0, 21641133.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "21641133.0",
+      "21641133.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.actionable",
+    "column_desc": "Actionable in Ponpure_LeadDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.comments",
+    "column_desc": "Comments in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: Customer want this product to purchase., Customer want this product to purchase.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Customer want this product to purchase.",
+      "Customer want this product to purchase."
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.producttype",
+    "column_desc": "Producttype in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 7.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "7.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.exporttype",
+    "column_desc": "Exporttype in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 19.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "19.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.presentsource",
+    "column_desc": "Presentsource in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 115293.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "115293.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.decisionmaker",
+    "column_desc": "Decisionmaker in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 115293.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "115293.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.domestic_supplier_name",
+    "column_desc": "Domestic Supplier Name in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: Y",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Y"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.uploaded_date",
+    "column_desc": "Uploaded Date in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 36:50.0, 35:31.6",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "36:50.0",
+      "35:31.6"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.nextstepdate",
+    "column_desc": "Nextstepdate in Ponpure_LeadDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.collector",
+    "column_desc": "Collector in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: COIMBATORE, COIMBATORE",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "COIMBATORE",
+      "COIMBATORE"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.description",
+    "column_desc": "Description in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: Good, order confirm",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Good",
+      "order confirm"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.evaluationstatus",
+    "column_desc": "Evaluationstatus in Ponpure_LeadDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.transferdate",
+    "column_desc": "Transferdate in Ponpure_LeadDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.bm_approve",
+    "column_desc": "Bm Approve in Ponpure_LeadDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.secondaryemail",
+    "column_desc": "Secondaryemail in Ponpure_LeadDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.assignleadchk",
+    "column_desc": "Assignleadchk in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 158.0, 158.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "158.0",
+      "158.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.leadstatus",
+    "column_desc": "Leadstatus in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 1, 1",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1",
+      "1"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.leadsource",
+    "column_desc": "Leadsource in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 7.0, 7.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "7.0",
+      "7.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.company",
+    "column_desc": "Company in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 138294, 138294",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "138294",
+      "138294"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.customer_id",
+    "column_desc": "Customer Id in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 138294.0, 138294.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "138294.0",
+      "138294.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.sent_mail_alert",
+    "column_desc": "Sent Mail Alert in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: Y, Y",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Y",
+      "Y"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.industry_id",
+    "column_desc": "Industry Id in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.detailed_description",
+    "column_desc": "Detailed Description in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 282170.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "282170.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.gen_lead_status",
+    "column_desc": "Gen Lead Status in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 1.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.lead_close_status",
+    "column_desc": "Lead Close Status in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.lead_close_option",
+    "column_desc": "Lead Close Option in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: Rejected, Rejected",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Rejected",
+      "Rejected"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.lead_close_comments",
+    "column_desc": "Lead Close Comments in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: PL CHECK THE POTENTIAL ANC CORRECT, PL CORRECT POTENTIAL QTY AND VALUE",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "PL CHECK THE POTENTIAL ANC CORRECT",
+      "PL CORRECT POTENTIAL QTY AND VALUE"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.crd_id",
+    "column_desc": "Crd Id in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: PARTNERSHIP",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "PARTNERSHIP"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.crd_assesment",
+    "column_desc": "Crd Assesment in Ponpure_LeadDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.lead_2pa_no",
+    "column_desc": "Lead 2Pa No in Ponpure_LeadDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.sales_type_flag",
+    "column_desc": "Sales Type Flag in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: R, R",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "R",
+      "R"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.app_sync_flag",
+    "column_desc": "App Sync Flag in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.app_lead_id",
+    "column_desc": "App Lead Id in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.approval_date",
+    "column_desc": "Approval Date in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 07:49.5, 03:09.8",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "07:49.5",
+      "03:09.8"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.approve_comments",
+    "column_desc": "Approve Comments in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: Auto Approved More than 1 day, Auto Approved More than 1 day",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Auto Approved More than 1 day",
+      "Auto Approved More than 1 day"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.user_submited",
+    "column_desc": "User Submited in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: N, N",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "N",
+      "N"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.log_id",
+    "column_desc": "Log Id in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 287528.0, 287527.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "287528.0",
+      "287527.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.approve_status",
+    "column_desc": "Approve Status in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.customername",
+    "column_desc": "Customername in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: AAVIZA ELECTRONICS PRIVATE LIMITED., AAVIZA ELECTRONICS PRIVATE LIMITED.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "AAVIZA ELECTRONICS PRIVATE LIMITED.",
+      "AAVIZA ELECTRONICS PRIVATE LIMITED."
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.segment1",
+    "column_desc": "Segment1 in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: General Chemicals, General Chemicals",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "General Chemicals",
+      "General Chemicals"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.lead_cust_number",
+    "column_desc": "Lead Cust Number in Ponpure_LeadDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.business_type",
+    "column_desc": "Business Type in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: SOLE PROPRIETORSHIP, SOLE PROPRIETORSHIP",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "SOLE PROPRIETORSHIP",
+      "SOLE PROPRIETORSHIP"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.lead_comments",
+    "column_desc": "Lead Comments in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: add leads, Trader",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "add leads",
+      "Trader"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.comp_name",
+    "column_desc": "Comp Name in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: ., Bvk",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      ".",
+      "Bvk"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.comp_prod_category",
+    "column_desc": "Comp Prod Category in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: Performance Chemicals, Paints & Coatings",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Performance Chemicals",
+      "Paints & Coatings"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.comp_price",
+    "column_desc": "Comp Price in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.created_by",
+    "column_desc": "Created By in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 158, 158",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "158",
+      "158"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.creation_date",
+    "column_desc": "Creation Date in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 36:50.0, 35:31.6",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "36:50.0",
+      "35:31.6"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.last_updated_by",
+    "column_desc": "Last Updated By in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 158.0, 158.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "158.0",
+      "158.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.last_update_date",
+    "column_desc": "Last Update Date in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 36:50.0, 35:31.6",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "36:50.0",
+      "35:31.6"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.visit_date",
+    "column_desc": "Visit Date in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 00:00.0, 00:00.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "00:00.0",
+      "00:00.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.is_visited",
+    "column_desc": "Is Visited in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 1, 1",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1",
+      "1"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.is_credit_evaluated",
+    "column_desc": "Is Credit Evaluated in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 1.0, 1.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1.0",
+      "1.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.is_temp_customer",
+    "column_desc": "Is Temp Customer in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 1.0, 1.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1.0",
+      "1.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.previous_quote_id",
+    "column_desc": "Previous Quote Id in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.enquiry_id",
+    "column_desc": "Enquiry Id in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 49229.0, 49219.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "49229.0",
+      "49219.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.close_sent_mail_alert",
+    "column_desc": "Close Sent Mail Alert in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: Y, Y",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Y",
+      "Y"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.close_approval_id",
+    "column_desc": "Close Approval Id in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.mcassign_sent_mail_alert",
+    "column_desc": "Mcassign Sent Mail Alert in Ponpure_LeadDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.referral_customer_number",
+    "column_desc": "Referral Customer Number in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 12304.0, 44758.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "12304.0",
+      "44758.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.referral_customer_name",
+    "column_desc": "Referral Customer Name in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: BRINDHAA PROCESING MILLS, EXCELJET TECHNOLOGY INDIA LLP",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "BRINDHAA PROCESING MILLS",
+      "EXCELJET TECHNOLOGY INDIA LLP"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.is_notes_request_mail_sent",
+    "column_desc": "Is Notes Request Mail Sent in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 1.0, 1.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1.0",
+      "1.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.cvrpotentialdata_headerid",
+    "column_desc": "Cvrpotentialdata Headerid in Ponpure_LeadDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.temp_close_status_id",
+    "column_desc": "Temp Close Status Id in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.close_reason_id",
+    "column_desc": "Close Reason Id in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.user_mc_code",
+    "column_desc": "User Mc Code in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: COI02, COI02",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "COI02",
+      "COI02"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.cross_marketcircle_segmentaccess_flag",
+    "column_desc": "Cross Marketcircle Segmentaccess Flag in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.Bill_to_Site_Use_id",
+    "column_desc": "Bill To Site Use Id in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_LeadDetails.pre_lead_id",
+    "column_desc": "Pre Lead Id in Ponpure_LeadDetails, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_LeadDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.line_id",
+    "column_desc": "Line Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 3028196, 3028195",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "3028196",
+      "3028195"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.sale_order_header_id",
+    "column_desc": "Sale Order Header Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 1094378, 1094378",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1094378",
+      "1094378"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.sale_order_detail_line_id",
+    "column_desc": "Sale Order Detail Line Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 2983385, 2983384",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "2983385",
+      "2983384"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.item_id",
+    "column_desc": "Item Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 814, 2072",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "814",
+      "2072"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.alternate_item_id",
+    "column_desc": "Alternate Item Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 814, 2072",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "814",
+      "2072"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.sale_category",
+    "column_desc": "Sale Category in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: Intact, Intact",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Intact",
+      "Intact"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.customer_id",
+    "column_desc": "Customer Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 245111, 245111",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "245111",
+      "245111"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.schedule_date",
+    "column_desc": "Schedule Date in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 30:00.0, 30:00.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "30:00.0",
+      "30:00.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.reschedule_date",
+    "column_desc": "Reschedule Date in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 30:00.0, 30:00.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "30:00.0",
+      "30:00.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.reschedule_reason",
+    "column_desc": "Reschedule Reason in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: \u00c2\u00a0, \u00c2\u00a0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "\u00c2\u00a0",
+      "\u00c2\u00a0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.schedule_time",
+    "column_desc": "Schedule Time in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 30:00.0, 30:00.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "30:00.0",
+      "30:00.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.inventory_org_id",
+    "column_desc": "Inventory Org Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 140, 140",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "140",
+      "140"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.customer_requested_date",
+    "column_desc": "Customer Requested Date in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 30:00.0, 30:00.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "30:00.0",
+      "30:00.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.schedule_quantity",
+    "column_desc": "Schedule Quantity in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 2.0, 3.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "2.0",
+      "3.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.dispatched_quantity",
+    "column_desc": "Dispatched Quantity in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.dispatched_date",
+    "column_desc": "Dispatched Date in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 00:00.0, 00:00.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "00:00.0",
+      "00:00.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.dispatched_time",
+    "column_desc": "Dispatched Time in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: II Session, I Session",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "II Session",
+      "I Session"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.bill_to_customer_site_id",
+    "column_desc": "Bill To Customer Site Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 278359, 278359",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "278359",
+      "278359"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.ship_to_customer_site_id",
+    "column_desc": "Ship To Customer Site Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 278360, 278360",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "278360",
+      "278360"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.schedule_status_id",
+    "column_desc": "Schedule Status Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 4, 4",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "4",
+      "4"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.soc_status_id",
+    "column_desc": "Soc Status Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.confirm_status_id",
+    "column_desc": "Confirm Status Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 1, 1",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1",
+      "1"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.reason_id",
+    "column_desc": "Reason Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.comments",
+    "column_desc": "Comments in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: please Dispatch , please Dispatch ",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "please Dispatch ",
+      "please Dispatch "
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.schedule_approval_status_id",
+    "column_desc": "Schedule Approval Status Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.packing_cost",
+    "column_desc": "Packing Cost in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.packing_size",
+    "column_desc": "Packing Size in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.order_quantity",
+    "column_desc": "Order Quantity in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 2.0, 3.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "2.0",
+      "3.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.packing_details",
+    "column_desc": "Packing Details in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.cust_acct_site_id",
+    "column_desc": "Cust Acct Site Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 970977, 970977",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "970977",
+      "970977"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.previous_schedule_quantity",
+    "column_desc": "Previous Schedule Quantity in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 5.0, 1080.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "5.0",
+      "1080.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.drum_type",
+    "column_desc": "Drum Type in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.frieght_term_id",
+    "column_desc": "Frieght Term Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 2, 2",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "2",
+      "2"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.item_group",
+    "column_desc": "Item Group in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: PUREPRINT, PUREPRINT",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "PUREPRINT",
+      "PUREPRINT"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.payment_term_id",
+    "column_desc": "Payment Term Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 4, 4",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "4",
+      "4"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.tax",
+    "column_desc": "Tax in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 18, 18",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "18",
+      "18"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.backtoback_enable",
+    "column_desc": "Backtoback Enable in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.unit_price",
+    "column_desc": "Unit Price in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 590.0, 690.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "590.0",
+      "690.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.quotation_no",
+    "column_desc": "Quotation No in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: CCL/2025-26/5028, CCL/2025-26/5028",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "CCL/2025-26/5028",
+      "CCL/2025-26/5028"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.organization_id",
+    "column_desc": "Organization Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 104, 104",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "104",
+      "104"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.inventory_org_name",
+    "column_desc": "Inventory Org Name in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: CCL - Tiruppur (KC), CCL - Tiruppur (KC)",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "CCL - Tiruppur (KC)",
+      "CCL - Tiruppur (KC)"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.inventory_org_code",
+    "column_desc": "Inventory Org Code in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.delivery_from_id",
+    "column_desc": "Delivery From Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 12, 12",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "12",
+      "12"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.reschedule_time",
+    "column_desc": "Reschedule Time in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 00:00.0, 00:00.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "00:00.0",
+      "00:00.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.created_by",
+    "column_desc": "Created By in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 69, 69",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "69",
+      "69"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.creation_date",
+    "column_desc": "Creation Date in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 38:49.2, 38:49.2",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "38:49.2",
+      "38:49.2"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.last_updated_by",
+    "column_desc": "Last Updated By in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 69.0, 69.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "69.0",
+      "69.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.last_update_date",
+    "column_desc": "Last Update Date in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 38:49.2, 38:49.2",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "38:49.2",
+      "38:49.2"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.agreeddays",
+    "column_desc": "Agreeddays in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 60.0, 60.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "60.0",
+      "60.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.is_mobile_request",
+    "column_desc": "Is Mobile Request in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.unicommerce_validation_error_message",
+    "column_desc": "Unicommerce Validation Error Message in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: VELOUR FAASHIONS - Required credit limit is not available, Available credit limit is 0; , BHARAT DYE HOUSE - Credit holded; ",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "VELOUR FAASHIONS - Required credit limit is not available, Available credit limit is 0; ",
+      "BHARAT DYE HOUSE - Credit holded; "
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.unicommerce_sale_order_item_ids",
+    "column_desc": "Unicommerce Sale Order Item Ids in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 1,58,81,14,15,88,115, 1588104",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1,58,81,14,15,88,115",
+      "1588104"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.request_type",
+    "column_desc": "Request Type in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: CRM, CRM",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "CRM",
+      "CRM"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.internal_source_flag",
+    "column_desc": "Internal Source Flag in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.internal_source_invorg_id",
+    "column_desc": "Internal Source Invorg Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.internal_source_quotecreation_flag",
+    "column_desc": "Internal Source Quotecreation Flag in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.internal_source_dataeditable_flag",
+    "column_desc": "Internal Source Dataeditable Flag in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.internal_child_schedule_id",
+    "column_desc": "Internal Child Schedule Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 3027962.0, 3027784.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "3027962.0",
+      "3027784.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.internal_parent_schedule_id",
+    "column_desc": "Internal Parent Schedule Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 3027947.0, 3027747.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "3027947.0",
+      "3027747.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.internal_parent_soc_id",
+    "column_desc": "Internal Parent Soc Id in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 1094274.0, 1094146.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1094274.0",
+      "1094146.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.shedule_data_edit_flag",
+    "column_desc": "Shedule Data Edit Flag in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 1.0, 1.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1.0",
+      "1.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Schedules.is_recall",
+    "column_desc": "Is Recall in Ponpure_Schedules, used to support business operations and SQL filtering. Sample values: 1.0, 1.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Schedules",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1.0",
+      "1.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.header_id",
+    "column_desc": "Header Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 21641702, 21641701",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "21641702",
+      "21641701"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.quotation_number",
+    "column_desc": "Quotation Number in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: PPC/2025-26/98146, PPC/2025-26/98145",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "PPC/2025-26/98146",
+      "PPC/2025-26/98145"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.quotation_date",
+    "column_desc": "Quotation Date in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 00:00.0, 22:26.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "00:00.0",
+      "22:26.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.enquiry_id",
+    "column_desc": "Enquiry Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.enquiry_date",
+    "column_desc": "Enquiry Date in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0001-01-01 00:00:00.0000000, 00:00.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0001-01-01 00:00:00.0000000",
+      "00:00.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.trans_type_id",
+    "column_desc": "Trans Type Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 1, 1",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1",
+      "1"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.trans_sub_type_id",
+    "column_desc": "Trans Sub Type Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 4, 3",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "4",
+      "3"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.company_id",
+    "column_desc": "Company Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 101, 101",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "101",
+      "101"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.company_gstin_id",
+    "column_desc": "Company Gstin Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0, 2",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "2"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.company_location_id",
+    "column_desc": "Company Location Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 37, 1",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "37",
+      "1"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.collector_id",
+    "column_desc": "Collector Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 1055, 1077",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1055",
+      "1077"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.customer_id",
+    "column_desc": "Customer Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 17675, 98667",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "17675",
+      "98667"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.bill_to_site_id",
+    "column_desc": "Bill To Site Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 1212002, 129952",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1212002",
+      "129952"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.ship_to_site_id",
+    "column_desc": "Ship To Site Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 1212003, 129953",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1212003",
+      "129953"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.status_id",
+    "column_desc": "Status Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 1.0, 1.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1.0",
+      "1.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.reason_id",
+    "column_desc": "Reason Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.approval_status_id",
+    "column_desc": "Approval Status Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.remarks",
+    "column_desc": "Remarks in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: okay, approve quote",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "okay",
+      "approve quote"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.quotation_valid_upto",
+    "column_desc": "Quotation Valid Upto in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 00:00.0, 00:00.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "00:00.0",
+      "00:00.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.is_back_to_back_order",
+    "column_desc": "Is Back To Back Order in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.approval_received_date",
+    "column_desc": "Approval Received Date in Ponpure_Quotationhdrs, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.additional_mail_id",
+    "column_desc": "Additional Mail Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: bmkarur@pure-chemical.com, *********************",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "bmkarur@pure-chemical.com",
+      "*********************"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.CUST_ACCT_SITE_ID",
+    "column_desc": "Cust Acct Site Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 1860385.0, 145143.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1860385.0",
+      "145143.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.quote_creation_type",
+    "column_desc": "Quote Creation Type in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 1.0, 2.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1.0",
+      "2.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.trans_type_name",
+    "column_desc": "Trans Type Name in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: Taxable - Inter State, Taxable - Inter State",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Taxable - Inter State",
+      "Taxable - Inter State"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.sequence_no",
+    "column_desc": "Sequence No in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 98146.0, 98145.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "98146.0",
+      "98145.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.created_by",
+    "column_desc": "Created By in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 34.0, 139.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "34.0",
+      "139.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.creation_date",
+    "column_desc": "Creation Date in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 24:09.8, 22:27.6",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "24:09.8",
+      "22:27.6"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.last_updated_by",
+    "column_desc": "Last Updated By in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 34.0, 139.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "34.0",
+      "139.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.last_update_date",
+    "column_desc": "Last Update Date in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 24:09.8, 22:27.6",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "24:09.8",
+      "22:27.6"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.sync_error_msg",
+    "column_desc": "Sync Error Msg in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: No Records Found, No Records Found",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "No Records Found",
+      "No Records Found"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.export_contractid",
+    "column_desc": "Export Contractid in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.export_contractno",
+    "column_desc": "Export Contractno in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: PPC/2025-26/62053, PPC/2025-26/35510",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "PPC/2025-26/62053",
+      "PPC/2025-26/35510"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.sfa_quoteid",
+    "column_desc": "Sfa Quoteid in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 624928.0, 624927.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "624928.0",
+      "624927.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.po_comments",
+    "column_desc": "Po Comments in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: ok, ok",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "ok",
+      "ok"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.synremarks",
+    "column_desc": "Synremarks in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: push_quotations_failed, open_quote_exists",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "push_quotations_failed",
+      "open_quote_exists"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.buyer_order_no",
+    "column_desc": "Buyer Order No in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0199/2025, 4513425636",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0199/2025",
+      "4513425636"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.buyer_order_date",
+    "column_desc": "Buyer Order Date in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 00:00.0, 00:00.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "00:00.0",
+      "00:00.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.other_ref",
+    "column_desc": "Other Ref in Ponpure_Quotationhdrs, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.currency_type",
+    "column_desc": "Currency Type in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: INR, INR",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "INR",
+      "INR"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.conversion_rate",
+    "column_desc": "Conversion Rate in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 1.0, 1.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1.0",
+      "1.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.ie_code",
+    "column_desc": "Ie Code in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 402002172.0, 402002172.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "402002172.0",
+      "402002172.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.delivery_terms",
+    "column_desc": "Delivery Terms in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: FOB, CFR",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "FOB",
+      "CFR"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.pre_carriage_by",
+    "column_desc": "Pre Carriage By in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: By Sea, By Sea",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "By Sea",
+      "By Sea"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.port_loading_id",
+    "column_desc": "Port Loading Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 773.0, 727.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "773.0",
+      "727.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.port_discharge_id",
+    "column_desc": "Port Discharge Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 1177.0, 713.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1177.0",
+      "713.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.country_final_dest_id",
+    "column_desc": "Country Final Dest Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 5353.0, 5250.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "5353.0",
+      "5250.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.final_destination_id",
+    "column_desc": "Final Destination Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 1177.0, 713.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1177.0",
+      "713.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.partial_shipment",
+    "column_desc": "Partial Shipment in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: No, No",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "No",
+      "No"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.type_of_supply",
+    "column_desc": "Type Of Supply in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: LCL, CONTAINER",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "LCL",
+      "CONTAINER"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.kind_of_package",
+    "column_desc": "Kind Of Package in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: BAGS, HDPE DRUM",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "BAGS",
+      "HDPE DRUM"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.type_of_container",
+    "column_desc": "Type Of Container in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 20' FCL, 40' FCL",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "20' FCL",
+      "40' FCL"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.total_value",
+    "column_desc": "Total Value in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 275.0, 27871.36",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "275.0",
+      "27871.36"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.total_freight_value",
+    "column_desc": "Total Freight Value in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 3200.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "3200.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.total_insurance_value",
+    "column_desc": "Total Insurance Value in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.total_fob_value",
+    "column_desc": "Total Fob Value in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 275.0, 24671.36",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "275.0",
+      "24671.36"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.time_of_dispatch",
+    "column_desc": "Time Of Dispatch in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: Jan-26, Dec shipment",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Jan-26",
+      "Dec shipment"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.offer_validity",
+    "column_desc": "Offer Validity in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 3 DAYS, 3 days",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "3 DAYS",
+      "3 days"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.trans_shipment",
+    "column_desc": "Trans Shipment in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: Yes, Yes",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Yes",
+      "Yes"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.number_in_words",
+    "column_desc": "Number In Words in Ponpure_Quotationhdrs, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.bank_id",
+    "column_desc": "Bank Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 2.0, 2.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "2.0",
+      "2.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.agent_id",
+    "column_desc": "Agent Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.commission_value",
+    "column_desc": "Commission Value in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.export_remarks",
+    "column_desc": "Export Remarks in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: Tolerance +/-5% in invoice and quantity, Tolerance +/- 5% in Quantity & Value",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Tolerance +/-5% in invoice and quantity",
+      "Tolerance +/- 5% in Quantity & Value"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.billing_devision_id",
+    "column_desc": "Billing Devision Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 110.0, 133.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "110.0",
+      "133.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.conversion_rate_date",
+    "column_desc": "Conversion Rate Date in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 24:09.8, 22:27.6",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "24:09.8",
+      "22:27.6"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.conversion_type",
+    "column_desc": "Conversion Type in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 1000.0, 1000.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1000.0",
+      "1000.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.price_list_id",
+    "column_desc": "Price List Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 6008.0, 6008.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "6008.0",
+      "6008.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.price_list",
+    "column_desc": "Price List in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: Standard, Standard",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Standard",
+      "Standard"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.delivery_description",
+    "column_desc": "Delivery Description in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: Mombasa, Mundra",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Mombasa",
+      "Mundra"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.is_pdf_sent",
+    "column_desc": "Is Pdf Sent in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 1.0, 1.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1.0",
+      "1.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.close_status_id",
+    "column_desc": "Close Status Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.customer_hdr_id",
+    "column_desc": "Customer Hdr Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.is_prequote",
+    "column_desc": "Is Prequote in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.customer_name",
+    "column_desc": "Customer Name in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: WALKAROO INTERNATIONAL PRIVATE LIMITED, SUN PAINTS AND CHEMICALS",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "WALKAROO INTERNATIONAL PRIVATE LIMITED",
+      "SUN PAINTS AND CHEMICALS"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.mc_code",
+    "column_desc": "Mc Code in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: COI01, CHA01",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "COI01",
+      "CHA01"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.pre_quote_id",
+    "column_desc": "Pre Quote Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.is_customer_approval",
+    "column_desc": "Is Customer Approval in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.is_customer_referback",
+    "column_desc": "Is Customer Referback in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.is_customer_reject",
+    "column_desc": "Is Customer Reject in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.othercollectorBM_mailsentflag",
+    "column_desc": "Othercollectorbm Mailsentflag in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.revised_count",
+    "column_desc": "Revised Count in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.rma_hdr_id",
+    "column_desc": "Rma Hdr Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.copy_quote_id",
+    "column_desc": "Copy Quote Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.customer_contact_request_hdr_id",
+    "column_desc": "Customer Contact Request Hdr Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.cus_mail_id",
+    "column_desc": "Cus Mail Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: puneetseth89@gmail.com, jkagwal@gmail.com",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "puneetseth89@gmail.com",
+      "jkagwal@gmail.com"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.user_mc_code",
+    "column_desc": "User Mc Code in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: COI01, CHA01",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "COI01",
+      "CHA01"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.crossmarketcircle_segmentflag",
+    "column_desc": "Crossmarketcircle Segmentflag in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.internal_parent_quotation_id",
+    "column_desc": "Internal Parent Quotation Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.referback_user_id",
+    "column_desc": "Referback User Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.referback_prev_status",
+    "column_desc": "Referback Prev Status in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 1.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "1.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.is_edit_access",
+    "column_desc": "Is Edit Access in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.sample_lead_id",
+    "column_desc": "Sample Lead Id in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.Verify_StatusId",
+    "column_desc": "Verify Statusid in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.Verify_Comments",
+    "column_desc": "Verify Comments in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: Trans Type not matched, Supplier address not matched",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Trans Type not matched",
+      "Supplier address not matched"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.Verify_Reasons",
+    "column_desc": "Verify Reasons in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: Others, Address",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Others",
+      "Address"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.is_Itemlevel_edited",
+    "column_desc": "Is Itemlevel Edited in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.is_POlevel_edited",
+    "column_desc": "Is Polevel Edited in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.DmsHdrId",
+    "column_desc": "Dmshdrid in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 4.0, 3.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "4.0",
+      "3.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_Quotationhdrs.is_Walkin_quote",
+    "column_desc": "Is Walkin Quote in Ponpure_Quotationhdrs, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_Quotationhdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.line_id",
+    "column_desc": "Line Id in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 2983375, 2983374",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "2983375",
+      "2983374"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.header_id",
+    "column_desc": "Header Id in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 1094372, 1094371",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1094372",
+      "1094371"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.item_id",
+    "column_desc": "Item Id in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 2891, 3693",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "2891",
+      "3693"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.uom_code",
+    "column_desc": "Uom Code in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: EA, EA",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "EA",
+      "EA"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.quantity",
+    "column_desc": "Quantity in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 1.0, 1.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1.0",
+      "1.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.unit_price",
+    "column_desc": "Unit Price in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 510.16949, 525.42372",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "510.16949",
+      "525.42372"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.price_list_name",
+    "column_desc": "Price List Name in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.price_list_id",
+    "column_desc": "Price List Id in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.discount_type",
+    "column_desc": "Discount Type in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.discount_percentage",
+    "column_desc": "Discount Percentage in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.total_sales_price",
+    "column_desc": "Total Sales Price in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 602.0, 620.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "602.0",
+      "620.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.packing_size",
+    "column_desc": "Packing Size in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 1X500ML, 1x500ML",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1X500ML",
+      "1x500ML"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.delivery_from_id",
+    "column_desc": "Delivery From Id in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 4, 4",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "4",
+      "4"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.freight_terms_id",
+    "column_desc": "Freight Terms Id in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 2, 2",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "2",
+      "2"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.sale_category",
+    "column_desc": "Sale Category in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: E-Commerce, E-Commerce",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "E-Commerce",
+      "E-Commerce"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.payment_term_id",
+    "column_desc": "Payment Term Id in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 1031, 1031",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1031",
+      "1031"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.drum_type",
+    "column_desc": "Drum Type in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.make",
+    "column_desc": "Make in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.delivery_date",
+    "column_desc": "Delivery Date in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 16:09.0, 20:23.3",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "16:09.0",
+      "20:23.3"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.inventory_org_id",
+    "column_desc": "Inventory Org Id in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 867, 867",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "867",
+      "867"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.item_hsn_code",
+    "column_desc": "Item Hsn Code in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 29241900.0, 29023000.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "29241900.0",
+      "29023000.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.tax_percentage",
+    "column_desc": "Tax Percentage in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 18, 18",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "18",
+      "18"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.quotation_close_reason",
+    "column_desc": "Quotation Close Reason in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.reason_id",
+    "column_desc": "Reason Id in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 1, 1",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1",
+      "1"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.item_group",
+    "column_desc": "Item Group in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: N,N-DIMETHYL FORMAMIDE - LAB CHEMICALS, TOLUENE SULPHUR FREE - LAB CHEMICALS",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "N,N-DIMETHYL FORMAMIDE - LAB CHEMICALS",
+      "TOLUENE SULPHUR FREE - LAB CHEMICALS"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.price_list_flag",
+    "column_desc": "Price List Flag in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: N, N",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "N",
+      "N"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.discount_value",
+    "column_desc": "Discount Value in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.price_list",
+    "column_desc": "Price List in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.packing_details",
+    "column_desc": "Packing Details in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 1X500ML, 1x500ML",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1X500ML",
+      "1x500ML"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.created_by",
+    "column_desc": "Created By in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 15, 15",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "15",
+      "15"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.creation_date",
+    "column_desc": "Creation Date in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 32:16.5, 29:39.8",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "32:16.5",
+      "29:39.8"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.last_updated_by",
+    "column_desc": "Last Updated By in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.last_update_date",
+    "column_desc": "Last Update Date in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.status",
+    "column_desc": "Status in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: OPEN, OPEN",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "OPEN",
+      "OPEN"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.quotationdtl_line_id",
+    "column_desc": "Quotationdtl Line Id in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 2913694, 2913710",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "2913694",
+      "2913710"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.export_contract_itemid",
+    "column_desc": "Export Contract Itemid in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.export_contract_itemcode",
+    "column_desc": "Export Contract Itemcode in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.agreeddays",
+    "column_desc": "Agreeddays in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.internal_source_flag",
+    "column_desc": "Internal Source Flag in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.internal_source_invorg_id",
+    "column_desc": "Internal Source Invorg Id in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.internal_parent_schedule_id",
+    "column_desc": "Internal Parent Schedule Id in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 3027947.0, 3027747.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "3027947.0",
+      "3027747.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.AUTO_CLOSE_REASON",
+    "column_desc": "Auto Close Reason in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: Bulk Threshold (95%), Bulk Threshold (95%)",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Bulk Threshold (95%)",
+      "Bulk Threshold (95%)"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.AUTO_CLOSE_DATE",
+    "column_desc": "Auto Close Date in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 34:13.2, 34:13.2",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "34:13.2",
+      "34:13.2"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleOrderdtls.DmsLineId",
+    "column_desc": "Dmslineid in Ponpure_SaleOrderdtls, used to support business operations and SQL filtering. Sample values: 8.0, 7.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleOrderdtls",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "8.0",
+      "7.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.header_id",
+    "column_desc": "Header Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 1094369, 1094368",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1094369",
+      "1094368"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.quotation_line_id",
+    "column_desc": "Quotation Line Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 21641700, 21641696",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "21641700",
+      "21641696"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.quotation_number",
+    "column_desc": "Quotation Number in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: PPC/2025-26/98144, PPC/2025-26/98141",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "PPC/2025-26/98144",
+      "PPC/2025-26/98141"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.quotation_date",
+    "column_desc": "Quotation Date in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 00:00.0, 00:00.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "00:00.0",
+      "00:00.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.enquiry_id",
+    "column_desc": "Enquiry Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.enquiry_date",
+    "column_desc": "Enquiry Date in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 0001-01-01 00:00:00.0000000, 0001-01-01 00:00:00.0000000",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0001-01-01 00:00:00.0000000",
+      "0001-01-01 00:00:00.0000000"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.trans_type_id",
+    "column_desc": "Trans Type Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 1, 4",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1",
+      "4"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.trans_sub_type_id",
+    "column_desc": "Trans Sub Type Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 3, 3",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "3",
+      "3"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.organization_id",
+    "column_desc": "Organization Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 101, 101",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "101",
+      "101"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.company_location_id",
+    "column_desc": "Company Location Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 35, 12",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "35",
+      "12"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.collector_id",
+    "column_desc": "Collector Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 1064, 1073",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1064",
+      "1073"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.customer_id",
+    "column_desc": "Customer Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 240030, 16264",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "240030",
+      "16264"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.bill_to_site_id",
+    "column_desc": "Bill To Site Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 251113, 52051",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "251113",
+      "52051"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.ship_to_site_id",
+    "column_desc": "Ship To Site Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 251114, 52052",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "251114",
+      "52052"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.quote_status_id",
+    "column_desc": "Quote Status Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 1, 1",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1",
+      "1"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.quotation_valid_upto",
+    "column_desc": "Quotation Valid Upto in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.is_back_to_back_order",
+    "column_desc": "Is Back To Back Order in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.additional_mail_id",
+    "column_desc": "Additional Mail Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: bmkarur@pure-chemical.com, *********************",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "bmkarur@pure-chemical.com",
+      "*********************"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.CUST_ACCT_SITE_ID",
+    "column_desc": "Cust Acct Site Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 951999, 30732",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "951999",
+      "30732"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.quote_creation_type",
+    "column_desc": "Quote Creation Type in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 1, 1",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1",
+      "1"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.trans_type_name",
+    "column_desc": "Trans Type Name in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: Taxable - Inter State, Taxable - Intra State",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Taxable - Inter State",
+      "Taxable - Intra State"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.currency",
+    "column_desc": "Currency in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: INR, INR",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "INR",
+      "INR"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.customer_po_ref",
+    "column_desc": "Customer Po Ref in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: Mail, RPO25263284/02-12-2025",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Mail",
+      "RPO25263284/02-12-2025"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.customer_po_date",
+    "column_desc": "Customer Po Date in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 00:00.0, 00:00.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "00:00.0",
+      "00:00.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.po_received_date",
+    "column_desc": "Po Received Date in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 00:00.0, 00:00.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "00:00.0",
+      "00:00.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.Conversion_rate_date",
+    "column_desc": "Conversion Rate Date in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 00:00.0, 00:00.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "00:00.0",
+      "00:00.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.conversion_type",
+    "column_desc": "Conversion Type in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 1000, 1000",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1000",
+      "1000"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.conversion_rate",
+    "column_desc": "Conversion Rate in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 1.0, 1.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1.0",
+      "1.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.credit_limit_alert",
+    "column_desc": "Credit Limit Alert in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.oracle_sales_person_id",
+    "column_desc": "Oracle Sales Person Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: -3, -3",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "-3",
+      "-3"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.oracle_sales_person_code",
+    "column_desc": "Oracle Sales Person Code in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.invoice_type",
+    "column_desc": "Invoice Type in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.trading_manufacture",
+    "column_desc": "Trading Manufacture in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: Trading, Trading",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Trading",
+      "Trading"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.remarks",
+    "column_desc": "Remarks in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: as per Mr.Nagendran Sir confirmation we're raised another soc for same material   due to material code change   ref.  old soc - 1091685/1091519, Please Ignore - This is Test Entry For Go Live Release Recall Functionality",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "as per Mr.Nagendran Sir confirmation we're raised another soc for same material   due to material code change   ref.  old soc - 1091685/1091519",
+      "Please Ignore - This is Test Entry For Go Live Release Recall Functionality"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.currency_price_list",
+    "column_desc": "Currency Price List in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: Standard, Standard",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Standard",
+      "Standard"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.currency_price_list_id",
+    "column_desc": "Currency Price List Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 6008, 6008",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "6008",
+      "6008"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.branchwise_alert",
+    "column_desc": "Branchwise Alert in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: Y, Y",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Y",
+      "Y"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.created_by",
+    "column_desc": "Created By in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 14, 104",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "14",
+      "104"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.creation_date",
+    "column_desc": "Creation Date in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 22:49.5, 21:37.4",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "22:49.5",
+      "21:37.4"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.last_updated_by",
+    "column_desc": "Last Updated By in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.last_update_date",
+    "column_desc": "Last Update Date in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.export_contractid",
+    "column_desc": "Export Contractid in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.export_contractno",
+    "column_desc": "Export Contractno in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: PPC/2025-26/35510, PPC/2025-26/35510",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "PPC/2025-26/35510",
+      "PPC/2025-26/35510"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.broker_id",
+    "column_desc": "Broker Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.internal_parent_schedule_id",
+    "column_desc": "Internal Parent Schedule Id in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 3027947.0, 3027747.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "3027947.0",
+      "3027747.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.Branchwise_alert_Sentdate",
+    "column_desc": "Branchwise Alert Sentdate in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 25:39.9, 25:29.6",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "25:39.9",
+      "25:29.6"
+    ]
+  },
+  {
+    "column_name": "Ponpure_SaleorderHdrs.DmsHdrId",
+    "column_desc": "Dmshdrid in Ponpure_SaleorderHdrs, used to support business operations and SQL filtering. Sample values: 4.0, 3.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_SaleorderHdrs",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "4.0",
+      "3.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.line_id",
+    "column_desc": "Line Id in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 3233361, 3233360",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "3233361",
+      "3233360"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.header_id",
+    "column_desc": "Header Id in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 1384762, 1384761",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1384762",
+      "1384761"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.item_id",
+    "column_desc": "Item Id in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 72, 95890",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "72",
+      "95890"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.uom",
+    "column_desc": "Uom in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: KG, KG",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "KG",
+      "KG"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.sale_quantity",
+    "column_desc": "Sale Quantity in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 5.0, 3.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "5.0",
+      "3.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.unit_price",
+    "column_desc": "Unit Price in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 1050.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1050.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.schedule_date",
+    "column_desc": "Schedule Date in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 30:00.0, 30:00.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "30:00.0",
+      "30:00.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.sale_category",
+    "column_desc": "Sale Category in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: Repack, Intact",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Repack",
+      "Intact"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.frieght_out_ward",
+    "column_desc": "Frieght Out Ward in Ponpure_DispatchDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.packing_cost",
+    "column_desc": "Packing Cost in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.inventory_org_id",
+    "column_desc": "Inventory Org Id in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 1184, 944",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1184",
+      "944"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.schedule_line_id",
+    "column_desc": "Schedule Line Id in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 3022660, 3028148",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "3022660",
+      "3028148"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.sale_order_header_id",
+    "column_desc": "Sale Order Header Id in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 1091149, 1094353",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1091149",
+      "1094353"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.sale_order_detail_line_id",
+    "column_desc": "Sale Order Detail Line Id in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 2977978, 2983338",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "2977978",
+      "2983338"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.schedule_quantity",
+    "column_desc": "Schedule Quantity in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 5.0, 3.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "5.0",
+      "3.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.tolerance_quantity",
+    "column_desc": "Tolerance Quantity in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.item_group",
+    "column_desc": "Item Group in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: AFCONA, RAW MATERIAL",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "AFCONA",
+      "RAW MATERIAL"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.oracle_line_id",
+    "column_desc": "Oracle Line Id in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 5777921.0, 5777917.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "5777921.0",
+      "5777917.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.customer_trx_line_id",
+    "column_desc": "Customer Trx Line Id in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 7417633.0, 7417616.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "7417633.0",
+      "7417616.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.trading_manufacture",
+    "column_desc": "Trading Manufacture in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: Trading, Trading",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Trading",
+      "Trading"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.packing_details",
+    "column_desc": "Packing Details in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 1X5, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1X5",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.tax_percentage",
+    "column_desc": "Tax Percentage in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 18, 18",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "18",
+      "18"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.total_value",
+    "column_desc": "Total Value in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 5250.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "5250.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.item_segment",
+    "column_desc": "Item Segment in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: Performance Chemicals, Performance Chemicals",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "Performance Chemicals",
+      "Performance Chemicals"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.pkg_item_id",
+    "column_desc": "Pkg Item Id in Ponpure_DispatchDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.pkg_item_code",
+    "column_desc": "Pkg Item Code in Ponpure_DispatchDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.pkg_item_name",
+    "column_desc": "Pkg Item Name in Ponpure_DispatchDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.pkg_size",
+    "column_desc": "Pkg Size in Ponpure_DispatchDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.pkg_no_of_drum",
+    "column_desc": "Pkg No Of Drum in Ponpure_DispatchDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.pkg_price",
+    "column_desc": "Pkg Price in Ponpure_DispatchDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.billing_header_id",
+    "column_desc": "Billing Header Id in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 2652842, 2652876",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "2652842",
+      "2652876"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.duty_other_cost",
+    "column_desc": "Duty Other Cost in Ponpure_DispatchDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.non_claimable_duty",
+    "column_desc": "Non Claimable Duty in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 0.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.discount",
+    "column_desc": "Discount in Ponpure_DispatchDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.basic_price",
+    "column_desc": "Basic Price in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 1050.0, 0.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "1050.0",
+      "0.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.transaction_set_id",
+    "column_desc": "Transaction Set Id in Ponpure_DispatchDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.transaction_id",
+    "column_desc": "Transaction Id in Ponpure_DispatchDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.inventory_org_name",
+    "column_desc": "Inventory Org Name in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: PPC - Bhiwandi New, PSM - Thervoykandigai MFG",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "PPC - Bhiwandi New",
+      "PSM - Thervoykandigai MFG"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.inventory_org_code",
+    "column_desc": "Inventory Org Code in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 0, 0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "0",
+      "0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.oracle_header_id",
+    "column_desc": "Oracle Header Id in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 4324030.0, 4324026.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "4324030.0",
+      "4324026.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.oracle_status",
+    "column_desc": "Oracle Status in Ponpure_DispatchDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.billing_confimration_comment",
+    "column_desc": "Billing Confimration Comment in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: JAY AMBEY ROADLINE, MH04HD2374, LR NO 3504, SATYA BIZCON INDIA PRIVATE LIMITED, GJ39T9230, LR NO 64352",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "JAY AMBEY ROADLINE, MH04HD2374, LR NO 3504",
+      "SATYA BIZCON INDIA PRIVATE LIMITED, GJ39T9230, LR NO 64352"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.created_by",
+    "column_desc": "Created By in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 55, 1294",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "55",
+      "1294"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.creation_date",
+    "column_desc": "Creation Date in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 40:31.9, 39:38.1",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "STRING",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "40:31.9",
+      "39:38.1"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.last_updated_by",
+    "column_desc": "Last Updated By in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 55.0, 19.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "55.0",
+      "19.0"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.last_update_date",
+    "column_desc": "Last Update Date in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 40:31.9, 41:19.7",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "STRING",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "40:31.9",
+      "41:19.7"
+    ]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.dtl_requisition_header_id",
+    "column_desc": "Dtl Requisition Header Id in Ponpure_DispatchDetails, used to support business operations and SQL filtering.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": []
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.requisition_line_id",
+    "column_desc": "Requisition Line Id in Ponpure_DispatchDetails, used to support business operations and SQL filtering. Sample values: 990573.0, 990572.0",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "NUMERIC",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": [
+      "990573.0",
+      "990572.0"
+    ]
+  }
+]

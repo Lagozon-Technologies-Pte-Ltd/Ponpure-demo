@@ -1,0 +1,151 @@
+[
+  {
+    "id": "PONPURE_LEADDETAILS",
+    "document": "Lead Details: Captures initial customer lead information including contact details, interest type, and lead source. This is the earliest stage in the sales pipeline and serves as the originating point for quotations. Not all leads progress to quotation or sale order creation.",
+    "metadata": {
+      "type": "table",
+      "primary_key": "lead_id",
+      "join_guidance": [
+        {
+          "table": "PONPURE_QUOTATIONHDRS",
+          "on": "lead_id",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "A lead may or may not result in a quotation."
+        }
+      ]
+    }
+  },
+
+  {
+    "id": "PONPURE_QUOTATIONHDRS",
+    "document": "Quotation Headers: Contains quotation data generated from leads, including pricing, validity, and customer details. Represents an intermediate commercial negotiation stage. Not all quotations convert to confirmed sale orders.",
+    "metadata": {
+      "type": "table",
+      "primary_key": "quotation_number",
+      "join_guidance": [
+        {
+          "table": "PONPURE_LEADDETAILS",
+          "on": "lead_id",
+          "join_type": "INNER JOIN",
+          "optional": false,
+          "description": "Every quotation is created from a lead."
+        },
+        {
+          "table": "PONPURE_SALEORDERHDRS",
+          "on": "quotation_number",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Quotations may convert to sale orders, but many remain unconverted."
+        }
+      ]
+    }
+  },
+
+  {
+    "id": "PONPURE_SALEORDERHDRS",
+    "document": "Sale Order Headers: The central commercial transaction table. Represents customer-approved orders derived from quotations or manually created. Acts as a parent table for schedules, dispatch transactions, and item-level sale order details.",
+    "metadata": {
+      "type": "table",
+      "primary_key": "header_id",
+      "join_guidance": [
+        {
+          "table": "PONPURE_QUOTATIONHDRS",
+          "on": "quotation_number",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Some sale orders originate from quotations; others may be created independently."
+        },
+        {
+          "table": "PONPURE_SALEORDERDTLS",
+          "on": "header_id",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Sale order header may contain one or many line items."
+        },
+        {
+          "table": "PONPURE_SCHEDULES",
+          "on": "header_id",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Delivery schedules may exist only for orders that require dispatch planning."
+        },
+        {
+          "table": "PONPURE_DISPATCHDETAILS",
+          "on": "sale_order_header_id",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Dispatch records exist only for shipped orders."
+        }
+      ]
+    }
+  },
+
+  {
+    "id": "PONPURE_SALEORDERDTLS",
+    "document": "Sale Order Details: Contains individual item-level rows of a sale order. Each row represents a product, quantity, pricing, and taxation attributes. Always linked to Sale Order Headers.",
+    "metadata": {
+      "type": "table",
+      "primary_key": "line_id",
+      "join_guidance": [
+        {
+          "table": "PONPURE_SALEORDERHDRS",
+          "on": "header_id",
+          "join_type": "INNER JOIN",
+          "optional": false,
+          "description": "Each sale order detail line belongs to a specific sale order header."
+        }
+      ]
+    }
+  },
+
+  {
+    "id": "PONPURE_SCHEDULES",
+    "document": "Delivery Schedules: Represents planned delivery dates, item-wise dispatch quantity expectations, and logistics planning for sale orders. A sale order may have zero, one, or multiple schedules depending on delivery arrangements.",
+    "metadata": {
+      "type": "table",
+      "primary_key": "line_id",
+      "join_guidance": [
+        {
+          "table": "PONPURE_SALEORDERHDRS",
+          "on": "sale_order_header_id",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Schedules exist only for sale orders that require delivery planning."
+        },
+        {
+          "table": "PONPURE_DISPATCHDETAILS",
+          "on": "line_id",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "A schedule line may have multiple dispatch events."
+        }
+      ]
+    }
+  },
+
+  {
+    "id": "PONPURE_DISPATCHDETAILS",
+    "document": "Dispatch Details: Contains details of actual material dispatches, including shipped quantity, dispatch value, vehicle details, and comments for delays. Represents actual fulfillment against planned schedules.",
+    "metadata": {
+      "type": "table",
+      "primary_key": "dispatch_id",
+      "join_guidance": [
+        {
+          "table": "PONPURE_SALEORDERHDRS",
+          "on": "sale_order_header_id",
+          "join_type": "INNER JOIN",
+          "optional": false,
+          "description": "Every dispatch must relate to a sale order."
+        },
+        {
+          "table": "PONPURE_SCHEDULES",
+          "on": "schedule_line_id",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Dispatch may or may not be tied to a specific scheduling line."
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "Ponpure_DispatchDetails",
+    "document": "Ponpure_DispatchDetails table — contains important business data.",
+    "metadata": {
+      "type": "table",
+      "primary_key": [],
+      "join_guidance": []
+    }
+  },
+  {
+    "id": "Ponpure_LeadDetails",
+    "document": "Ponpure_LeadDetails table — contains important business data.",
+    "metadata": {
+      "type": "table",
+      "primary_key": [],
+      "join_guidance": []
+    }
+  },
+  {
+    "id": "Ponpure_Quotationhdrs",
+    "document": "Ponpure_Quotationhdrs table — contains important business data.",
+    "metadata": {
+      "type": "table",
+      "primary_key": [],
+      "join_guidance": []
+    }
+  },
+  {
+    "id": "Ponpure_SaleOrderdtls",
+    "document": "Ponpure_SaleOrderdtls table — contains important business data.",
+    "metadata": {
+      "type": "table",
+      "primary_key": [],
+      "join_guidance": []
+    }
+  },
+  {
+    "id": "Ponpure_SaleorderHdrs",
+    "document": "Ponpure_SaleorderHdrs table — contains important business data.",
+    "metadata": {
+      "type": "table",
+      "primary_key": [],
+      "join_guidance": []
+    }
+  },
+  {
+    "id": "Ponpure_Schedules",
+    "document": "Ponpure_Schedules table — contains important business data.",
+    "metadata": {
+      "type": "table",
+      "primary_key": [],
+      "join_guidance": []
+    }
+  }
+]

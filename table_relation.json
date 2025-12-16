@@ -1,0 +1,52 @@
+{
+  "relations": [
+    {
+      "type": "one_to_many",
+      "source": "Ponpure_LeadDetails",
+      "target": "Ponpure_Quotationhdrs",
+      "source_key": "lead_id",
+      "target_key": "lead_id",
+      "description": "Each lead can generate multiple quotations."
+    },
+    {
+      "type": "one_to_many",
+      "source": "Ponpure_Quotationhdrs",
+      "target": "Ponpure_SaleorderHdrs",
+      "source_key": "quotation_number",
+      "target_key": "quotation_number",
+      "description": "A quotation may get converted into one or more sale orders."
+    },
+    {
+      "type": "one_to_many",
+      "source": "Ponpure_SaleorderHdrs",
+      "target": "Ponpure_SaleOrderdtls",
+      "source_key": "header_id",
+      "target_key": "header_id",
+      "description": "A sale order header can contain multiple line items."
+    },
+    {
+      "type": "one_to_many",
+      "source": "Ponpure_SaleorderHdrs",
+      "target": "Ponpure_Schedules",
+      "source_key": "header_id",
+      "target_key": "sale_order_header_id",
+      "description": "A sale order may have multiple schedule entries for dispatch planning."
+    },
+    {
+      "type": "one_to_many",
+      "source": "Ponpure_SaleorderHdrs",
+      "target": "Ponpure_DispatchDetails",
+      "source_key": "header_id",
+      "target_key": "sale_order_header_id",
+      "description": "A sale order may have multiple dispatch events recorded."
+    },
+    {
+      "type": "one_to_many",
+      "source": "Ponpure_Schedules",
+      "target": "Ponpure_DispatchDetails",
+      "source_key": "line_id",
+      "target_key": "schedule_line_id",
+      "description": "Each schedule line may have one or more dispatches against it."
+    }
+  ]
+}

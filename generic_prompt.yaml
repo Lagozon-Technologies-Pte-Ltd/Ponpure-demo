@@ -1,0 +1,67 @@
+unified_prompt: |
+
+  Your task is to rephrase the user’s query by integrating relevant context from the chat history, strictly preserving key business parameters and phrases unless the user has explicitly changed them. The goal is to produce a clear, structured query that accurately reflects the user's intent and is optimized for SQL generation.
+
+  Steps to follow:
+
+  1. Analyze the chat history: {chat_history}
+  2. Review the user query: {user_query}
+  3. For each of these Key parameters— {key_parameters} .List only those that are present in chat history or user query . Do not include any parameter that is missing from both sources.
+  4. Identify and preserve all key phrases: {keyphrases}, keeping them unchanged.
+  5. Integrate relevant context from the chat history into the user query.
+  6. Ensure the rephrased query is unambiguous and directly suitable for SQL generation.
+
+
+  Example Rephrasing:
+    Chat History 1:
+      - user: "Display count of distinct labour descriptions for the RO: RO25D000730"
+        rephrased: "Select the count of distinct labour descriptions for the Repair Order Number RO25D000730."
+      - user: "Also include the actual labour descriptions in the output"
+        rephrased: "Retrieve the count and list of distinct labour descriptions for the Repair Order Number RO25D000730."
+      - user: "Filter only OEM labour"
+        rephrased: "Retrieve the count and list of distinct OEM labour descriptions for the Repair Order Number RO25D000730."
+
+    Chat History 2:
+
+    -  user: "Show the total labour amount and parts amount for each RO from 01-Jan-2025 to 31-Jan-2025"
+       rephrased: "Retrieve the total labour amount and total parts amount grouped by Repair Order Number for service dates between 01-Jan-2025 and 31-Jan-2025."
+    -  user: "Only include ROs with labour amount greater than ₹1000"
+       rephrased: "Retrieve the total labour and parts amounts grouped by RO for service dates between 01-Jan-2025 and 31-Jan-2025, where the labour amount is greater than ₹1000."
+    -  user: "Add technician name to each RO"
+       rephrased: "Retrieve the total labour and parts amounts grouped by RO for service dates between 01-Jan-2025 and 31-Jan-2025, where the labour amount is greater than ₹1000, and include technician names."
+   
+    Chat History 3:
+
+    -  user: "Get all ROs closed within last 180 days"
+       rephrased: "Retrieve all repair orders closed within the last 180 days."
+    -  user: "Only include Paid Services"
+       rephrased: "Retrieve all Paid Service repair orders closed within the last 180 days."
+    -  user: "Add vehicle registration number and model code"
+       rephrased: "Retrieve all Paid Service repair orders closed within the last 180 days, including vehicle registration number and model code."
+    
+   Chat History 4:
+
+    -  user: "List all parts with a discount greater than 10% for the RPs created in Jan'25"
+       rephrased: "List all parts with a discount greater than 10% for repair orders created in January 2025."
+    -  user: "Only include OEM parts"
+       rephrased: "List all OEM parts with a discount greater than 10% for repair orders created in January 2025."
+    -  user: "Add part description and part value before and after discount"
+       rephrased: "List all OEM parts with a discount greater than 10% for repair orders created in January 2025, including part description and value before and after discount."
+   
+    Chat History 5:
+
+    -  user: "Show the number of ROs per dealer for the month of Jan'25"
+       rephrased: "Count the number of repair orders per dealer for January 2025."
+    -  user: "Only include dealers from South Zone"
+       rephrased: "Count the number of repair orders per dealer in the South Zone for January 2025."
+    -  user: "Add total labour and parts amount per dealer"
+       rephrased: "Count the number of repair orders per dealer in the South Zone for January 2025 and include total labour and parts amount per dealer."
+   
+            
+  Expected JSON Output Format:
+    - Return only the JSON object.
+    - Do not include any formatting, markdown, triple backticks, or additional explanations.
+    - The output must start directly with the curly braces character and end with the curly braces.
+    {{
+      "rephrased_query" : "<your rephrased query here>"
+    }}
