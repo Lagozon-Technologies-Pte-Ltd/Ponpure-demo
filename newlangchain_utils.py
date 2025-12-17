@@ -84,7 +84,7 @@ import configure
 # db_database=os.getenv("db_database")
 # db_port=os.getenv("db_port")
 # db_schema= os.getenv("db_schema")
-db_tables =  json.loads(os.getenv("db_tables"))
+db_tables =  json.loads(os.getenv("DB_TABLES"))
 
 
 SQL_DB_SERVER = os.getenv("SQL_DB_SERVER")
@@ -617,4 +617,5 @@ def find_relationships_for_tables(table_names, json_file_path):
             if rel.get("source") == table_name or rel.get("target") == table_name:
                 related.append(rel)
         all_related[table_name] = related
+
     return all_related
