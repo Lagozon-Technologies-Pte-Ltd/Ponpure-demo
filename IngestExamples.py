@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class ExampleManager:
     def __init__(self):
-        self.client = chromadb.PersistentClient(path=os.environ.get('Chroma_Query_Examples'))
+        self.client = chromadb.PersistentClient(path=os.environ.get('CHROMA_QUERY_EXAMPLES'))
         self.embedding_function = self._get_embedding_function()
         self.collections = {}
         self._initialize_all_collections()
@@ -76,4 +76,5 @@ try:
     example_manager = ExampleManager()
 except Exception as e:
     logger.error(f"Failed to initialize ExampleManager: {str(e)}")
+
     raise
