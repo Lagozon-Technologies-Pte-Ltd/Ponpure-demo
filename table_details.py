@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI 
 from openai import AzureOpenAI
 from langchain_openai import AzureChatOpenAI
+import platform
 
 
 
@@ -24,9 +25,24 @@ llm = AzureChatOpenAI(
 )
 
 from typing import List
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+# __import__('pysqlite3')
+# import sys
+# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+os_name = platform.system()
+if os_name == "Windows":
+    # Do something for Windows
+    print("Running on Windows")
+elif os_name == "Linux":
+    # Do something for Linux
+    print("Running on Linux")
+    __import__('pysqlite3')
+    import sys
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+else:
+    # Raise an exception for unsupported OS
+    raise RuntimeError(f"Unsupported OS: {os_name}")
+
+
 def get_table_details(table_name=None):
     """
     Returns details for one or more tables from hardcoded JSON files.
@@ -101,7 +117,10 @@ def get_table_details(table_name=None):
                 if is_fk: flags.append("FK")
                 if nullable: flags.append("NULLABLE")
                 flag_str = " [" + ", ".join(flags) + "]" if flags else ""
-                table_details += f"  - {col_name} ({data_type}){flag_str}: {description}\n"
+                examples = col.get('examples', None)
+                example_str = f" Example: {examples}" if examples is not None else "no example for this column"
+                table_details += f"  - {col_name} ({data_type}){flag_str}: {example_str} {description} \n"
+                
         else:
             table_details += "  No column details found.\n"
         table_details += "\n"
