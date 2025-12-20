@@ -29,7 +29,10 @@
 
     - JOIN Example:
      JOIN [tableB] ON [tableA].[status] COLLATE SQL_Latin1_General_CP1_CI_AS = [tableB].[status] COLLATE SQL_Latin1_General_CP1_CI_AS
-
+- If a filter depends on SUM / COUNT / AVG → always use HAVING or a CTE.
+  Never place aggregate functions in WHERE.
+- Never place aggregate functions (SUM, COUNT, AVG, MIN, MAX) inside a WHERE clause.
+  If filtering depends on aggregates, always use HAVING or a subquery/CTE.
 
 Missing this rule will be treated as an invalid query.
 - When generating SQL queries for SQL Server, always use date filters in the format 'YYYY-MM-DD' (as a string literal). Avoid using DATE 'YYYY-MM-DD' or any PostgreSQL/MySQL-specific syntax. For example, use:
@@ -38,6 +41,53 @@ Missing this rule will be treated as an invalid query.
 - If the user asks to "group by" or "summarize" without a metric, assume they want to:
   - COUNT the number of entries per group.
   - Optionally aggregate descriptions using STRING_AGG() if a descriptive/text column is available (e.g., verbatim text).
+
+
+### WINDOW FUNCTION SAFETY (MANDATORY)
+
+- Window functions (OVER / PARTITION BY) are allowed ONLY in SELECT or ORDER BY.
+- NEVER place window functions inside WHERE or HAVING.
+- If filtering depends on windowed results, compute them in a CTE or subquery first.
+- Any query violating this rule is INVALID and must be regenerated.
+
+### AGGREGATION SAFETY (MANDATORY)
+
+When a query involves aggregation (SUM, COUNT, AVG, MIN, MAX):
+
+1. First generate the SELECT list with aggregate expressions.
+2. Then generate GROUP BY.
+3. If any filtering depends on aggregated values:
+   - NEVER place such conditions in WHERE.
+   - ALWAYS place them in HAVING.
+4. WHERE clause may ONLY contain row-level (non-aggregated) filters.
+5. If an aggregated filter is detected in WHERE during validation,
+   the query MUST be rewritten automatically by moving the condition
+   to HAVING or an outer SELECT.
+
+Any query violating this order is INVALID and must be regenerated.
+
+### PREFERRED AGGREGATION PATTERN
+
+For complex aggregation queries:
+- Use a first CTE to calculate all aggregated metrics.
+- Use an outer SELECT to apply filtering and ranking.
+- Avoid HAVING when an outer SELECT can be used instead.
+
+### AGGREGATION EXECUTION ORDER (MANDATORY)
+
+- WHERE → row-level filters only
+- GROUP BY → aggregation
+- HAVING → aggregate filters only
+- Window functions → SELECT / ORDER BY only
+
+### EXPRESSION BALANCE CHECK (MANDATORY)
+
+- Ensure all parentheses in SELECT expressions are balanced.
+- After constructing any ROUND(SUM(...)) expression, re-validate:
+  opening "(" count == closing ")" count.
+- Any mismatch must be corrected before returning SQL.
+
+
 
 
 

@@ -13,51 +13,74 @@ unified_prompt: |
 
 
   Example Rephrasing:
-    Chat History 1:
-      - user: "Display count of distinct labour descriptions for the RO: RO25D000730"
-        rephrased: "Select the count of distinct labour descriptions for the Repair Order Number RO25D000730."
-      - user: "Also include the actual labour descriptions in the output"
-        rephrased: "Retrieve the count and list of distinct labour descriptions for the Repair Order Number RO25D000730."
-      - user: "Filter only OEM labour"
-        rephrased: "Retrieve the count and list of distinct OEM labour descriptions for the Repair Order Number RO25D000730."
+  Chat History 1:
+  - user: "Show sales orders for customer 500"
+  rephrased: "Retrieve sales order information from the PONPURE_SALEORDERHDRS table where customer_id equals 500."
+  - user: "Only include orders with export transaction type"
+  rephrased: "Retrieve sales order information from the PONPURE_SALEORDERHDRS table where customer_id equals 500 and trans_type_name equals 'EXPORT'."
+  - user: "Add line item details"
+  rephrased: "Retrieve sales order header information from PONPURE_SALEORDERHDRS and line item details from PONPURE_SALEORDERDTLS where customer_id equals 500 and trans_type_name equals 'EXPORT'."
+  - user: "Show quotation information too"
+  rephrased: "Retrieve sales order header information from PONPURE_SALEORDERHDRS, line item details from PONPURE_SALEORDERDTLS, and originating quotation information from PONPURE_QUOTATIONHDRS where customer_id equals 500 and trans_type_name equals 'EXPORT'."
+  
+  Chat History 2:
+    - user: "Show quotations with status 1"
+      rephrased: "Retrieve quotation information from the PONPURE_QUOTATIONHDRS table where status_id equals 1."
+    - user: "Filter to only quotations that haven't expired"
+      rephrased: "Retrieve quotation information from the PONPURE_QUOTATIONHDRS table where status_id equals 1 and quotation_valid_upto is greater than or equal to current date."
+    - user: "Include customer details"
+      rephrased: "Retrieve quotation information including customer details from the PONPURE_QUOTATIONHDRS table where status_id equals 1 and quotation_valid_upto is greater than or equal to current date."
+    - user: "Show total value of quotations"
+      rephrased: "Retrieve quotation information including customer details and total_value from the PONPURE_QUOTATIONHDRS table where status_id equals 1 and quotation_valid_upto is greater than or equal to current date."
 
-    Chat History 2:
+  Chat History 3:
+    - user: "Show sales order line items for header 1001"
+      rephrased: "Retrieve line item details from the PONPURE_SALEORDERDTLS table where header_id equals 1001."
+    - user: "Only include items with quantity greater than 100"
+      rephrased: "Retrieve line item details from the PONPURE_SALEORDERDTLS table where header_id equals 1001 and quantity is greater than 100."
+    - user: "Include total sales price"
+      rephrased: "Retrieve line item details including total_sales_price from the PONPURE_SALEORDERDTLS table where header_id equals 1001 and quantity is greater than 100."
 
-    -  user: "Show the total labour amount and parts amount for each RO from 01-Jan-2025 to 31-Jan-2025"
-       rephrased: "Retrieve the total labour amount and total parts amount grouped by Repair Order Number for service dates between 01-Jan-2025 and 31-Jan-2025."
-    -  user: "Only include ROs with labour amount greater than ₹1000"
-       rephrased: "Retrieve the total labour and parts amounts grouped by RO for service dates between 01-Jan-2025 and 31-Jan-2025, where the labour amount is greater than ₹1000."
-    -  user: "Add technician name to each RO"
-       rephrased: "Retrieve the total labour and parts amounts grouped by RO for service dates between 01-Jan-2025 and 31-Jan-2025, where the labour amount is greater than ₹1000, and include technician names."
-   
-    Chat History 3:
+  Chat History 4:
+    - user: "Show back to back orders"
+      rephrased: "Retrieve sales order information from the PONPURE_SALEORDERHDRS table where is_back_to_back_order equals 1."
+    - user: "Only include export transactions"
+      rephrased: "Retrieve sales order information from the PONPURE_SALEORDERHDRS table where is_back_to_back_order equals 1 and trans_type_name equals 'EXPORT'."
+    - user: "Add line item information"
+      rephrased: "Retrieve sales order header information from PONPURE_SALEORDERHDRS and line item details from PONPURE_SALEORDERDTLS where is_back_to_back_order equals 1 and trans_type_name equals 'EXPORT'."
 
-    -  user: "Get all ROs closed within last 180 days"
-       rephrased: "Retrieve all repair orders closed within the last 180 days."
-    -  user: "Only include Paid Services"
-       rephrased: "Retrieve all Paid Service repair orders closed within the last 180 days."
-    -  user: "Add vehicle registration number and model code"
-       rephrased: "Retrieve all Paid Service repair orders closed within the last 180 days, including vehicle registration number and model code."
-    
-   Chat History 4:
+  Chat History 5:
+    - user: "List the top 10 sales orders by total value from January 1 2024 to March 31 2024"
+      rephrased: "Retrieve the top 10 sales orders by total value from the PONPURE_SALEORDERHDRS table joined with PONPURE_SALEORDERDTLS table between January 1 2024 and March 31 2024."
+    - user: "Only include export transactions"
+      rephrased: "Retrieve the top 10 sales orders by total value from the PONPURE_SALEORDERHDRS table joined with PONPURE_SALEORDERDTLS table between January 1 2024 and March 31 2024 where trans_type_name equals 'EXPORT'."
+    - user: "Include customer information"
+      rephrased: "Retrieve the top 10 sales orders by total value including customer information from the PONPURE_SALEORDERHDRS table joined with PONPURE_SALEORDERDTLS table between January 1 2024 and March 31 2024 where trans_type_name equals 'EXPORT'."
 
-    -  user: "List all parts with a discount greater than 10% for the RPs created in Jan'25"
-       rephrased: "List all parts with a discount greater than 10% for repair orders created in January 2025."
-    -  user: "Only include OEM parts"
-       rephrased: "List all OEM parts with a discount greater than 10% for repair orders created in January 2025."
-    -  user: "Add part description and part value before and after discount"
-       rephrased: "List all OEM parts with a discount greater than 10% for repair orders created in January 2025, including part description and value before and after discount."
-   
-    Chat History 5:
+  Chat History 6:
+    - user: "Show pending quotations that haven't converted to sales orders"
+      rephrased: "Retrieve pending quotation information from PONPURE_QUOTATIONHDRS that haven't converted to sales orders by joining with PONPURE_SALEORDERHDRS."
+    - user: "Only include quotations that are still valid"
+      rephrased: "Retrieve pending quotation information from PONPURE_QUOTATIONHDRS that haven't converted to sales orders and are still valid (quotation_valid_upto is greater than or equal to current date)."
+    - user: "Include total quoted value"
+      rephrased: "Retrieve pending quotation information including total_value from PONPURE_QUOTATIONHDRS that haven't converted to sales orders and are still valid (quotation_valid_upto is greater than or equal to current date)."
 
-    -  user: "Show the number of ROs per dealer for the month of Jan'25"
-       rephrased: "Count the number of repair orders per dealer for January 2025."
-    -  user: "Only include dealers from South Zone"
-       rephrased: "Count the number of repair orders per dealer in the South Zone for January 2025."
-    -  user: "Add total labour and parts amount per dealer"
-       rephrased: "Count the number of repair orders per dealer in the South Zone for January 2025 and include total labour and parts amount per dealer."
-   
-            
+  Chat History 7:
+    - user: "Show quotation conversion rates by collector"
+      rephrased: "Retrieve quotation conversion rates by collector_id from PONPURE_QUOTATIONHDRS joined with PONPURE_SALEORDERHDRS."
+    - user: "Only include collectors from specific region"
+      rephrased: "Retrieve quotation conversion rates by collector_id from PONPURE_QUOTATIONHDRS joined with PONPURE_SALEORDERHDRS where company_location_id equals 5."
+    - user: "Include conversion percentage"
+      rephrased: "Retrieve quotation conversion rates including conversion percentage by collector_id from PONPURE_QUOTATIONHDRS joined with PONPURE_SALEORDERHDRS where company_location_id equals 5."
+
+    Chat History 8:
+      - user: "Show monthly sales performance for the last 6 months"
+        rephrased: "Retrieve monthly sales performance data from PONPURE_SALEORDERHDRS joined with PONPURE_SALEORDERDTLS for the last 6 months."
+      - user: "Only include export transactions"
+        rephrased: "Retrieve monthly sales performance data from PONPURE_SALEORDERHDRS joined with PONPURE_SALEORDERDTLS for the last 6 months where trans_type_name equals 'EXPORT'."
+      - user: "Include item details and revenue"
+        rephrased: "Retrieve monthly sales performance data including item details and total revenue from PONPURE_SALEORDERHDRS joined with PONPURE_SALEORDERDTLS for the last 6 months where trans_type_name equals 'EXPORT'."      
+      
   Expected JSON Output Format:
     - Return only the JSON object.
     - Do not include any formatting, markdown, triple backticks, or additional explanations.
@@ -65,3 +88,4 @@ unified_prompt: |
     {{
       "rephrased_query" : "<your rephrased query here>"
     }}
+
