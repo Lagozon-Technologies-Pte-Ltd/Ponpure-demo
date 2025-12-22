@@ -246,6 +246,7 @@ async def add_to_faqs(data: QueryInput, subject:str, request:Request):
     Returns:
         JSONResponse: A JSON response indicating success or failure.
     """
+    print(f"subject: {subject}")
     query = data.query.strip()
     if not query:
         raise HTTPException(status_code=400, detail="Invalid query!")
@@ -699,7 +700,8 @@ async def submit_query(
 
         # Get current question type from session
         current_question_type = request.session.get("current_question_type", "generic")
-        prompts = request.session.get("prompts", load_prompts("generic_prompt.yaml"))
+        # prompts = request.session.get("prompts", load_prompts("generic_prompt.yaml"))
+        prompts = load_prompts("generic_prompt.yaml")
         request.session['user_query'] = user_query  # Still store original query separately if needed
 
         # Handle session messages
@@ -707,15 +709,13 @@ async def submit_query(
             request.session["messages"] = []
         
         # Don't add user_query to messages yet - we'll add the reframed version later
-        print("running till here")
         chat_history = ""
         if request.session['messages']:  # Check if messages exist (should contain at most 1)
             last_msg = request.session['messages'][-1]  # Get the only message
-            print("last message", last_msg)
             chat_history = f"{last_msg['role']}: {last_msg['content']}"
         
         logger.info(f"Chat history: {chat_history}")
-        logger.info(f"Messages in session: {request.session['messages']}")
+        logger.info(f"Messages in session for new question: {request.session['messages']}")
         # Step 1: Generate unified prompt based on question type
         try:
             if current_question_type == "usecase":
@@ -750,15 +750,10 @@ async def submit_query(
                 logger.info(f"reframed query after modification: {llm_reframed_query}")
 
                 intent_result = intent_classification(llm_reframed_query)
-                logger.info(f"in submit query --> intent classification: {intent_result}")
-
                 
                 if not intent_result:
                     error_msg = "Please rephrase or add more details to your question as I am not able to assess the Intended Use case"
-                    request.session['messages'].append({
-                        "role": "assistant",
-                        "content": error_msg
-                    })
+                    
                     
                     response_data = {
                         "user_query": user_query,
@@ -816,8 +811,9 @@ async def submit_query(
                     )
             
             # Now add the reframed query to messages instead of original user_query
+            logger.info(f"Now, adding message to history: {llm_reframed_query}")
             request.session['messages'] = [{"role": "user", "content": llm_reframed_query}]
-            
+            logger.info(f"messages in session: {request.session['messages']}")
             response_data["llm_response"] = llm_reframed_query
             response_data["interprompt"] = unified_prompt
             
@@ -835,7 +831,8 @@ async def submit_query(
             table_details = get_table_details(table_name=chosen_tables)
             examples = get_examples(llm_reframed_query, current_question_type)
             logger.info(f"relationships: {relationships}")
-            logger.info(f"examples semantic:{examples}")
+            logger.info(f"messages in session just before invoke chain: {request.session['messages']}")
+
             response, chosen_tables, tables_data, final_prompt = invoke_chain(
                 llm_reframed_query,  # Using the reframed query here
                 request.session['messages'],
@@ -908,10 +905,6 @@ async def submit_query(
             "interprompt": unified_prompt if 'unified_prompt' in locals() else "Not generated due to error"
         })
         
-        request.session['messages'].append({
-            "role": "assistant",
-            "content": f"Error: {he.detail}"
-        })
         
         return JSONResponse(
             content=response_data,
@@ -951,7 +944,7 @@ async def reset_session(request: Request):
     # Set default session variables
     request.session['messages'] = []
     request.session["current_question_type"] = "generic"
-    request.session["prompts"] = load_prompts("generic_prompt.yaml")
+    # request.session["prompts"] = load_prompts("generic_prompt.yaml")
 
     logger.info(f"Question type is: {request.session.get('current_question_type')}")
     return {"message": "Session state cleared successfully"}
@@ -1002,7 +995,7 @@ async def read_root(request: Request):
     # Only set defaults if not already set
     if "current_question_type" not in request.session:
         request.session["current_question_type"] = "generic"
-        request.session["prompts"] = load_prompts("generic_prompt.yaml")
+        # request.session["prompts"] = load_prompts("generic_prompt.yaml")
 
     # Pass dynamically populated dropdown options to the template
     return templates.TemplateResponse("index.html", {
@@ -1094,7 +1087,7 @@ async def set_question_type(payload: QuestionTypeRequest, request: Request):
     filename = "generic_prompt.yaml" if current_question_type == "generic" else "chatbot_prompt.yaml"
     prompts = load_prompts(filename)
     request.session["current_question_type"] = current_question_type
-    request.session["prompts"] = prompts  # If you want to store prompts per session
+    # request.session["prompts"] = prompts  # If you want to store prompts per session
 
     print("Received question type:", current_question_type)
     return JSONResponse(content={"message": "Question type set", "prompts": prompts})
