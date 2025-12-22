@@ -97,20 +97,6 @@
     "examples": ["0", "0", "0"]
   },
   {
-    "column_name": "Ponpure_SaleorderHdrs.enquiry_date",
-    "column_desc": "Date when the customer initially made the enquiry. Used to calculate total sales cycle time from first contact to order confirmation, and for analyzing sales pipeline efficiency across different channels or regions.",
-    "metadata": {
-      "type": "column",
-      "table_name": "Ponpure_SaleorderHdrs",
-      "data_type": "TIMESTAMP",
-      "nullable": true,
-      "is_primary_key": false,
-      "is_foreign_key": false,
-      "joins": []
-    },
-    "examples": ["0001-01-01 00:00:00.0000000", "0001-01-01 00:00:00.0000000", "00:00.0"]
-  },
-  {
     "column_name": "Ponpure_SaleorderHdrs.trans_type_id",
     "column_desc": "Transaction type identifier categorizing the nature of the sales order (e.g., taxable intra-state, taxable inter-state, stock transfer, sample). Determines tax treatment, documentation requirements, and business process flow.",
     "metadata": {
@@ -621,20 +607,7 @@
     },
     "examples": ["NULL", "NULL", "NULL"]
   },
-  {
-    "column_name": "Ponpure_SaleorderHdrs.last_update_date",
-    "column_desc": "Date and time when the sales order record was last updated. Used for tracking order modifications, understanding update frequency, and maintaining data change history.",
-    "metadata": {
-      "type": "column",
-      "table_name": "Ponpure_SaleorderHdrs",
-      "data_type": "TIMESTAMP",
-      "nullable": true,
-      "is_primary_key": false,
-      "is_foreign_key": false,
-      "joins": []
-    },
-    "examples": ["NULL", "NULL", "NULL"]
-  },
+ 
   {
     "column_name": "Ponpure_SaleorderHdrs.export_contractid",
     "column_desc": "Identifier for export contracts when applicable. Used for international trade documentation, export compliance, and contract-based order processing.",
