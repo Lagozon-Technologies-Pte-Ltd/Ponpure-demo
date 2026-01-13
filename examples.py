@@ -1,8 +1,8 @@
 import json
 
-from langchain_community.vectorstores import Chroma
-from langchain_core.example_selectors import SemanticSimilarityExampleSelector
-from langchain_openai import OpenAIEmbeddings
+# from langchain_community.vectorstores import Chroma
+# from langchain_core.example_selectors import SemanticSimilarityExampleSelector
+# from langchain_openai import OpenAIEmbeddings
 
 
 def get_example_selector(json_file_path: str):

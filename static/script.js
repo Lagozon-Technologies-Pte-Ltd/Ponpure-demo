@@ -14,6 +14,7 @@ window.onload = function () {
     let mediaRecorder = undefined;
     let audioChunks = [];
     let originalButtonHTML = "";
+    loadSessions();
     console.log("Variables reset on page reload");
 };
 function loadTableColumns(columnNames) {
@@ -117,6 +118,18 @@ function openTab(evt, tabName) {
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
 }
+async function createNewSession() {
+    const res = await fetch('/new-session', { method: 'POST' });
+    if (!res.ok) return;
+
+    // Reload sessions list
+    await loadSessions();
+
+    // Clear UI
+    document.getElementById("chat-messages").innerHTML = "";
+    document.getElementById("tables_container").innerHTML = "";
+    document.getElementById("xlsx-btn").innerHTML = "";
+}
 
 // Optionally, you can set the default active tab using JavaScript:
 // Modify the DOMContentLoaded event listener
@@ -126,14 +139,14 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector(`input[name="questionType"][value="${initialQuestionType}"]`).checked = true;
 
     // Reset session on page load
-    fetch('/reset-session', { method: 'POST' })
-        .then(response => {
-            if (!response.ok) throw new Error('Session reset failed');
-            console.log('Session has been reset on page load.');
-        })
-        .catch(error => {
-            console.error('Error resetting session on page load:', error);
-        });
+    // fetch('/reset-session', { method: 'POST' })
+    //     .then(response => {
+    //         if (!response.ok) throw new Error('Session reset failed');
+    //         console.log('Session has been reset on page load.');
+    //     })
+    //     .catch(error => {
+    //         console.error('Error resetting session on page load:', error);
+    //     });
 
     // Set default tab
     document.getElementsByClassName("tablinks")[0]?.click();
@@ -157,7 +170,7 @@ function toggleDevMode() {
         if (!langchainBtn) {
             langchainBtn = document.createElement('button');
             langchainBtn.id = 'langchainBtn';
-            langchainBtn.textContent = 'Langchain Prompt';
+            langchainBtn.textContent = 'Query Prompt';
             langchainBtn.className = 'dev-mode-btn';  // Add class for styling
             xlsxbtn.appendChild(langchainBtn);
             // Add click event to open popup with text file content
@@ -366,6 +379,12 @@ async function sendMessage() {
             } else {
                 botResponse = data.chat_response || "";
             }
+                        
+               // Check for suggested questions in the response
+            const hasSuggestedQuestions = data.suggested_questions && 
+                                 Array.isArray(data.suggested_questions) && 
+                                 data.suggested_questions.length > 0;
+
 
             chatMessages.innerHTML += `
                 <div class="message ai-message">
@@ -375,6 +394,21 @@ async function sendMessage() {
                     </div>
                 </div>
             `;
+
+
+            // Display suggested questions if available
+            if (hasSuggestedQuestions) {
+            // Hide any existing suggestions first
+                document.getElementById("suggested-questions-container").style.display = "none";
+                
+            // Use setTimeout to ensure DOM is updated before showing new suggestions
+                setTimeout(() => {
+                    displaySuggestedQuestions(data.suggested_questions);
+                }, 100);
+            } else {
+            // Hide suggestions container if no suggestions
+                document.getElementById("suggested-questions-container").style.display = "none";
+            }
 
             if (data.tables) {
                 console.log()
@@ -655,38 +689,8 @@ document.getElementById("table-dropdown")?.addEventListener("change", (event) =>
  * Resets the session state by making a POST request to the backend.
  */
 function resetSession() {
-    // Show a confirmation dialog first
-    const confirmed = confirm("Are you sure you want to reset your session? This will clear all your current data.");
-
-    if (!confirmed) return;
-
-    // Show loading state (assuming you have a way to display this)
-    showLoadingIndicator("Resetting session...");
-
-    fetch('/reset-session', { method: 'POST' })
-        .then(response => {
-            if (response.ok) {
-                // More friendly success message
-                showToastMessage("Session reset successfully! Refreshing your page...", 'success');
-
-                // Brief delay before reload to let user see the message
-                setTimeout(() => {
-                    location.reload();
-                }, 1500);
-            } else {
-                // More detailed error message
-                showToastMessage("We couldn't reset your session. Please try again later.", 'error');
-            }
-        })
-        .catch(error => {
-            console.error("Error resetting session:", error);
-            showToastMessage("A network error occurred. Please check your connection and try again.", 'error');
-        })
-        .finally(() => {
-            hideLoadingIndicator();
-        });
+  window.location.reload();
 }
-
 // Helper functions for UI feedback (you'll need to implement these or use a library)
 function showToastMessage(message, type = 'info') {
     // Implement or replace with your preferred notification system
@@ -787,7 +791,37 @@ function chooseExampleQuestion() {
 /**
  *
  */
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleBtn = document.getElementById("toggle-query-btn");
+    const userQueryDisplay = document.getElementById("user_query_display");
+
+    toggleBtn.addEventListener("click", function () {
+        if (userQueryDisplay.style.display === "none" || userQueryDisplay.style.display === "") {
+            userQueryDisplay.style.display = "block";
+            this.textContent = "Hide Description";
+        } else {
+            userQueryDisplay.style.display = "none";
+            this.textContent = "Show Description";
+        }
+    });
+});
+document.querySelectorAll('.copy-btn-popup').forEach(button => {
+    button.addEventListener('click', () => {
+        const targetId = button.getAttribute('data-target');
+        const targetEl = document.getElementById(targetId);
+
+        if (targetEl) {
+            const text = targetEl.textContent.trim();
+            if (text && text !== "No SQL query available") {
+                navigator.clipboard.writeText(text)
+                    .then(() => alert('Copied to clipboard!'))
+                    .catch(err => console.error('Failed to copy:', err));
+            }
+        }
+    });
+});
 function updatePageContent(data) {
+    document.getElementById("suggested-questions-container").style.display = "none";
     const userQueryDisplay = document.getElementById("user_query_display");
     const sqlQueryContent = document.getElementById("sql-query-content");
     const tablesContainer = document.getElementById("tables_container");
@@ -804,7 +838,9 @@ function updatePageContent(data) {
             .replace(/FULL JOIN/g, '\nFULL JOIN')
             .replace(/GROUP BY/g, '\nGROUP BY')
             .replace(/ORDER BY/g, '\nORDER BY')
-            .replace(/HAVING/g, '\nHAVING');
+            .replace(/HAVING/g, '\nHAVING')
+            .replace(/SELECT/g, '\nSELECT')
+            .replace(/ON/g, '\nON');
     sqlQueryContent.textContent = formattedQuery || "No SQL query available";
 
     // Clear containers
@@ -825,30 +861,30 @@ function updatePageContent(data) {
     faqBtn.onclick = () => addToFAQs(selectedSection);
     faqBtn.style.display = "block";
 
-    const emailBtn = document.createElement("button");
-    emailBtn.id = "send-email-btn";
-    emailBtn.textContent = "Send Email";
-    emailBtn.style.display = "block";
-    emailBtn.disabled = !data.tables; // Disable if no tables available
+    // const emailBtn = document.createElement("button");
+    // emailBtn.id = "send-email-btn";
+    // emailBtn.textContent = "Send Email";
+    // emailBtn.style.display = "block";
+    // emailBtn.disabled = !data.tables; // Disable if no tables available
 
     // Add buttons to container
     xlsxbtn.appendChild(viewQueryBtn);
     xlsxbtn.appendChild(faqBtn);
-    xlsxbtn.appendChild(emailBtn);
+    // xlsxbtn.appendChild(emailBtn);
 
     // Add copy button for SQL query
-    const copyButton = document.createElement('button');
-    copyButton.innerHTML = '<i class="fas fa-copy"></i>';
-    copyButton.className = 'copy-btn-popup';
-    copyButton.addEventListener('click', () => {
-        const sqlQueryText = sqlQueryContent.textContent;
-        if (sqlQueryText && sqlQueryText !== "No SQL query available") {
-            navigator.clipboard.writeText(sqlQueryText)
-                .then(() => alert('SQL query copied to clipboard!'))
-                .catch(err => console.error('Failed to copy:', err));
-        }
-    });
-    sqlQueryContent.parentNode.appendChild(copyButton);
+    // const copyButton = document.createElement('button');
+    // copyButton.innerHTML = '<i class="fas fa-copy"></i>';
+    // copyButton.className = 'copy-btn-popup';
+    // copyButton.addEventListener('click', () => {
+    //     const sqlQueryText = sqlQueryContent.textContent;
+    //     if (sqlQueryText && sqlQueryText !== "No SQL query available") {
+    //         navigator.clipboard.writeText(sqlQueryText)
+    //             .then(() => alert('SQL query copied to clipboard!'))
+    //             .catch(err => console.error('Failed to copy:', err));
+    //     }
+    // });
+    // sqlQueryContent.parentNode.appendChild(copyButton);
 
     // Handle table display (if data exists)
     if (data.tables && data.tables.length > 0) {
@@ -893,7 +929,7 @@ function updatePageContent(data) {
 }/**
  *
  */
-function addToFAQs() {
+function addToFAQs(subject) {
     let userQuery = document.querySelector("#user_query_display span").innerText;
 
     if (!userQuery.trim()) {
@@ -901,7 +937,7 @@ function addToFAQs() {
         return;
     }
 
-    fetch('/add_to_faqs', {
+    fetch(`/add_to_faqs?subject=${encodeURIComponent(subject)}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -1072,7 +1108,7 @@ async function handleQuestionTypeChange(event) {
 
     try {
         // First reset the session
-        const resetResponse = await fetch('/reset-session', { method: 'POST' });
+        const resetResponse = await fetch('/new-session', { method: 'POST' });
         if (!resetResponse.ok) throw new Error('Session reset failed');
 
         // Then set the new question type
@@ -1114,3 +1150,136 @@ async function handleQuestionTypeChange(event) {
 document.querySelectorAll('input[name="questionType"]').forEach(radio => {
     radio.addEventListener('change', handleQuestionTypeChange);
 });
+async function loadSessions() {
+    const res = await fetch("/sessions");
+    if (!res.ok) return;
+
+    const sessions = await res.json();
+    const list = document.getElementById("session-list");
+    list.innerHTML = "";
+
+    sessions.forEach(s => {
+        const div = document.createElement("div");
+        div.className = "session-item";
+        div.innerText = s.title;
+        div.onclick = () => loadSessionMessages(s.session_id);
+        list.appendChild(div);
+    });
+}
+async function loadSessionMessages(sessionId) {
+    const res = await fetch(`/sessions/${sessionId}`);
+    const data = await res.json();
+
+    const chat = document.getElementById("chat-messages");
+    chat.innerHTML = "";
+
+    data.messages.forEach(m => {
+        const div = document.createElement("div");
+        div.className = `message user-message`;
+        div.innerHTML = `<div class="message-content">${m.content}</div>`;
+        chat.appendChild(div);
+    });
+}
+
+
+// Function to display suggested questions
+function displaySuggestedQuestions(questions) {
+    const container = document.getElementById("suggested-questions-container");
+    const grid = document.getElementById("suggested-questions");
+    
+    if (!questions || !Array.isArray(questions) || questions.length === 0) {
+        container.style.display = "none";
+        return;
+    }
+    
+    // Clear previous suggestions
+    grid.innerHTML = "";
+    
+    // Create question boxes
+    questions.forEach((question, index) => {
+        const questionBox = document.createElement("button");
+        questionBox.className = "suggested-question-box";
+        questionBox.innerHTML = `
+            ${question}
+            <div class="click-hint">Click to use this question</div>
+        `;
+        
+        // Add click event
+        questionBox.onclick = () => {
+            useSuggestedQuestion(question);
+        };
+        
+        // Add animation delay for staggered appearance
+        questionBox.style.animationDelay = `${index * 0.1}s`;
+        
+        grid.appendChild(questionBox);
+    });
+    
+    // Show the container
+    container.style.display = "block";
+    
+    // Scroll to show suggestions
+    setTimeout(() => {
+        container.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 100);
+}
+
+// Function to handle clicking on a suggested question
+function useSuggestedQuestion(question) {
+    const inputField = document.getElementById("chat_user_query");
+    inputField.value = question;
+    inputField.focus();
+    
+    // Highlight the input field briefly
+    inputField.style.backgroundColor = "#f1f8ff";
+    inputField.style.borderColor = "#4285f4";
+    
+    setTimeout(() => {
+        inputField.style.backgroundColor = "";
+        inputField.style.borderColor = "";
+    }, 1000);
+    
+    // Show a subtle toast
+    showToast("Question added to input!", "success");
+}
+
+// Simple toast function
+function showToast(message, type = "info") {
+    // Create toast element if it doesn't exist
+    let toast = document.getElementById("custom-toast");
+    if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "custom-toast";
+        toast.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            background: ${type === "success" ? "#4CAF50" : "#2196F3"};
+            color: white;
+            border-radius: 5px;
+            z-index: 1000;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        `;
+        document.body.appendChild(toast);
+    }
+    
+    toast.textContent = message;
+    toast.style.backgroundColor = type === "success" ? "#4CAF50" : "#2196F3";
+    
+    // Show toast
+    setTimeout(() => {
+        toast.style.transform = "translateY(0)";
+        toast.style.opacity = "1";
+    }, 10);
+    
+    // Hide after 3 seconds
+    setTimeout(() => {
+        toast.style.transform = "translateY(100px)";
+        toast.style.opacity = "0";
+    }, 3000);
+}

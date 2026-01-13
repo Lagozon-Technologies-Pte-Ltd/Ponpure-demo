@@ -15,6 +15,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 
 </head>
 
@@ -22,16 +24,22 @@
 
     <header>
         <img src="static/logo.png" alt="DBQuery Logo" class="logo">
+
+        <p>Logged in as: {{ user_email }} (Role: {{ user_role }})</p>
         <h1>Generative AI Assistant to your Database</h1>
         <img src="static\DBQueryLogo.png" alt="dbquery logo" class="db-logo">
     </header>
     <main style="display: flex;">
+           <div id="session-sidebar">
+            <h3>Chat History</h3>
+            <div id="session-list"></div>
+        </div>
 
         <!-- Chat Container (Left Side) -->
-        <div id="chat-container" style="width: 45%; padding: 15px;">
+ <div id="chat-container">
             <h2 style="display: flex; align-items: center;">
                 Chat Assistant
-                <img src="static/reset.png" alt="Reset Session" class="reset-icon" onclick="resetSession()"
+                <img src="static/new_sess.png" alt="Reset Session" class="reset-icon" onclick="createNewSession()"
                     style="cursor: pointer; margin-left: 10px; width: 24px; height: 24px;">
             </h2>
 
@@ -70,6 +78,17 @@
             <div id="chat-messages" class="chat-history">
                 <!-- Messages will be dynamically inserted here -->
             </div>
+                        
+            <!-- ADD THIS NEW SECTION FOR SUGGESTED QUESTIONS -->
+            <div id="suggested-questions-container" style="display: none;">
+                <h3 style="margin: 15px 0 10px 0; color: #333; font-size: 14px; font-weight: 600;">
+                    <i class="fas fa-lightbulb" style="margin-right: 8px; color: #FFD700;"></i>
+                    Suggested Questions
+                </h3>
+                <div id="suggested-questions" class="suggested-questions-grid">
+                    <!-- Suggested questions will appear here -->
+                </div>
+            </div>
 
             <!-- Typing Indicator -->
             <div id="typing-indicator" style="display: none;">
@@ -101,7 +120,7 @@
         </div>
 
         <!-- Query Results (Right Side) -->
-        <div style="width:55%; padding: 15px;">
+        <div id="results-container">
             <div class="query-details-header">
                 <h2 class="query-title">Query Details</h2>
                 <div class="dev-mode-toggle-container">
@@ -127,33 +146,67 @@
 
                 <!-- View Data Tab Content -->
                 <div id="viewData" class="tabcontent" style="display:block;">
-                    <p id="user_query_display"><strong>Query Asked:</strong> <span></span></p>
+                    <button id="toggle-query-btn">Show Description</button>
+
+                    <p id="user_query_display" style="display: none;"> <span></span></p>
                     <div id="sql_query_display">
                     </div>
 
                     <!-- Hidden Popup Modal -->
                     <div id="sql-query-popup" class="modal">
                         <div class="modal-content">
-                            <span class="close-btn" onclick="closeSQLQueryPopup()">&times;</span>
-                            <h2>SQL Query</h2>
-                            <pre><code id="sql-query-content" class="language-sql"></code></pre>
+                            <div class="modal-header">
+                                <div class="modal-title">
+                                    <h2>SQL Query</h2>
+                                    <button class="copy-btn-popup" data-target="sql-query-content" title="Copy SQL">
+                                        <i class="fa-regular fa-copy"></i>
+                                    </button>
+                                </div>
+                                <span class="close-btn" onclick="closeSQLQueryPopup()">&times;</span>
+                            </div>
+                            <div class="modal-body">
+                                <pre><code id="sql-query-content" class="language-sql"></code></pre>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- PROMPT MODAL -->
                     <div id="lang-prompt-popup" class="modal">
                         <div class="modal-content">
-                            <span class="close-btn" onclick="closepromptPopup()">&times;</span>
-                            <h2>Prompt</h2>
-                            <pre><code id="lang-prompt-content" class="language-markdown"></code></pre>
-
+                            <div class="modal-header">
+                                <div class="modal-title">
+                                    <h2>Query Prompt</h2>
+                                    <button class="copy-btn-popup" data-target="lang-prompt-content"
+                                        title="Copy Prompt">
+                                        <i class="fa-regular fa-copy"></i>
+                                    </button>
+                                </div>
+                                <span class="close-btn" onclick="closepromptPopup()">&times;</span>
+                            </div>
+                            <div class="modal-body">
+                                <pre><code id="lang-prompt-content" class="language-markdown"></code></pre>
+                            </div>
                         </div>
                     </div>
                     <div id="interp-prompt-popup" class="modal">
                         <div class="modal-content">
-                            <span class="close-btn" onclick="closeinterpromptPopup()">&times;</span>
-                            <h2>Prompt</h2>
-                            <pre><code id="interp-prompt-content" ></code></pre>
+                            <div class="modal-header">
+                                <div class="modal-title">
+                                    <h2>Rephrasing Prompt</h2>
+                                    <button class="copy-btn-popup" data-target="interp-prompt-content"
+                                        title="Copy Prompt">
+                                        <i class="fa-regular fa-copy"></i>
+                                    </button>
+                                </div>
+                                <span class="close-btn" onclick="closeinterpromptPopup()">&times;</span>
+                            </div>
+                            <div class="modal-body">
+                                <pre><code id="interp-prompt-content" class="language-markdown"></code></pre>
+                            </div>
                         </div>
                     </div>
+                </div>
+
 
                     <div id="tables_container"></div>
                     <div id="xlsx-btn"></div>
@@ -196,8 +249,9 @@
                         </div>
                         <button onclick="generateChart()" id="generate-chart-button">Generate</button>
 
-                        <p id="chart-loading" style="display: none; color: red; font-weight: bold;">Generating Chart...
-                        </p>
+                    <p id="chart-loading" style="display: none; color: red; font-weight: bold;">Generating
+                        Chart...
+                    </p>                     
                     </div>
                     <div id="chart-container" style="margin-top: 20px;"></div>
                 </div>

@@ -1,31 +1,33 @@
 # automotive_wordcloud_analysis.py
+
 import pandas as pd
 import re
-import spacy
+import os
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from collections import Counter
 from langdetect import detect
-from spacy.tokens import Token
+
+# ---- OPTIONAL spaCy IMPORT (SAFE) ----
+try:
+    import spacy
+    from spacy.tokens import Token
+except ImportError:
+    spacy = None
+    Token = None
 
 
-# Configuration
+# ---------------- CONFIGURATION ----------------
+
 INPUT_FILE = "verbatim.xlsx"
 OUTPUT_IMAGE = "automotive_wordcloud.png"
 FREQ_FILE = "word_frequency_analysis.xlsx"
 
-# Initialize spaCy with custom pipeline
-nlp = spacy.load("en_core_web_sm")
-stop_words = nlp.Defaults.stop_words.union({
-    "check", "service", "rep", "km", "vehicle", "gaadi",
-    "hai", "kar", "me", "ka", "ki", "ko", "se", "ke",
-    "schedule", "washing", "1000", "10000", "maxicare",
-    "wheel", "alignment", "balance", "pickup", "cleaning", "wash", "rahi", "nhi", "rha", "krne", "rhe", "hona", "par", "lag", "clean",
-    "CLU", "ENG", "BOD", "CLN", "GEN", "STG", "WHT", "IFT", "BRK", "ELC", "TRN", "FUE", "HVA", "SER", "EPT", "SUS", "DRL", "EXH", "SAF", "VAS", "RE-",
-    "708", "013","405","SWU"
-})
-# Custom spaCy extensions
-Token.set_extension('inflect', default=None)
+nlp = None
+stop_words = set()
+
+
+# ---------------- CUSTOM INFLECTION ----------------
 
 def custom_inflect(token):
     """Custom inflection handler for automotive terms"""
@@ -40,36 +42,69 @@ def custom_inflect(token):
     }
     return inflection_map.get(token.lemma_, token.lemma_)
 
-# Configure existing attribute ruler instead of adding new one
-if 'attribute_ruler' in nlp.pipe_names:
-    attribute_ruler = nlp.get_pipe('attribute_ruler')
-    attribute_ruler.add(
-        patterns=[
-            [{'lemma': 'clean'}],
-            [{'lemma': 'wash'}],
-            [{'lemma': 'noise'}],
-            [{'lemma': 'suspension'}],
-            [{'lemma': 'brake'}],
-            [{'lemma': 'cleaning'}],
-            [{'lemma': 'washing'}]
-        ],
-        attrs={'_': {'inflect': custom_inflect}}
-    )
+
+# ---------------- LAZY spaCy INITIALIZER ----------------
+
+def get_nlp():
+    global nlp, stop_words
+
+    if spacy is None:
+        raise RuntimeError("spaCy is not available in local dev mode")
+
+    if nlp is None:
+        nlp = spacy.load("en_core_web_sm")
+
+        stop_words = nlp.Defaults.stop_words.union({
+            "check", "service", "rep", "km", "vehicle", "gaadi",
+            "hai", "kar", "me", "ka", "ki", "ko", "se", "ke",
+            "schedule", "washing", "1000", "10000", "maxicare",
+            "wheel", "alignment", "balance", "pickup", "cleaning", "wash",
+            "rahi", "nhi", "rha", "krne", "rhe", "hona", "par", "lag", "clean",
+            "CLU", "ENG", "BOD", "CLN", "GEN", "STG", "WHT", "IFT", "BRK",
+            "ELC", "TRN", "FUE", "HVA", "SER", "EPT", "SUS", "DRL", "EXH",
+            "SAF", "VAS", "RE-", "708", "013", "405", "SWU"
+        })
+
+        # Register custom token extension
+        if Token is not None and not Token.has_extension("inflect"):
+            Token.set_extension('inflect', default=None)
+
+        # Configure attribute ruler
+        if 'attribute_ruler' in nlp.pipe_names:
+            attribute_ruler = nlp.get_pipe('attribute_ruler')
+            attribute_ruler.add(
+                patterns=[
+                    [{'lemma': 'clean'}],
+                    [{'lemma': 'wash'}],
+                    [{'lemma': 'noise'}],
+                    [{'lemma': 'suspension'}],
+                    [{'lemma': 'brake'}],
+                    [{'lemma': 'cleaning'}],
+                    [{'lemma': 'washing'}]
+                ],
+                attrs={'_': {'inflect': custom_inflect}}
+            )
+
+    return nlp
+
+
+# ---------------- DATA LOADING ----------------
 
 def load_and_process_data():
-    """Load and preprocess automotive service data"""
     df = pd.read_excel(INPUT_FILE)
-    df['processed_text'] = df['demanded_verbatim'].apply(lambda x: process_text(str(x)))
+    df['processed_text'] = df['demanded_verbatim'].apply(
+        lambda x: process_text(str(x))
+    )
     return df
 
+
+# ---------------- TEXT PROCESSING ----------------
+
 def process_text(text):
-    """Advanced text processing pipeline for automotive content"""
-    # Initial cleaning
-    text = re.sub(r'[^\w\s-]', ' ', text)  # Keep hyphens temporarily
+    text = re.sub(r'[^\w\s-]', ' ', text)
     text = re.sub(r'\d+', '', text).lower().strip()
 
-    # Custom replacements before NLP processing
-    replacement_patterns = {
+    replacements = {
         r'\bcleaning\b': 'clean',
         r'\bcleans\b': 'clean',
         r'\bcleaned\b': 'clean',
@@ -81,7 +116,7 @@ def process_text(text):
         r'\bservice-\b': 'service'
     }
 
-    for pattern, replacement in replacement_patterns.items():
+    for pattern, replacement in replacements.items():
         text = re.sub(pattern, replacement, text)
 
     try:
@@ -91,36 +126,38 @@ def process_text(text):
 
     if lang == 'hi':
         return process_hindi(text)
+
     return process_english(text)
+
+
 def process_hindi(text):
-    """Placeholder for Hindi processing (requires additional setup)"""
-    # For actual implementation:
-    # 1. Install Hindi model: python -m pip install https://github.com/explosion/spacy-models/releases/download/hi_core_news_sm-3.7.0/hi_core_news_sm-3.7.0.tar.gz
-    # 2. Add Hindi processing logic
+    # Placeholder for Hindi logic
     return text
+
+
 def process_english(text):
-    """Enhanced English processing with custom lemmatization"""
-    doc = nlp(text)
+    nlp_model = get_nlp()
+    doc = nlp_model(text)
 
     processed_tokens = []
-    for token in doc:
-        # Get lemma (using custom inflection if available)
-        lemma = token._.inflect if token._.inflect else token.lemma_
 
-        # Normalize and clean
+    for token in doc:
+        lemma = token._.inflect if token._.inflect else token.lemma_
         lemma = lemma.lower().replace('-', '')
 
-        if (len(lemma) > 2 and
+        if (
+            len(lemma) > 2 and
             not token.is_stop and
-            lemma not in stop_words):
+            lemma not in stop_words
+        ):
             processed_tokens.append(lemma)
 
     return ' '.join(processed_tokens)
 
-import os
+
+# ---------------- WORDCLOUD ----------------
 
 def generate_wordcloud(text):
-    """Generate automotive-themed word cloud"""
     wordcloud = WordCloud(
         width=1600,
         height=800,
@@ -132,8 +169,9 @@ def generate_wordcloud(text):
         colormap='viridis'
     ).generate(text)
 
-    # Save to static directory
+    os.makedirs("static", exist_ok=True)
     output_path = os.path.join("static", OUTPUT_IMAGE)
+
     plt.figure(figsize=(20, 10))
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis("off")
@@ -141,8 +179,9 @@ def generate_wordcloud(text):
     plt.close()
 
 
+# ---------------- FREQUENCY ANALYSIS ----------------
+
 def analyze_frequencies(text):
-    """Enhanced frequency analysis with better component grouping"""
     words = text.split()
 
     component_map = {
@@ -158,10 +197,11 @@ def analyze_frequencies(text):
     }
 
     standardized = []
+
     for word in words:
         matched = False
         for key, variants in component_map.items():
-            if any(variant == word for variant in variants):
+            if word in variants:
                 standardized.append(key)
                 matched = True
                 break
@@ -169,6 +209,9 @@ def analyze_frequencies(text):
             standardized.append(word)
 
     return Counter(standardized)
+
+
+# ---------------- MAIN ----------------
 
 def main():
     df = load_and_process_data()
@@ -181,6 +224,7 @@ def main():
     freq_df.to_excel(FREQ_FILE, index=False)
 
     print(f"Analysis complete. Results saved to {OUTPUT_IMAGE} and {FREQ_FILE}")
+
 
 if __name__ == "__main__":
     main()
