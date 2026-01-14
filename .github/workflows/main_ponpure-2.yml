@@ -66,5 +66,5 @@ jobs:
         with:
           app-name: 'ponpure-2'
           slot-name: 'Production'
+          package: .
 
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8D27B5FB8F584F5D96EF3F2C3A5A49AF }}
