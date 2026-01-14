@@ -8,6 +8,8 @@ from langchain_openai import ChatOpenAI
 from openai import AzureOpenAI
 from langchain_openai import AzureChatOpenAI
 import platform
+from dotenv import load_dotenv
+load_dotenv()
 
 
 

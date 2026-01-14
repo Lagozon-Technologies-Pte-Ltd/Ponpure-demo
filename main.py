@@ -1,22 +1,23 @@
-from fastapi import FastAPI, Form, HTTPException, Query, UploadFile, File
-from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse
+from fastapi import FastAPI, Form, HTTPException, Query, UploadFile, File,Depends, status
+from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
 from fastapi.staticfiles import StaticFiles
 # from langchain_openai import ChatOpenAI
 import plotly.graph_objects as go, plotly.express as px
-import openai, yaml, os, csv,pandas as pd, base64, uuid
+import openai, yaml, os, csv,pandas as pd, base64, uuid, msal, time
 from configure import gauge_config
 # from pydantic import BaseModel
 from io import BytesIO, StringIO
 # from langchain.chains.openai_tools import create_extraction_chain_pydantic
 from pydantic import Field, BaseModel
+from starlette.middleware.sessions import SessionMiddleware
+
 # from langchain_openai import ChatOpenAI
 from newlangchain_utils import *
 from dotenv import load_dotenv
 # from state import session_state, session_lock
 from typing import Optional, List, Dict
-from starlette.middleware.sessions import SessionMiddleware  # Correct import
 from fastapi.middleware.cors import CORSMiddleware
 from azure.storage.blob import BlobServiceClient
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -30,8 +31,16 @@ from openai import AzureOpenAI
 # from langchain_openai import AzureChatOpenAI
 from SM_examples import get_examples
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+from dotenv import load_dotenv
+load_dotenv()
 
+# logging.basicConfig(level=logging.INFO)
+from logger_custom import logger
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, Session
+from dependencies import  get_db
+from contextlib import asynccontextmanager
+import redis
 class LoggingMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         # Log the request details
@@ -44,40 +53,130 @@ class LoggingMiddleware(BaseHTTPMiddleware):
         logging.info(f"Response status: {response.status_code}")
         
         return response
-# Logging configuration
-LOGGING_CONFIG = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "default": {"format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"},
-        "json": {"format": '{"timestamp": "%(asctime)s", "logger": "%(name)s", "level": "%(levelname)s", "message": "%(message)s"}'}
-    },
-    "handlers": {
-        "console": {"class": "logging.StreamHandler", "formatter": "default"},
-        "file": {"class": "logging.FileHandler", "filename": "app.log", "formatter": "json"}
-    },
-    "loggers": {
-        "uvicorn": {"handlers": ["console"], "level": "INFO", "propagate": False},
-        "app": {"handlers": ["console", "file"], "level": "DEBUG", "propagate": False}
-    },
-    "root": {
-        "handlers": ["console"],
-        "level": "INFO"
-    }
-}
-dictConfig(LOGGING_CONFIG)
-logger = logging.getLogger("app")
 
 load_dotenv()  # Load environment variables from .env file
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Azure OpenAI LLM
+    # app.state.azure_openai_client = AzureOpenAI(
+    #     azure_deployment=os.environ["AZURE_DEPLOYMENT_NAME"],
+    #     api_key=os.environ["AZURE_OPENAI_API_KEY"],
+    #     api_version=os.environ.get("AZURE_OPENAI_API_VERSION", "2024-02-01"),
+    #     azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"]
+    # )
 
-app = FastAPI()
-app.add_middleware(SessionMiddleware, secret_key="your-secret-key")
+    # Azure SQL DB
+    engine = create_engine(
+      
+
+        SQL_DATABASE_URL,
+        pool_size=int(SQL_POOL_SIZE),
+        max_overflow=int(SQL_MAX_OVERFLOW),
+        echo=False,
+        pool_recycle=1200,  # Recycle every 20 minutes
+        pool_pre_ping=True  # Validate connection before using
+    )
+    app.state.engine = engine
+    app.state.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
+    # Azure Redis Cache (async)
+    app.state.redis_client = redis.Redis(
+        host=os.environ["REDIS_HOST"],
+        port=int(os.environ.get("REDIS_PORT", 6380)),
+        password=os.environ["REDIS_KEY"],
+        ssl=True,
+        decode_responses=True,
+        max_connections=20
+    )
+    # Azure Redis Cache (async)
+    app.state.redis_client = redis.Redis(
+        host=os.environ["REDIS_HOST"],
+        port=int(os.environ.get("REDIS_PORT", 6380)),
+        password=os.environ["REDIS_KEY"],
+        ssl=True,
+        decode_responses=True,
+        max_connections=20
+    )
+
+    yield
+    await app.state.redis_client.close()
+    await app.state.redis_client.close()
+
+    engine.dispose()
+
+
+app = FastAPI(lifespan=lifespan)
+# app.add_middleware(SessionMiddleware, secret_key=os.getenv("SESSION_SECRET", "your-secret-key-here"))
+
 app.add_middleware(LoggingMiddleware)
 # Set up static files and templates
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 AZURE_STORAGE_CONNECTION_STRING = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
 AZURE_CONTAINER_NAME = os.getenv('AZURE_CONTAINER_NAME')
+CLIENT_ID = os.getenv("CLIENT_ID")
+CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+AUTHORITY = os.getenv("AUTHORITY")
+REDIRECT_PATH = os.getenv("REDIRECT_PATH")
+SCOPES = ["User.Read"]
+##Redis Utility Functions
+def get_cache_key(*args, **kwargs):
+    """Generate a unique cache key from function arguments"""
+    key_parts = [str(arg) for arg in args]
+    key_parts.extend([f"{k}={v}" for k, v in kwargs.items()])
+    return "::".join(key_parts)
+
+async def cache_response(redis_client, key: str, data: dict, expire: int = 3600):
+    """Cache the response data with expiration"""
+    try:
+        redis_client.setex(key, expire, json.dumps(data))
+    except Exception as e:
+        logger.error(f"Error caching data: {str(e)}")
+
+async def get_cached_response(redis_client, key: str):
+    """Retrieve cached response if exists"""
+    try:
+        cached_data = redis_client.get(key)
+        if cached_data:
+            return json.loads(cached_data)
+        return None
+    except Exception as e:
+        logger.error(f"Error retrieving cached data: {str(e)}")
+        return None
+SESSION_COOKIE_NAME = "session_id"
+
+def get_session_id(request: Request) -> str | None:
+    return request.cookies.get(SESSION_COOKIE_NAME)
+
+async def get_session_data(redis_client, session_id: str):
+    return await get_cached_response(redis_client, key=f"session::{session_id}")
+def user_sessions_key(user_oid: str) -> str:
+    return f"user::{user_oid}::sessions"
+
+async def set_session_data(redis_client, session_id: str, data: dict, expire: int = 3600):
+    await cache_response(redis_client, key=f"session::{session_id}", data=data, expire=expire)
+
+async def clear_session_data(redis_client, session_id: str):
+    try:
+        redis_client.delete(f"session::{session_id}")
+    except Exception as e:
+        logger.error(f"Error clearing session data: {str(e)}")
+
+def get_redis_client(request: Request):
+    return request.app.state.redis_client
+
+def get_session_id_dep(request: Request) -> str:
+    return get_session_id(request)
+
+async def get_session_data_dep(
+    redis_client = Depends(get_redis_client),
+    request: Request = None,
+):
+    session_id = get_session_id(request)
+    return await get_cached_response(
+        redis_client, f"session::{session_id}"
+    ) or {}
 
 # Initialize the BlobServiceClient
 try:
@@ -135,14 +234,14 @@ azure_openai_client = AzureOpenAI(
 databases = ["Azure SQL"]
 question_dropdown = os.getenv('Question_dropdown')
 
-import datetime
+from datetime import datetime,date
 
 def convert_dates(obj):
     if isinstance(obj, dict):
         return {k: convert_dates(v) for k, v in obj.items()}
     elif isinstance(obj, list):
         return [convert_dates(item) for item in obj]
-    elif isinstance(obj, (datetime.date, datetime.datetime)):
+    elif isinstance(obj, (date, datetime)):
         return obj.isoformat()
     else:
         return obj
@@ -166,6 +265,131 @@ def download_as_excel(data: pd.DataFrame, filename: str = "data.xlsx"):
         data.to_excel(writer, index=False, sheet_name='Sheet1')
     output.seek(0)  # Reset the pointer to the beginning of the stream
     return output
+@app.get("/login")
+async def login(
+    request: Request,
+    redis_client=Depends(get_redis_client),
+):
+    # 🔥 ALWAYS control session_id explicitly
+    session_id = request.cookies.get(SESSION_COOKIE_NAME)
+    if not session_id:
+        session_id = str(uuid.uuid4())
+
+    msal_app = msal.ConfidentialClientApplication(
+        CLIENT_ID,
+        authority=AUTHORITY,
+        client_credential=CLIENT_SECRET,
+    )
+
+    flow = msal_app.initiate_auth_code_flow(
+        scopes=SCOPES,
+        redirect_uri=REDIRECT_PATH
+    )
+
+    # ✅ store flow safely
+    await cache_response(
+        redis_client,
+        key=f"session::{session_id}",
+        data={"flow": flow},
+        expire=600  # short-lived
+    )
+
+    logger.info(f"[login] stored flow for session {session_id}")
+
+    response = RedirectResponse(url=flow["auth_uri"])
+    response.set_cookie(
+        key=SESSION_COOKIE_NAME,
+        value=session_id,
+        max_age=86400,
+        httponly=True,
+        secure=False,
+        samesite="lax"
+    )
+    return response
+
+@app.get("/getAToken")
+async def get_a_token(
+    request: Request,
+    redis_client=Depends(get_redis_client),
+    session_id: str = Depends(get_session_id_dep),
+):
+    params = dict(request.query_params)
+    logger.info(f"Session ID in getAToken: {session_id}")
+    logger.info(f"Cookies in getAToken: {request.cookies}")
+
+    # Handle Azure AD error
+    if "error" in params:
+        return HTMLResponse(
+            content=f"Error: {params.get('error_description', 'Unknown error')}",
+            status_code=400,
+        )
+
+    # 🔑 Read existing session
+    session_data = await get_cached_response(
+        redis_client, f"session::{session_id}"
+    ) or {}
+    session_data['current_question_type'] = 'generic'
+    # OAuth flow must exist
+    if "flow" not in session_data:
+        logger.warning("OAuth flow missing in session. Redirecting to /login")
+        return RedirectResponse("/login")
+
+    # Exchange auth code for token
+    result = msal.ConfidentialClientApplication(
+        CLIENT_ID,
+        authority=AUTHORITY,
+        client_credential=CLIENT_SECRET,
+    ).acquire_token_by_auth_code_flow(session_data["flow"], params)
+
+    if "id_token_claims" not in result:
+        logger.error("ID token claims missing in MSAL response")
+        return HTMLResponse(
+            content="Could not retrieve user information.",
+            status_code=400,
+        )
+
+    # ✅ Authenticated user
+    user_claims = result["id_token_claims"]
+    user_oid = user_claims["oid"]
+
+    logger.info(f"User authenticated successfully. oid={user_oid}")
+
+    # 🔒 USER cache (source of truth)
+    await cache_response(
+        redis_client,
+        key=f"user::{user_oid}",
+        data={
+            "user": user_claims,
+            "current_question_type": "generic",
+            "created_at": int(time.time())
+        },
+        expire=86400,
+    )
+
+    # 🔗 Register session under user
+    redis_client.sadd(
+        user_sessions_key(user_oid),
+        session_id
+    )
+
+    # 🧠 Update session (DO NOT recreate)
+    session_data["user_oid"] = user_oid
+    session_data.setdefault("messages", [])
+    session_data.setdefault("created_at", int(time.time()))
+
+    await set_session_data(redis_client, session_id, session_data)
+
+    # 🍪 Redirect to app
+    response = RedirectResponse("/")
+    response.set_cookie(
+        key=SESSION_COOKIE_NAME,
+        value=session_id,
+        max_age=86400,
+        httponly=True,
+        secure=False,  # True in prod
+        samesite="lax",
+    )
+    return response
 @app.get("/get_prompt")
 async def get_prompt(type: str):
     if type == "interpretation":
@@ -236,7 +460,11 @@ class QueryInput(BaseModel):
     query: str
 
 @app.post("/add_to_faqs")
-async def add_to_faqs(data: QueryInput, subject:str, request:Request):
+async def add_to_faqs(data: QueryInput, subject:str, request:Request, 
+                    
+                    session_data: dict = Depends(get_session_data_dep),
+
+                    ):
     """
     Adds a user query to the FAQ CSV file on Azure Blob Storage.
 
@@ -250,7 +478,7 @@ async def add_to_faqs(data: QueryInput, subject:str, request:Request):
     query = data.query.strip()
     if not query:
         raise HTTPException(status_code=400, detail="Invalid query!")
-    question_type = request.session.get('current_question_type')
+    question_type = session_data['current_question_type']
 
     if question_type == 'generic':
         blob_name = f'table_files/{subject}_questions_generic.csv'
@@ -466,7 +694,9 @@ async def transcribe_audio(file: UploadFile = File(...)):
 
 @app.get("/get_questions/")
 @app.get("/get_questions")
-async def get_questions(subject: str, request: Request):
+async def get_questions(subject: str, request: Request,
+            session_data: dict = Depends(get_session_data_dep),
+            ):
     """
     Fetches questions from a CSV file in Azure Blob Storage based on the selected subject.
 
@@ -476,7 +706,9 @@ async def get_questions(subject: str, request: Request):
     Returns:
         JSONResponse: A JSON response containing the list of questions or an error message.
     """
-    question_type = request.session.get('current_question_type')
+
+    question_type = session_data.get("current_question_type", "generic")
+    logger.info(f"que type: {question_type}")
     if question_type == 'generic':
         csv_file_name = f"table_files/{subject}_questions_generic.csv"
     else: 
@@ -675,9 +907,53 @@ async def submit_query(
     user_query: str = Form(...),
     page: int = Query(1),
     records_per_page: int = Query(10),
-    model: Optional[str] = Form(AZURE_DEPLOYMENT_NAME)
+    model: Optional[str] = Form(AZURE_DEPLOYMENT_NAME),
+    db: Session = Depends(get_db),
+    session_data: dict = Depends(get_session_data_dep),
+    redis_client=Depends(get_redis_client),
+    session_id: str = Depends(get_session_id_dep)
+    
 ):
-    logger.info(f"Received /submit request with query: {user_query}, section: {section}")
+
+    # cache_key = get_cache_key(
+    #     "submit_query",
+    #     user_query=user_query,
+    #     section=section,
+    #     database=database,
+    #     question_type=request.session.get("current_question_type", "generic")
+    # )
+    
+    # # Check cache first
+    # redis_client = request.app.state.redis_client
+    # cached_response = await get_cached_response(redis_client, cache_key)
+    # if cached_response:
+    #     logger.info(f"Cache HIT for key: {cache_key}")
+    #     logger.info("Returning cached response")
+    #     return JSONResponse(content=cached_response)
+    # else:
+    #     logger.info(f"Cache MISS for key: {cache_key}")
+    user_oid = await resolve_user_oid(redis_client, session_id, session_data)
+
+    if not user_oid:
+        raise HTTPException(status_code=401, detail="User not authenticated")
+
+
+    # cache_key = f"user::{user_oid}::submit_query::{hash(user_query + section + database)}"
+ 
+    messages = session_data.get("messages", [])
+
+    # Check cache first
+    redis_client = request.app.state.redis_client
+    # cached_response = await get_cached_response(redis_client, cache_key)
+    # if cached_response:
+    #     logger.info(f"Cache HIT for key: {cache_key}")
+
+    #     cached_response["history"] = messages
+    #     logger.info("Returning cached response")
+    #     return JSONResponse(content=cached_response)
+    # else:
+    #     logger.info(f"Cache MISS for key: {cache_key}")
+    # logger.info(f"Received /submit request with query: {user_query}, section: {section}, database: {database}")
     
     # Initialize response structure
     response_data = {
@@ -686,9 +962,10 @@ async def submit_query(
         "tables": [],
         "llm_response": "",
         "chat_response": "",
-        "history":  request.session.get('messages', []),
+        "history":  session_data.get('messages', []),
         "interprompt": "",
         "langprompt": "",
+        "suggested_questions": [],
         "error": None
     }
 
@@ -699,25 +976,27 @@ async def submit_query(
         llm_reframed_query = ""
 
         # Get current question type from session
-        current_question_type = request.session.get("current_question_type", "generic")
-        # prompts = request.session.get("prompts", load_prompts("generic_prompt.yaml"))
+        current_question_type = session_data.get("current_question_type", "generic")
+        # prompts = request.session.get("prompts", load_prompts("generic_prompt.yaml")
         prompts = load_prompts("generic_prompt.yaml")
-        request.session['user_query'] = user_query  # Still store original query separately if needed
+        # session_data['user_query'] = user_query  # Still store original query separately if needed
 
         # Handle session messages
-        if "messages" not in request.session:
-            request.session["messages"] = []
+        if "messages" not in session_data:
+            session_data["messages"] = []
         
         # Don't add user_query to messages yet - we'll add the reframed version later
         chat_history = ""
-        if request.session['messages']:  # Check if messages exist (should contain at most 1)
-            last_msg = request.session['messages'][-1]  # Get the only message
+        if session_data['messages']:  # Check if messages exist (should contain at most 1)
+            last_msg = session_data['messages'][-1]  # Get the only message
             chat_history = f"{last_msg['role']}: {last_msg['content']}"
         
         logger.info(f"Chat history: {chat_history}")
-        logger.info(f"Messages in session for new question: {request.session['messages']}")
+        # logger.info(f"Messages in session for new question: {request.session['messages']}")
         # Step 1: Generate unified prompt based on question type
         try:
+            logger.info(f"Inside /submit request and user has chosen  {current_question_type}.")
+
             if current_question_type == "usecase":
                 key_parameters = get_key_parameters()
                 keyphrases = get_keyphrases()
@@ -738,10 +1017,10 @@ async def submit_query(
                 temperature=0,  # Lower temperature for more predictable, structured output
                 response_format={"type": "json_object"}  # This is the key parameter!
                 )
-
             # The response content will be a JSON string
                 response_content = response.choices[0].message.content
-                
+                logger.info(f"Inside submit function: response recieved is: {response_content}")
+               
                 # Parse the guaranteed JSON string into a Python dictionary
                 json_output = json.loads(response_content)
                 logger.info(f"json output in usecase: {json_output}")
@@ -761,9 +1040,11 @@ async def submit_query(
                         "tables": "",
                         "llm_response": llm_reframed_query,
                         "chat_response": error_msg,
-                        "history": request.session['messages'],
+                        "history": session_data['messages'],
                         "interprompt": unified_prompt,
-                        "langprompt": ""
+                        "langprompt": "",
+                        "suggested_questions": [],
+                        
                     }
                     return JSONResponse(content=response_data)
                 chosen_tables = intent_result["tables"]
@@ -792,13 +1073,14 @@ async def submit_query(
 
             # The response content will be a JSON string
                 response_content = response.choices[0].message.content
+                logger.info(f"Inside submit function, generic: response recieved is: {response_content}")
                 
                 # Parse the guaranteed JSON string into a Python dictionary
                 json_output = json.loads(response_content)
+                print("The output of the json is ", json_output)
 
                 # Now you can safely access the keys
-                llm_reframed_query = json_output.get("rephrased_query")
-                logger.info(f"reframed query after modification: {llm_reframed_query}")
+               
                 try:
                     # llm_result = json.loads(llm_response_str)
                     llm_reframed_query = json_output.get("rephrased_query", "")
@@ -810,10 +1092,10 @@ async def submit_query(
                         detail="Failed to parse LLM response"
                     )
             
-            # Now add the reframed query to messages instead of original user_query
-            logger.info(f"Now, adding message to history: {llm_reframed_query}")
-            request.session['messages'] = [{"role": "user", "content": llm_reframed_query}]
-            logger.info(f"messages in session: {request.session['messages']}")
+            # # Now add the reframed query to messages instead of original user_query
+            # logger.info(f"Now, adding message to history: {llm_reframed_query}")
+            # request.session['messages'] = [{"role": "user", "content": llm_reframed_query}]
+            # logger.info(f"messages in session: {request.session['messages']}")
             response_data["llm_response"] = llm_reframed_query
             response_data["interprompt"] = unified_prompt
             
@@ -831,11 +1113,11 @@ async def submit_query(
             table_details = get_table_details(table_name=chosen_tables)
             examples = get_examples(llm_reframed_query, current_question_type)
             logger.info(f"relationships: {relationships}")
-            logger.info(f"messages in session just before invoke chain: {request.session['messages']}")
+            logger.info(f"messages in session just before invoke chain: {session_data['messages']}")
 
             response, chosen_tables, tables_data, final_prompt = invoke_chain(
                 llm_reframed_query,  # Using the reframed query here
-                request.session['messages'],
+                session_data['messages'],
                 model,
                 section,
                 database,
@@ -846,17 +1128,22 @@ async def submit_query(
                 examples
             )
 
-            response_data["langprompt"] = str(final_prompt)
+            response_data["langprompt"] = str(final_prompt)  
+                                               
+            response_data["suggested_questions"]=response.get("Suggested_question")
+            
+            print("Suggested_questions",response_data["suggested_questions"])           
             
             if isinstance(response, str):
-                request.session['generated_query'] = response
+                # session_data['generated_query'] = response
                 response_data["query"] = response
-                request.session['generated_query'] = response
+                # session_data['generated_query'] = response
             else:
                 response_data["query"] = response.get("query", "")
-                request.session['generated_query'] = response.get("query", "")
-                request.session['chosen_tables'] = chosen_tables
+                # session_data['generated_query'] = response.get("query", "")
+                # session_data['chosen_tables'] = chosen_tables
                 # request.session['tables_data'] = tables_data
+
 
         except Exception as e:
             logger.error(f"LangChain invocation error: {str(e)}", exc_info=True)
@@ -892,15 +1179,41 @@ async def submit_query(
         #     "role": "assistant",
         #     "content": response_data["chat_response"]
         # })
+                
+        response_data = convert_dates(response_data)  # Your existing conversion
+        # await cache_response(redis_client, cache_key, response_data)
+        messages.append({
+            "role": "user",
+            "content": llm_reframed_query
+        })
 
-        return JSONResponse(content=convert_dates(response_data))
+
+        session_data["messages"] = messages
+
+        await cache_response(
+            redis_client,
+            key=f"session::{session_id}",
+            data=session_data,
+            expire=86400
+        )
+
+        response_data["history"] = messages
+        # return JSONResponse(content=response_data)
+        response_data = convert_dates(response_data)  # Your existing conversion
+        ENABLE_QUERY_CACHE = False
+
+        if ENABLE_QUERY_CACHE:
+            cache_key ={}
+            await cache_response(redis_client, cache_key, response_data)
+        
+        return JSONResponse(content=response_data)
 
     except HTTPException as he:
         # Capture error details
         response_data.update({
             "chat_response": f"Error: {he.detail}",
             "error": str(he.detail),
-            "history": request.session['messages'],
+            "history": session_data['messages'],
             "langprompt": str(final_prompt) if 'final_prompt' in locals() else "Not generated due to error",
             "interprompt": unified_prompt if 'unified_prompt' in locals() else "Not generated due to error"
         })
@@ -917,15 +1230,15 @@ async def submit_query(
         response_data.update({
             "chat_response": "An unexpected error occurred",
             "error": str(e),
-            "history":  request.session['messages'],
+            "history":  session_data['messages'],
             "langprompt": str(final_prompt) if 'final_prompt' in locals() else "Not generated due to error",
             "interprompt": unified_prompt if 'unified_prompt' in locals() else "Not generated due to error"
         })
         
-        request.session['messages'].append({
-            "role": "user",
-            "content": "An unexpected error occurred"
-        })
+        # request.session['messages'].append({
+        #     "role": "user",
+        #     "content": "An unexpected error occurred"
+        # })
         
         return JSONResponse(
             content=response_data,
@@ -933,21 +1246,127 @@ async def submit_query(
         )
 
 # Replace APIRouter with direct app.post
+@app.get("/sessions")
+async def list_sessions(
+    redis_client=Depends(get_redis_client),
+    session_id: str = Depends(get_session_id_dep),
+):
+    cookie_session = await get_cached_response(
+        redis_client, f"session::{session_id}"
+    ) or {}
 
-@app.post("/reset-session")
-async def reset_session(request: Request):
-    """
-    Resets the session state by clearing the session dictionary.
-    """
-    request.session.clear()  # Clear all session data
+    user_oid = cookie_session.get("user_oid")
+    if not user_oid:
+        raise HTTPException(status_code=401)
 
-    # Set default session variables
-    request.session['messages'] = []
-    request.session["current_question_type"] = "generic"
-    # request.session["prompts"] = load_prompts("generic_prompt.yaml")
+    session_ids = redis_client.smembers(f"user::{user_oid}::sessions")
 
-    logger.info(f"Question type is: {request.session.get('current_question_type')}")
-    return {"message": "Session state cleared successfully"}
+    sessions = []
+    for sid in session_ids:
+        data = await get_cached_response(redis_client, f"session::{sid}")
+        if not data:
+            continue
+
+        created_at = data.get("created_at", 0)
+        messages = data.get("messages", [])
+
+        title = "New chat"
+        if messages:
+            first_user_msg = next(
+                (m["content"] for m in messages if m["role"] == "user"),
+                None
+            )
+            if first_user_msg:
+                title = " ".join(first_user_msg.split()[:4])
+
+        sessions.append({
+            "session_id": sid,
+            "created_at": data.get("created_at"),
+            "count": len(messages),
+            "title": title
+        })
+
+    # 🔽 Oldest → Newest (so numbering is stable)
+    sessions.sort(key=lambda x: x["created_at"] or 0)
+
+    # 🏷️ Assign session numbers + labels
+    for idx, s in enumerate(sessions, start=1):
+        date_str = datetime.fromtimestamp(
+            s["created_at"]
+        ).strftime("%d %b %Y")
+
+        s["session_number"] = idx
+        s["label"] = f"{date_str} : Session {idx}"
+
+    return sessions
+@app.get("/sessions/{session_id}")
+async def load_session(
+    session_id: str,
+    redis_client=Depends(get_redis_client),
+):
+    session = await get_cached_response(
+        redis_client, f"session::{session_id}"
+    )
+
+    if not session:
+        raise HTTPException(status_code=404)
+
+    return {
+        "session_id": session_id,
+        "messages": session.get("messages", [])
+    }
+
+@app.post("/new-session")
+async def reset_session(
+    request: Request,
+    redis_client=Depends(get_redis_client),
+):
+    old_session_id = request.cookies.get(SESSION_COOKIE_NAME)
+
+    # Read old session (optional)
+    old_session = (
+        await get_cached_response(redis_client, f"session::{old_session_id}")
+        if old_session_id else {}
+    )
+
+    user_oid = old_session.get("user_oid")
+
+    if not user_oid:
+        return JSONResponse({"message": "No authenticated user"})
+
+    # 1️⃣ Create NEW session
+    new_session_id = str(uuid.uuid4())
+
+    await cache_response(
+        redis_client,
+        key=f"session::{new_session_id}",
+        data={
+            "user_oid": user_oid,
+            "messages": [],
+            "created_at": int(time.time()),
+            "current_question_type": "generic"
+        },
+        expire=86400
+    )
+
+    # 2️⃣ Register session under user
+    redis_client.sadd(
+        f"user::{user_oid}::sessions",
+        new_session_id
+    )
+
+    # 3️⃣ Switch cookie to new session
+    response = JSONResponse({"message": "New session started"})
+
+    response.set_cookie(
+        key=SESSION_COOKIE_NAME,
+        value=new_session_id,
+        httponly=True,
+        samesite="lax",
+        max_age=86400
+    )
+
+    return response
 
 def prepare_table_html(tables_data, page_number, records_per_page):
     """
@@ -979,33 +1398,77 @@ def prepare_table_html(tables_data, page_number, records_per_page):
         })
     return tables_html
 @app.get("/", response_class=HTMLResponse)
-async def read_root(request: Request):
-    """
-    Renders the root HTML page.
+async def read_root(
+    request: Request,
+    redis_client=Depends(get_redis_client),
+    session_id: str = Depends(get_session_id_dep)
+):
+    # Get fresh session data
+    cookie_session = await get_session_data(redis_client, session_id) or {}
+    user_oid = cookie_session.get("user_oid")
 
-    Args:
-        request (Request): The incoming request.
+    if not user_oid:
+        return RedirectResponse("/login")
 
-    Returns:
-        TemplateResponse: The rendered HTML template.
-    """
-    # Extract table names dynamically
-    request.session.clear()
-    tables = []
-    # Only set defaults if not already set
-    if "current_question_type" not in request.session:
-        request.session["current_question_type"] = "generic"
-        # request.session["prompts"] = load_prompts("generic_prompt.yaml")
+    user_session = await get_cached_response(redis_client, f"user::{user_oid}")
 
-    # Pass dynamically populated dropdown options to the template
-    return templates.TemplateResponse("index.html", {
+    if not user_session or not user_session.get("user"):
+        return RedirectResponse("/login")
+
+    user_data = user_session["user"]
+    roles = user_data.get('roles', ['guest'])
+    
+    response = templates.TemplateResponse("index.html", {
         "request": request,
-        "databases": databases,                                     
-        "tables": tables,        # Table dropdown based on database selection
-        "question_dropdown": question_dropdown.split(','),  # Static questions from env
+        "user_role": roles[0],
+        "user_email": user_data.get('preferred_username', ''),
+        "databases": databases,
+        "tables": [],
+        "question_dropdown": question_dropdown.split(',')
     })
 
+ 
+    
+    return response
 # Table data display endpoint
+@app.get("/session-debug", response_class=JSONResponse)
+async def session_debug(request: Request, 
+            session_data: dict = Depends(get_session_data_dep),
+            
+            session_id: str = Depends(get_session_id_dep)
+            ):
+    return {"session_id": session_id, "data": session_data}
+@app.get("/debug/cache")
+async def debug_cache(
+    redis_client=Depends(get_redis_client),
+    session_id: str = Depends(get_session_id_dep)
+):
+    # Session pointer
+    session_key = f"session::{session_id}"
+    session_data = await get_cached_response(redis_client, session_key)
+
+    user_oid = session_data.get("user_oid") if session_data else None
+
+    user_data = None
+    # query_caches = {}
+
+    if user_oid:
+        user_key = f"user::{user_oid}"
+        user_data = await get_cached_response(redis_client, user_key)
+
+        # ⚠️ Redis KEYS is OK for debugging only
+        # query_keys = redis_client.keys(f"user::{user_oid}::submit_query::*")
+
+        # for k in query_keys:
+        #     query_caches[k] = await get_cached_response(redis_client, k)
+
+    return {
+        "session_key": session_key,
+        "session_data": session_data,
+        "user_key": f"user::{user_oid}" if user_oid else None,
+        "user_data": user_data,
+    }
+
 def display_table_with_styles(data, table_name):
     """
     Displays a Pandas DataFrame as an HTML table with custom styles.
@@ -1082,13 +1545,55 @@ def display_table_with_styles(data, table_name):
 class QuestionTypeRequest(BaseModel):
     question_type: str
 @app.post("/set-question-type")
-async def set_question_type(payload: QuestionTypeRequest, request: Request):
+async def set_question_type(payload: QuestionTypeRequest, request: Request,
+            session_data: dict = Depends(get_session_data_dep),
+            redis_client = Depends(get_redis_client),
+            session_id: str = Depends(get_session_id_dep)
+            ):
     current_question_type = payload.question_type
     filename = "generic_prompt.yaml" if current_question_type == "generic" else "chatbot_prompt.yaml"
     prompts = load_prompts(filename)
-    request.session["current_question_type"] = current_question_type
+    session_data["current_question_type"] = current_question_type
     # request.session["prompts"] = prompts  # If you want to store prompts per session
+    user_oid = await resolve_user_oid(redis_client, session_id, session_data)
+
+    if not user_oid:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+
+    await cache_response(
+        redis_client,
+        key=f"user::{user_oid}",
+        data=session_data,
+        expire=86400
+    )
 
     print("Received question type:", current_question_type)
     return JSONResponse(content={"message": "Question type set", "prompts": prompts})
 
+#azure-redis integration
+def get_user_oid(session_data: dict) -> str | None:
+    user = session_data.get("user")
+    if not user:
+        return None
+    return user.get("oid")  # Azure AD Object ID
+def get_user_cache_key(user_oid: str, suffix: str = ""):
+    base = f"user::{user_oid}"
+    return f"{base}::{suffix}" if suffix else base
+async def resolve_user_oid(
+    redis_client,
+    session_id: str,
+    session_data: dict | None = None
+) -> str | None:
+    # 1️⃣ Check session pointer
+    cookie_session = await get_cached_response(
+        redis_client, f"session::{session_id}"
+    ) or {}
+
+    if "user_oid" in cookie_session:
+        return cookie_session["user_oid"]
+
+    # 2️⃣ Fallback from user cache
+    if session_data and "user" in session_data:
+        return session_data["user"].get("oid")
+
+    return None

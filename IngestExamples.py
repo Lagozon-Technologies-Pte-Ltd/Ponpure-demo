@@ -2,6 +2,8 @@ import chromadb
 import json
 import os
 from chromadb.utils import embedding_functions
+from dotenv import load_dotenv
+load_dotenv()
 
 # ==============================
 # CONFIG

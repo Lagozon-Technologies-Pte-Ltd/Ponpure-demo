@@ -199,3 +199,10 @@ IMPORTANT: JSON Output Safety Rules
    - output the entire SQL as a single line.
 - The entire JSON object must be valid and parseable.
 - No control characters like unescaped tabs, newlines, or carriage returns.
+
+
+- Inside the json return the sql query with key query and Use the key Suggested_question to return three concise, natural-language follow-up questions that:
+   -- Are relevant to the same dataset or result
+   -- Reflect how a real user might continue the conversation
+   -- Do NOT mention SQL, tables, or columns
+   -- Are phrased as plain English questions

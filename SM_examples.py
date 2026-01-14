@@ -3,6 +3,9 @@ import os
 from chromadb.utils import embedding_functions
 import chromadb
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # ==============================
 # Azure OpenAI
 # ==============================
