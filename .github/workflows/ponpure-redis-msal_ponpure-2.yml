@@ -50,17 +50,26 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    
+  
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: python-app
-      
-      - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v3
-        id: deploy-to-webapp
-        with:
-          app-name: 'ponpure-2'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_537014B2C83143E68A5246A0F64AA35B }}
+  
+      - name: Install zip
+        run: sudo apt-get update && sudo apt-get install -y zip
+  
+      - name: Zip Deploy to Azure App Service
+        run: |
+          zip -r app.zip . \
+            -x "antenv/*" \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x "__pycache__/*"
+  
+          curl -X POST \
+            -u ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E2DAF01C0B90438486B5BFAEBC76ACEB }} \
+            --data-binary @app.zip \
+            https://ponpure-2.scm.azurewebsites.net/api/zipdeploy
+
