@@ -2,15 +2,9 @@ import pandas as pd
 import os, json
 import configure
 from operator import itemgetter
-from langchain.chains.openai_tools import create_extraction_chain_pydantic 
 from pydantic import BaseModel, Field
-from langchain_openai import ChatOpenAI 
 from openai import AzureOpenAI
-from langchain_openai import AzureChatOpenAI
 import platform
-from dotenv import load_dotenv
-load_dotenv()
-
 
 
 AZURE_OPENAI_API_KEY = os.environ.get('AZURE_OPENAI_API_KEY')
@@ -18,18 +12,10 @@ AZURE_OPENAI_ENDPOINT = os.environ.get('AZURE_OPENAI_ENDPOINT')
 AZURE_OPENAI_API_VERSION = os.environ.get('AZURE_OPENAI_API_VERSION', "2024-02-01")
 AZURE_DEPLOYMENT_NAME = os.environ.get('AZURE_DEPLOYMENT_NAME')
 
-llm = AzureChatOpenAI(
-    openai_api_version=AZURE_OPENAI_API_VERSION,
-    azure_deployment=AZURE_DEPLOYMENT_NAME,
-    azure_endpoint=AZURE_OPENAI_ENDPOINT,
-    api_key=AZURE_OPENAI_API_KEY,
-    temperature=0
-)
+
 
 from typing import List
-# __import__('pysqlite3')
-# import sys
-# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 os_name = platform.system()
 if os_name == "Windows":
     # Do something for Windows
@@ -43,7 +29,6 @@ elif os_name == "Linux":
 else:
     # Raise an exception for unsupported OS
     raise RuntimeError(f"Unsupported OS: {os_name}")
-
 
 def get_table_details(table_name=None):
     """
@@ -70,7 +55,6 @@ def get_table_details(table_name=None):
     try:
         with open(column_path, 'r', encoding='utf-8') as f:
             column_data = json.load(f)
-            print("Printing column data", column_data)
     except FileNotFoundError:
         return f"File not found: {column_path}"
     except Exception as e:
@@ -122,7 +106,6 @@ def get_table_details(table_name=None):
                 examples = col.get('examples', None)
                 example_str = f" Example: {examples}" if examples is not None else "no example for this column"
                 table_details += f"  - {col_name} ({data_type}){flag_str}: {example_str} {description} \n"
-                
         else:
             table_details += "  No column details found.\n"
         table_details += "\n"
@@ -171,19 +154,3 @@ def get_table_metadata(json_filename='expanded_tables.json'):
             table_info += f"Table Name: {table_name}\nDescription: {table_description}\n\n"
 
     return table_info.strip()
-# table_names = "\n".join(db.get_usable_table_names())
-# table_details = get_table_details()
-# print("testinf details",table_details, type(table_details))
-# table_details_prompt = f"""Return the names of ALL the SQL tables that MIGHT be relevant to the user question. \
-#     The permissible tables names are listed below and must be strictly followed:
-
-#     {table_details}
-
-#     Remember to include ALL POTENTIALLY RELEVANT tables, even if you're not sure that they're needed."""
-# table_details_set_prompt = os.getenv('TABLE_DETAILS_SET_PROMPT')
-# table_details_prompt=table_details_set_prompt.format(table=table_details)
-# # print("Table_details_prompt: ", table_details_prompt)
-# table_chain = {"input": itemgetter("question")} | create_extraction_chain_pydantic(Table, llm, system_message=table_details_prompt) | get_tables
-# mock_question_test = "How many product view by products in last week"
-# table_chain_check = table_chain.invoke({"question":mock_question_test})
-# print("test table chain  first mock_question  :" , mock_question_test ,"  Now tables selected:... ",table_chain_check)

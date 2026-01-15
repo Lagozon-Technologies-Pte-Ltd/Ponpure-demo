@@ -64,9 +64,7 @@ from urllib.parse import quote_plus
 
 from operator import itemgetter
 
-from langchain_core.output_parsers import StrOutputParser
 
-from langchain_core.runnables import RunnablePassthrough
 # from langchain_openai import ChatOpenAI
 
 
