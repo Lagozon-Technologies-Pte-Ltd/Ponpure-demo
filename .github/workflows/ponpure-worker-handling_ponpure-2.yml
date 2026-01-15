@@ -9,7 +9,9 @@ on:
     branches:
       - Ponpure-Worker-handling
   workflow_dispatch:
-
+concurrency:
+  group: azure-app-service
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -68,3 +70,5 @@ jobs:
           slot-name: 'Production'
 
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1363D6BF03804EFCB240F4A7AA5252F1 }}
+
+
