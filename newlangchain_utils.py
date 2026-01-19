@@ -84,7 +84,7 @@ import configure
 # db_database=os.getenv("db_database")
 # db_port=os.getenv("db_port")
 # db_schema= os.getenv("db_schema")
-db_tables =  json.loads(os.getenv("DB_TABLES"))
+db_tables =  json.loads(os.getenv("db_tables"))
 
 
 SQL_DB_SERVER = os.getenv("SQL_DB_SERVER")
