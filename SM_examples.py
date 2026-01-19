@@ -1,9 +1,10 @@
 from openai import AzureOpenAI
 import os
-from chromadb.utils import embedding_functions
+import json
 import chromadb
-
+from chromadb.utils import embedding_functions
 from dotenv import load_dotenv
+
 load_dotenv()
 
 # ==============================
@@ -16,7 +17,7 @@ client = AzureOpenAI(
 )
 
 # ==============================
-# Chroma (READ ONLY)
+# Chroma
 # ==============================
 chroma_client = chromadb.PersistentClient(
     path=os.environ["CHROMA_QUERY_EXAMPLES"]
@@ -30,17 +31,39 @@ embedding_function = embedding_functions.OpenAIEmbeddingFunction(
     model_name=os.environ["AZURE_EMBEDDING_DEPLOYMENT_NAME"]
 )
 
+# ==============================
+# Collections (SAFE)
+# ==============================
 collections = {
-    "generic": chroma_client.get_collection(
-        "examples_generic",
+    "generic": chroma_client.get_or_create_collection(
+        name="examples_generic",
         embedding_function=embedding_function
     ),
-    "usecase": chroma_client.get_collection(
-        "examples_usecase",
+    "usecase": chroma_client.get_or_create_collection(
+        name="examples_usecase",
         embedding_function=embedding_function
     )
 }
 
+# ==============================
+# Auto-ingest (WORKER SAFE)
+# ==============================
+def ensure_ingested(collection, json_file, prefix):
+    if collection.count() > 0:
+        return
+
+    with open(json_file, encoding="utf-8") as f:
+        data = json.load(f)
+
+    collection.add(
+        ids=[f"{prefix}_{i}" for i in range(len(data))],
+        documents=[x["input"] for x in data],
+        metadatas=[{"query": x["query"]} for x in data]
+    )
+
+# Run once per worker — safe because of count() check
+ensure_ingested(collections["generic"], "sql_query_examples_generic.json", "generic")
+ensure_ingested(collections["usecase"], "sql_query_examples_usecase.json", "usecase")
 
 # ==============================
 # QUERY FUNCTION
@@ -60,6 +83,6 @@ def get_examples(query: str, question_type: str):
     )
 
     return [
-        {"input": doc, "query": meta}
+        {"input": doc, "query": meta["query"]}
         for doc, meta in zip(result["documents"][0], result["metadatas"][0])
     ]
