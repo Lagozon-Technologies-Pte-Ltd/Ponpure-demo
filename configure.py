@@ -22,7 +22,6 @@ selected_models = models[0] if models else None
 
 databases = os.getenv('databases', '').split(',')
 selected_database = databases[0] if databases else None
-CHROMA_PATH = os.environ["CHROMA_QUERY_EXAMPLES"]
 
 # Gauge configuration for metrics
 gauge_config = {

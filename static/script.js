@@ -1,226 +1,207 @@
-
-const loadingDiv = document.getElementById('loading');
+// Global Variables
 let tableName;
 let clientTableData = {};
 let isRecording = false;
 let mediaRecorder;
 let audioChunks = [];
-let originalButtonHTML = ""; // Store the original button HTML
-window.onload = function () {
-    // Reset variables
-    const loadingDiv = document.getElementById('loading');
-    let tableName = undefined;
-    let isRecording = false;
-    let mediaRecorder = undefined;
-    let audioChunks = [];
-    let originalButtonHTML = "";
-    loadSessions();
-    console.log("Variables reset on page reload");
-};
-function loadTableColumns(columnNames) {
-    console.log("Loading columns for table:");
+let originalButtonHTML = "";
+let isSidebarOpen = false;
+let table_data = {};
 
-    // if (!columnNames || columnNames.length === 0) {
-    //     alert("No columns available for this table.");
-    //     return;
-    // }
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM Loaded - Initializing...");
+    initPage();
+});
 
-    const xAxisDropdown = document.getElementById("x-axis-dropdown");
-    const yAxisDropdown = document.getElementById("y-axis-dropdown");
+async function initPage() {
+    console.log("Page Initializing...");
+    
+    try {
+        // Initialize UI components
+        initUserProfile();
+        initSidebarToggle(); // Only call this once
+        
+        // Load sessions first
+        await loadSessions();
+        
+        // Initialize database connection if saved
+        const savedDatabase = sessionStorage.getItem('selectedDatabase');
+        const savedSection = sessionStorage.getItem('selectedSection');
+        
+        if (savedDatabase) {
+            document.getElementById('database-dropdown').value = savedDatabase;
+            connectToDatabase(savedDatabase);
+            
+            if (savedSection) {
+                document.getElementById('section-dropdown').value = savedSection;
+                fetchQuestions(savedSection);
+            }
+        }
+        
+        // Set default tab
+        setTimeout(() => {
+            document.getElementById('viewData').style.display = 'block';
+            document.getElementById('viewData').classList.add('active');
+        }, 100);
+        
+        // Attach event listeners
+        attachEventListeners();
+        
+        console.log("Page initialized successfully");
+    } catch (error) {
+        console.error("Error during initialization:", error);
+    }
+}
 
-    // Reset dropdown options
-    xAxisDropdown.innerHTML = '<option value="" disabled selected>Select X-Axis</option>';
-    yAxisDropdown.innerHTML = '<option value="" disabled selected>Select Y-Axis</option>';
-
-    // Populate options
-    columnNames.forEach((column) => {
-        const xOption = document.createElement("option");
-        const yOption = document.createElement("option");
-
-        xOption.value = column;
-        xOption.textContent = column;
-
-        yOption.value = column;
-        yOption.textContent = column;
-
-        xAxisDropdown.appendChild(xOption);
-        yAxisDropdown.appendChild(yOption);
+// User Profile Functions
+function initUserProfile() {
+    console.log("Initializing user profile...");
+    const userIcon = document.getElementById('user-profile-icon');
+    const userDropdown = document.getElementById('user-dropdown');
+    
+    if (!userIcon) {
+        console.error("User icon not found!");
+        return;
+    }
+    
+    userIcon.addEventListener('click', function(e) {
+        e.stopPropagation();
+        console.log("User icon clicked");
+        userDropdown.classList.toggle('show');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (userDropdown.classList.contains('show') && 
+            !userIcon.contains(e.target) && 
+            !userDropdown.contains(e.target)) {
+            userDropdown.classList.remove('show');
+        }
     });
 }
 
-// Add event listener for "Enter" key press in the input field
-document.getElementById("chat_user_query").addEventListener("keyup", function (event) {
-    // Number 13 is the "Enter" key on the keyboard
-    if (event.key === "Enter") {
-        // Cancel the default action, if needed
-        event.preventDefault();
-        // Trigger the button element with a click
-        sendMessage();
-    }
-});
-
-async function generateChart() {
-    const xAxisDropdown = document.getElementById("x-axis-dropdown");
-    const yAxisDropdown = document.getElementById("y-axis-dropdown");
-    const chartTypeDropdown = document.getElementById("chart-type-dropdown");
-
-    const xAxis = xAxisDropdown.value;
-    const yAxis = yAxisDropdown.value;
-    const chartType = chartTypeDropdown.value;
-
-    if (!xAxis || !yAxis || !chartType) {
-        alert("Please select all required fields.");
+// Sidebar Functions - FIXED VERSION
+function initSidebarToggle() {
+    console.log("Initializing sidebar toggle...");
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
+    const sidebar = document.getElementById('session-sidebar');
+    
+    if (!sidebarToggle || !sidebar) {
+        console.error("Sidebar elements not found!");
         return;
     }
-
-    try {
-        const response = await fetch("/generate-chart", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                x_axis: xAxis,
-                y_axis: yAxis,
-                chart_type: chartType,
-                // flatten if tableData is { "Table data": [...] }
-                table_data: table_data["Table data"] || table_data
-            }),
-        });
-
-        const data = await response.json();
-        if (response.ok && data.chart) {
-            const chartContainer = document.getElementById("chart-container");
-            chartContainer.innerHTML = ""; // Clear previous chart
-            const chartDiv = document.createElement("div");
-            chartContainer.appendChild(chartDiv);
-
-            // Render the chart using Plotly
-            Plotly.newPlot(chartDiv, JSON.parse(data.chart).data, JSON.parse(data.chart).layout);
-        } else {
-            alert(data.error || "Failed to generate chart.");
+    
+    // Create overlay if it doesn't exist - BUT ONLY FOR MOBILE
+    if (!document.querySelector('.sidebar-overlay') && window.innerWidth < 768) {
+        const overlay = document.createElement('div');
+        overlay.className = 'sidebar-overlay';
+        document.body.appendChild(overlay);
+        
+        // On mobile, clicking overlay closes sidebar
+        overlay.addEventListener('click', closeSidebar);
+    }
+    
+    sidebarToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        console.log("Sidebar toggle clicked");
+        toggleSidebar();
+    });
+    
+    // On desktop, don't close when clicking outside
+    // On mobile, we already have the overlay handler
+    
+    // Handle escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isSidebarOpen) {
+            closeSidebar();
         }
-    } catch (error) {
-        console.error("Error generating chart:", error);
-        alert("An error occurred while generating the chart.");
-    }
-}
-function openTab(evt, tabName) {
-    let i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.className += " active";
-}
-async function createNewSession() {
-    const res = await fetch('/new-session', { method: 'POST' });
-    if (!res.ok) return;
-
-    // Reload sessions list
-    await loadSessions();
-
-    // Clear UI
-    document.getElementById("chat-messages").innerHTML = "";
-    document.getElementById("tables_container").innerHTML = "";
-    document.getElementById("xlsx-btn").innerHTML = "";
+    });
 }
 
-// Optionally, you can set the default active tab using JavaScript:
-// Modify the DOMContentLoaded event listener
-document.addEventListener('DOMContentLoaded', function () {
-    // Set up initial question type from session
-    const initialQuestionType = document.body.dataset.initialQuestionType || 'generic';
-    document.querySelector(`input[name="questionType"][value="${initialQuestionType}"]`).checked = true;
-
-    // Reset session on page load
-    // fetch('/reset-session', { method: 'POST' })
-    //     .then(response => {
-    //         if (!response.ok) throw new Error('Session reset failed');
-    //         console.log('Session has been reset on page load.');
-    //     })
-    //     .catch(error => {
-    //         console.error('Error resetting session on page load:', error);
-    //     });
-
-    // Set default tab
-    document.getElementsByClassName("tablinks")[0]?.click();
-});
-function toggleDevMode() {
-    const devModeToggle = document.getElementById('devModeToggle');
-    const xlsxbtn = document.getElementById('xlsx-btn'); // Excel button container
-    let interpBtn = document.getElementById('interpBtn'); // check if the buttons already exist
-    let langchainBtn = document.getElementById('langchainBtn');
-
-    if (devModeToggle.checked) {
-        // Create buttons if they don't exist
-        if (!interpBtn) {
-            interpBtn = document.createElement('button');
-            interpBtn.id = 'interpBtn';
-            interpBtn.textContent = 'Interpretation Prompt';
-            interpBtn.className = 'dev-mode-btn';  // Add class for styling
-            xlsxbtn.appendChild(interpBtn);
-            interpBtn.onclick = showinterPrompt;
+function toggleSidebar() {
+    isSidebarOpen = !isSidebarOpen;
+    const sidebar = document.getElementById('session-sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    const sidebarToggleIcon = document.querySelector('.sidebar-toggle i');
+    
+    if (isSidebarOpen) {
+        sidebar.classList.add('sidebar-open');
+        document.body.classList.add('sidebar-open');
+        
+        // Only show overlay on mobile
+        if (overlay && window.innerWidth < 768) {
+            overlay.classList.add('active');
         }
-        if (!langchainBtn) {
-            langchainBtn = document.createElement('button');
-            langchainBtn.id = 'langchainBtn';
-            langchainBtn.textContent = 'Query Prompt';
-            langchainBtn.className = 'dev-mode-btn';  // Add class for styling
-            xlsxbtn.appendChild(langchainBtn);
-            // Add click event to open popup with text file content
-            langchainBtn.onclick = showLangPromptPopup;
-
-        }
+        
+        if (sidebarToggleIcon) sidebarToggleIcon.className = 'fas fa-times';
+        console.log("Sidebar opened");
     } else {
-        // Remove buttons if they exist
-        if (interpBtn) {
-            interpBtn.remove();
+        sidebar.classList.remove('sidebar-open');
+        document.body.classList.remove('sidebar-open');
+        
+        // Hide overlay if it exists
+        if (overlay) {
+            overlay.classList.remove('active');
         }
-        if (langchainBtn) {
-            langchainBtn.remove();
-        }
+        
+        if (sidebarToggleIcon) sidebarToggleIcon.className = 'fas fa-bars';
+        console.log("Sidebar closed");
     }
 }
 
-// Database and Section Dropdown Handling
-function connectToDatabase(selectedDatabase) {
+function closeSidebar() {
+    if (isSidebarOpen) {
+        isSidebarOpen = false;
+        const sidebar = document.getElementById('session-sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+        const sidebarToggleIcon = document.querySelector('.sidebar-toggle i');
+        
+        sidebar.classList.remove('sidebar-open');
+        document.body.classList.remove('sidebar-open');
+        
+        if (overlay) {
+            overlay.classList.remove('active');
+        }
+        
+        if (sidebarToggleIcon) sidebarToggleIcon.className = 'fas fa-bars';
+    }
+}
+
+// Database Functions
+async function connectToDatabase(selectedDatabase) {
+    console.log("Connecting to database:", selectedDatabase);
     const sectionDropdown = document.getElementById('section-dropdown');
     const connectionStatus = document.getElementById('connection-status');
-
-    // Clear previous options
-    sectionDropdown.innerHTML = '<option value="" disabled selected>Select Subject</option>';
-
-    // Update connection status
-    connectionStatus.textContent = `Connecting to ${selectedDatabase}...`;
-    connectionStatus.style.color = 'orange';
-
-    // Get the appropriate section template based on database selection
-    let sectionTemplateId;
-    let sections = [];
-
-    if (selectedDatabase === 'GCP') {
-        sections = ['Demo', 'Mahindra-PoC-V2']; // Directly specify GCP sections
-    } else if (selectedDatabase == 'PostgreSQL-Azure') {
-        sections = [
-            'Mah-POC-Azure'
-        ]; // Directly specify PostgreSQL sections
-    }
-    else if (selectedDatabase == 'Azure SQL') {
-        sections = [
-            'Azure-SQL-DB'
-        ]; // Directly specify PostgreSQL sections
-    }
-    else {
-        console.error('Unknown database selected:', selectedDatabase);
+    
+    if (!sectionDropdown || !connectionStatus) {
+        console.error("Required elements not found!");
         return;
     }
-
+    
+    // Clear previous options
+    sectionDropdown.innerHTML = '<option value="" disabled selected><i class="fas fa-folder"></i> Select Subject</option>';
+    
+    // Update connection status
+    connectionStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
+    connectionStatus.classList.remove('connected');
+    connectionStatus.classList.add('connecting');
+    
+    // Define sections based on database
+    let sections = [];
+    if (selectedDatabase === 'GCP') {
+        sections = ['Demo', 'Mahindra-PoC-V2'];
+    } else if (selectedDatabase === 'PostgreSQL-Azure') {
+        sections = ['Mah-POC-Azure'];
+    } else if (selectedDatabase === 'Azure SQL') {
+        sections = ['Azure-SQL-DB'];
+    } else {
+        console.error('Unknown database selected:', selectedDatabase);
+        connectionStatus.innerHTML = '<i class="fas fa-times-circle"></i> Connection Failed';
+        connectionStatus.classList.remove('connecting');
+        return;
+    }
+    
     // Add sections to dropdown
     sections.forEach(section => {
         const option = document.createElement('option');
@@ -228,231 +209,405 @@ function connectToDatabase(selectedDatabase) {
         option.textContent = section;
         sectionDropdown.appendChild(option);
     });
-
+    
     // Enable the dropdown and update status
     sectionDropdown.disabled = false;
-    connectionStatus.textContent = `Connected to ${selectedDatabase}`;
-    connectionStatus.style.color = 'green';
-
-    // Reset any previous selections
-    sectionDropdown.selectedIndex = 0;
-
-    // // Fetch questions for the default section (if needed)
-    // if (sections.length > 0) {
-    //     fetchQuestions(sections[0]);
-    // }
+    connectionStatus.innerHTML = `<i class="fas fa-check-circle"></i> Connected to ${selectedDatabase}`;
+    connectionStatus.classList.remove('connecting');
+    connectionStatus.classList.add('connected');
+    
+    // Save selection
+    sessionStorage.setItem('selectedDatabase', selectedDatabase);
 }
 
-// Initialize event listeners for database dropdown
-document.addEventListener('DOMContentLoaded', function () {
-    // Database dropdown initialization
-    const savedDatabase = sessionStorage.getItem('selectedDatabase');
-    const savedSection = sessionStorage.getItem('selectedSection');
-    if (savedDatabase) {
-        document.getElementById('database-dropdown').value = savedDatabase;
-        connectToDatabase(savedDatabase);
+// Event Listeners
+function attachEventListeners() {
+    console.log("Attaching event listeners...");
+    
+    // Enter key for chat input
+    const chatInput = document.getElementById("chat_user_query");
+    if (chatInput) {
+        chatInput.addEventListener("keyup", function (event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
     }
-
-    if (savedSection) {
-        document.getElementById('section-dropdown').value = savedSection;
-        fetchQuestions(savedSection);
+    
+    // Section dropdown change
+    const sectionDropdown = document.getElementById('section-dropdown');
+    if (sectionDropdown) {
+        sectionDropdown.addEventListener('change', function() {
+            const selectedDatabase = document.getElementById('database-dropdown').value;
+            const selectedSection = this.value;
+            
+            if (selectedDatabase && selectedSection) {
+                sessionStorage.setItem('selectedSection', selectedSection);
+                fetchQuestions(selectedSection);
+            }
+        });
     }
-
-    // Other initializations
-    document.getElementById("chat-mic-button").addEventListener("click", toggleRecording);
-    document.getElementById("chat_user_query").addEventListener("keyup", function (event) {
-        if (event.key === "Enter") sendMessage();
+    
+    // Question type radio buttons
+    document.querySelectorAll('input[name="questionType"]').forEach(radio => {
+        radio.addEventListener('change', handleQuestionTypeChange);
     });
-
-    // Set default tab
-    document.getElementsByClassName("tablinks")[0]?.click();
-});
-
-// Add this to your DOMContentLoaded event listener
-document.getElementById('section-dropdown').addEventListener('change', function () {
-    const selectedDatabase = document.getElementById('database-dropdown').value;
-    const selectedSection = this.value;
-
-    if (selectedDatabase && selectedSection) {
-        sessionStorage.setItem('selectedDatabase', selectedDatabase);
-        sessionStorage.setItem('selectedSection', selectedSection);
-        location.reload();
+    
+    // Tab navigation
+    const tabButtons = document.querySelectorAll('.tab button');
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const tabName = this.textContent.trim();
+            openTab(e, tabName === 'Data' ? 'viewData' : 'createVisualizations');
+        });
+    });
+    
+    // Initialize first tab as active
+    if (tabButtons.length > 0) {
+        tabButtons[0].classList.add('active');
     }
-});
+    
+    // Copy buttons in modals
+    document.querySelectorAll('.copy-btn-popup').forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const targetEl = document.getElementById(targetId);
+            
+            if (targetEl) {
+                const text = targetEl.textContent.trim();
+                if (text && text !== "No SQL query available") {
+                    navigator.clipboard.writeText(text)
+                        .then(() => showToast('Copied to clipboard!', 'success'))
+                        .catch(err => console.error('Failed to copy:', err));
+                }
+            }
+        });
+    });
+}
 
-// Your existing sendMessage function with modifications
+// Chart Functions
+function loadTableColumns(columnNames) {
+    console.log("Loading table columns:", columnNames);
+    const xAxisDropdown = document.getElementById("x-axis-dropdown");
+    const yAxisDropdown = document.getElementById("y-axis-dropdown");
+    
+    if (!xAxisDropdown || !yAxisDropdown) {
+        console.error("Chart dropdowns not found!");
+        return;
+    }
+    
+    // Reset dropdown options
+    xAxisDropdown.innerHTML = '<option value="" disabled selected>Select X-Axis</option>';
+    yAxisDropdown.innerHTML = '<option value="" disabled selected>Select Y-Axis</option>';
+    
+    // Populate options
+    columnNames.forEach((column) => {
+        const xOption = document.createElement("option");
+        const yOption = document.createElement("option");
+        
+        xOption.value = column;
+        xOption.textContent = column;
+        yOption.value = column;
+        yOption.textContent = column;
+        
+        xAxisDropdown.appendChild(xOption);
+        yAxisDropdown.appendChild(yOption);
+    });
+}
+
+async function generateChart() {
+    console.log("Generating chart...");
+    const xAxisDropdown = document.getElementById("x-axis-dropdown");
+    const yAxisDropdown = document.getElementById("y-axis-dropdown");
+    const chartTypeDropdown = document.getElementById("chart-type-dropdown");
+    const chartLoading = document.getElementById("chart-loading");
+    const chartContainer = document.getElementById("chart-container");
+    
+    const xAxis = xAxisDropdown.value;
+    const yAxis = yAxisDropdown.value;
+    const chartType = chartTypeDropdown.value;
+    
+    if (!xAxis || !yAxis || !chartType) {
+        showToast("Please select all required fields.", "warning");
+        return;
+    }
+    
+    try {
+        chartLoading.style.display = "block";
+        chartContainer.innerHTML = "";
+        
+        const response = await fetch("/generate-chart", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                x_axis: xAxis,
+                y_axis: yAxis,
+                chart_type: chartType,
+                table_data: table_data["Table data"] || table_data
+            }),
+        });
+        
+        const data = await response.json();
+        chartLoading.style.display = "none";
+        
+        if (response.ok && data.chart) {
+            const chartDiv = document.createElement("div");
+            chartDiv.style.width = "100%";
+            chartDiv.style.height = "500px";
+            chartContainer.appendChild(chartDiv);
+            
+            Plotly.newPlot(chartDiv, JSON.parse(data.chart).data, JSON.parse(data.chart).layout);
+            showToast("Chart generated successfully!", "success");
+        } else {
+            throw new Error(data.error || "Failed to generate chart.");
+        }
+    } catch (error) {
+        console.error("Error generating chart:", error);
+        chartLoading.style.display = "none";
+        showToast(error.message, "error");
+    }
+}
+
+// Tab Navigation
+function openTab(evt, tabName) {
+    console.log("Opening tab:", tabName);
+    
+    // Hide all tab content
+    document.querySelectorAll(".tabcontent").forEach(tab => {
+        tab.style.display = "none";
+        tab.classList.remove("active");
+    });
+    
+    // Remove active class from all tab buttons
+    document.querySelectorAll(".tablinks").forEach(tab => {
+        tab.classList.remove("active");
+    });
+    
+    // Show the current tab
+    const activeTab = document.getElementById(tabName);
+    if (activeTab) {
+        activeTab.style.display = "block";
+        activeTab.classList.add("active");
+    }
+    
+    // Set the button that opened the tab as active
+    if (evt && evt.currentTarget) {
+        evt.currentTarget.classList.add("active");
+    }
+}
+
+// Session Management
+async function createNewSession() {
+    console.log("Creating new session...");
+    try {
+        const res = await fetch('/new-session', { method: 'POST' });
+        if (!res.ok) throw new Error('Failed to create new session');
+        
+        // Reload sessions list
+        await loadSessions();
+        
+        // Clear UI
+        clearChatUI();
+        
+        showToast("New session created!", "success");
+    } catch (error) {
+        console.error("Error creating new session:", error);
+        showToast("Failed to create new session", "error");
+    }
+}
+
+function clearChatUI() {
+    document.getElementById("chat-messages").innerHTML = "";
+    document.getElementById("tables_container").innerHTML = "";
+    document.getElementById("xlsx-btn").innerHTML = "";
+    document.getElementById("suggested-questions-container").style.display = "none";
+    document.getElementById("user_query_display").querySelector('span').textContent = "";
+    document.getElementById("sql_query_display").innerHTML = "";
+    document.getElementById("user_query_display").style.display = "none";
+}
+
+// Dev Mode Toggle
+function toggleDevMode() {
+    console.log("Toggling dev mode...");
+    const devModeToggle = document.getElementById('devModeToggle');
+    const xlsxbtn = document.getElementById('xlsx-btn');
+    
+    if (!xlsxbtn) {
+        console.error("xlsx-btn container not found!");
+        return;
+    }
+    
+    if (devModeToggle.checked) {
+        // Create buttons if they don't exist
+        let interpBtn = document.getElementById('interpBtn');
+        let langchainBtn = document.getElementById('langchainBtn');
+        
+        if (!interpBtn) {
+            interpBtn = document.createElement('button');
+            interpBtn.id = 'interpBtn';
+            interpBtn.innerHTML = '<i class="fas fa-comment-alt"></i> Interpretation Prompt';
+            interpBtn.className = 'action-btn';
+            interpBtn.onclick = showinterPrompt;
+            xlsxbtn.appendChild(interpBtn);
+        }
+        
+        if (!langchainBtn) {
+            langchainBtn = document.createElement('button');
+            langchainBtn.id = 'langchainBtn';
+            langchainBtn.innerHTML = '<i class="fas fa-terminal"></i> Query Prompt';
+            langchainBtn.className = 'action-btn';
+            langchainBtn.onclick = showLangPromptPopup;
+            xlsxbtn.appendChild(langchainBtn);
+        }
+        
+        showToast("Developer mode enabled", "success");
+    } else {
+        // Remove buttons if they exist
+        const interpBtn = document.getElementById('interpBtn');
+        const langchainBtn = document.getElementById('langchainBtn');
+        
+        if (interpBtn) interpBtn.remove();
+        if (langchainBtn) langchainBtn.remove();
+        showToast("Developer mode disabled", "info");
+    }
+}
+
+// Main Message Sending Function
 async function sendMessage() {
+    console.log("Sending message...");
     const userQueryInput = document.getElementById("chat_user_query");
     const chatMessages = document.getElementById("chat-messages");
     const typingIndicator = document.getElementById("typing-indicator");
     const queryResultsDiv = document.getElementById('query-results');
     const tablesContainer = document.getElementById("tables_container");
     const xlsxbtn = document.getElementById("xlsx-btn");
-    const sqlQueryContent = document.getElementById("sql-query-content");
-    const langPromptContent = document.getElementById("lang-prompt-content");
-    const interpPromptContent = document.getElementById("interp-prompt-content");
-
+    
     let userMessage = userQueryInput.value.trim();
-    if (!userMessage) return;
-
-    // Clear previous results but keep chat history
-    tablesContainer.innerHTML = "";
-    xlsxbtn.innerHTML = "";
-    sqlQueryContent.textContent = "";
-    langPromptContent.textContent = "";
-    interpPromptContent.textContent = "";
-    document.getElementById("user_query_display").querySelector('span').textContent = "";
-
+    if (!userMessage) {
+        showToast("Please enter a query", "warning");
+        return;
+    }
+    
     // Get selected database and section
     const selectedDatabase = document.getElementById('database-dropdown').value;
     const selectedSection = document.getElementById('section-dropdown').value;
-
+    
     if (!selectedDatabase || !selectedSection) {
-        alert("Please select both a database and a subject area");
+        showToast("Please select both a database and a subject area", "warning");
         return;
     }
-
+    
+    // Clear previous results
+    tablesContainer.innerHTML = "";
+    xlsxbtn.innerHTML = "";
+    document.getElementById("suggested-questions-container").style.display = "none";
+    document.getElementById("user_query_display").style.display = "none";
+    
     // Append user message to chat
-    chatMessages.innerHTML += `
-        <div class="message user-message">
-            <div class="message-content">${userMessage}</div>
-        </div>
-    `;
+    appendMessage(userMessage, 'user');
     userQueryInput.value = "";
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
+    
     // Show loading state
     typingIndicator.style.display = "flex";
     queryResultsDiv.style.display = "block";
-
+    
     try {
         const formData = new FormData();
         formData.append('user_query', userMessage);
         formData.append('section', selectedSection);
         formData.append('database', selectedDatabase);
-
-        const response = await fetch("/submit", {
-            method: "POST",
-            body: formData
-        });
-
+        
+        console.log("Sending request to server...");
+        const response = await fetch("/submit", { method: "POST", body: formData });
         const data = await response.json();
+        console.log("Server response:", data);
+        
+        // Hide typing indicator
+        typingIndicator.style.display = "none";
+        
+        if (!response.ok) {
+            throw new Error(data.chat_response || "An error occurred");
+        }
+        
+        // Store table data
         if (data.tables_data) {
-            // Convert the table data from server to a format we can use
             clientTableData = {};
             for (const tableName in data.tables_data) {
                 if (data.tables_data[tableName] && data.tables_data[tableName]['Table data']) {
                     clientTableData[tableName] = data.tables_data[tableName]['Table data'];
                 }
             }
+            table_data = data.tables_data;
         }
-        // Always show these elements regardless of success/error
-        sqlQueryContent.textContent = data.query || "";
-        interpPromptContent.textContent = data.interprompt || "";
-
-        // Format and display langprompt
-        const langdata = data.langprompt?.match(/template='([\s\S]*?)'\)\),/);
-        let promptText = langdata ? langdata[1] : data.langprompt || "Not available";
-        promptText = promptText.replace(/\\n/g, '\n');
-        langPromptContent.textContent = promptText;
-        Prism.highlightElement(langPromptContent);
-
-        // Hide typing indicator
-        typingIndicator.style.display = "none";
-        table_data = data.tables_data;
-        glob_table_data = table_data
-        if (!response.ok) {
-            // Error case - show error message but keep prompts visible
-            chatMessages.innerHTML += `
-                <div class="message ai-message error">
-                    <div class="message-content">
-                        <strong>Error:</strong> ${data.chat_response || "An unknown error occurred"}
-                    </div>
-                </div>
-            `;
-        } else {
-            // Success case
-            let botResponse = "";
-
-            if (!data.query) {
-                botResponse = data.chat_response || "I couldn't find any insights for this query.";
-            } else {
-                botResponse = data.chat_response || "";
-            }
-                        
-               // Check for suggested questions in the response
-            const hasSuggestedQuestions = data.suggested_questions && 
-                                 Array.isArray(data.suggested_questions) && 
-                                 data.suggested_questions.length > 0;
-
-
-            chatMessages.innerHTML += `
-                <div class="message ai-message">
-                    <div class="message-content">
-                        <strong>LLM Interpretation:</strong> ${data.llm_response || "Not available"}<br><br>
-                        ${botResponse}
-                    </div>
-                </div>
-            `;
-
-
-            // Display suggested questions if available
-            if (hasSuggestedQuestions) {
-            // Hide any existing suggestions first
-                document.getElementById("suggested-questions-container").style.display = "none";
-                
-            // Use setTimeout to ensure DOM is updated before showing new suggestions
-                setTimeout(() => {
-                    displaySuggestedQuestions(data.suggested_questions);
-                }, 100);
-            } else {
-            // Hide suggestions container if no suggestions
-                document.getElementById("suggested-questions-container").style.display = "none";
-            }
-
-            if (data.tables) {
-                console.log()
-                const rows = table_data["Table data"];
-                const columnNames = (rows && rows.length > 0) ? Object.keys(rows[0]) : [];
-
-                // Now call your function with the column names
-                loadTableColumns(columnNames);
-                updatePageContent(data);
-            }
+        
+        // Append AI response
+        let botResponse = data.chat_response || "I couldn't find any insights for this query.";
+        let fullResponse = `<strong>LLM Interpretation:</strong> ${data.llm_response || "Not available"}<br><br>${botResponse}`;
+        appendMessage(fullResponse, 'ai');
+        
+        // Display suggested questions if available
+        if (data.suggested_questions && Array.isArray(data.suggested_questions) && data.suggested_questions.length > 0) {
+            setTimeout(() => displaySuggestedQuestions(data.suggested_questions), 100);
         }
+        
+        // Update page content
         updatePageContent(data);
-
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-        table_data = data.tables_data;
-
-        if (data.tables) {
-            console.log()
-            const rows = table_data["Table data"];
-            const columnNames = (rows && rows.length > 0) ? Object.keys(rows[0]) : [];
-
-            // Now call your function with the column names
-            loadTableColumns(columnNames);
-            updatePageContent(data);
+        
+        // Load table columns for visualization
+        if (data.tables && data.tables_data) {
+            const rows = data.tables_data["Table data"] || [];
+            if (rows.length > 0) {
+                const columnNames = Object.keys(rows[0]);
+                loadTableColumns(columnNames);
+            }
         }
+        
     } catch (error) {
         console.error("Error:", error);
         typingIndicator.style.display = "none";
-
-        chatMessages.innerHTML += `
-            <div class="message ai-message error">
-                <div class="message-content">
-                    <strong> Please try again.
-                </div>
-            </div>
-        `;
-
-        // Clear prompts on complete failure
-        sqlQueryContent.textContent = "Not available due to network error";
-        interpPromptContent.textContent = "";
-        langPromptContent.textContent = "";
+        appendMessage(`<strong>Error:</strong> ${error.message}. Please try again.`, 'ai');
     }
 }
+
+// Helper Functions
+function appendMessage(content, sender) {
+    const chatMessages = document.getElementById("chat-messages");
+    const messageDiv = document.createElement("div");
+    messageDiv.className = `message ${sender}-message`;
+    messageDiv.innerHTML = `<div class="message-content">${content}</div>`;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function showToast(message, type = "info") {
+    const toast = document.getElementById("custom-toast");
+    if (!toast) {
+        console.error("Toast element not found!");
+        return;
+    }
+    
+    const colors = {
+        success: "#4CAF50",
+        error: "#f44336",
+        warning: "#FF9800",
+        info: "#2196F3"
+    };
+    
+    toast.textContent = message;
+    toast.style.backgroundColor = colors[type] || colors.info;
+    toast.style.display = "block";
+    
+    // Auto-hide after 3 seconds
+    setTimeout(() => {
+        toast.style.display = "none";
+    }, 3000);
+}
+
+// Pagination Functions
 function setupClientPagination(tableName, fullData, currentPage, recordsPerPage) {
+    console.log("Setting up pagination for", tableName, "with", fullData.length, "records");
+    
     if (!fullData || !Array.isArray(fullData)) {
         console.error(`Invalid data for table ${tableName}`, fullData);
         return;
@@ -460,777 +615,358 @@ function setupClientPagination(tableName, fullData, currentPage, recordsPerPage)
     
     const totalRecords = fullData.length;
     const totalPages = Math.ceil(totalRecords / recordsPerPage);
-    
-    // Ensure currentPage is within bounds
     currentPage = Math.max(1, Math.min(currentPage, totalPages));
     
     renderTablePage(tableName, fullData, currentPage, recordsPerPage);
     updatePaginationLinks(tableName, currentPage, totalPages, recordsPerPage);
 }
-function changePage(tableName, pageNumber, recordsPerPage) {
-    console.log(`Changing to page ${pageNumber} for table ${tableName}`);
-    console.log('Client table data:', clientTableData);
-    
+
+function changePage(tableName, pageNumber, recordsPerPage = 10) {
+    console.log("Changing to page", pageNumber, "for table", tableName);
     const fullData = clientTableData[tableName];
     if (!fullData) {
-        console.error(`No data found for table: ${tableName}`);
+        console.error("No data found for table:", tableName);
         return;
     }
-    
     setupClientPagination(tableName, fullData, pageNumber, recordsPerPage);
 }
 
 function renderTablePage(tableName, fullData, pageNumber, recordsPerPage) {
+    console.log("Rendering page", pageNumber, "of table", tableName);
     const startIndex = (pageNumber - 1) * recordsPerPage;
     const endIndex = startIndex + recordsPerPage;
     const pageData = fullData.slice(startIndex, endIndex);
-    
-    // Pass pageNumber to generateTableHtml
     const tableHtml = generateTableHtml(pageData, pageNumber, recordsPerPage);
     
     const tableDiv = document.getElementById(`${tableName}_table`);
     if (tableDiv) {
         tableDiv.innerHTML = tableHtml;
+    } else {
+        console.error("Table div not found:", `${tableName}_table`);
     }
 }
+
 function generateTableHtml(data, pageNumber = 1, recordsPerPage = 10) {
     if (!data || data.length === 0) return '<div class="no-data">No data available</div>';
     
     let html = '<table class="data-table"><thead><tr><th>S.No</th>';
-    
-    // Create headers from the first item's keys
     Object.keys(data[0]).forEach(header => {
         html += `<th>${header}</th>`;
     });
     html += '</tr></thead><tbody>';
     
-    // Calculate starting serial number based on page number
     const startSerial = (pageNumber - 1) * recordsPerPage + 1;
-    
-    // Create rows with correct serial numbers
     data.forEach((row, index) => {
-        html += `<tr><td>${startSerial + index}</td>`; // Use calculated serial number
-        
+        html += `<tr><td>${startSerial + index}</td>`;
         Object.values(row).forEach(cell => {
-            html += `<td>${cell}</td>`;
+            html += `<td>${cell !== null && cell !== undefined ? cell : 'N/A'}</td>`;
         });
         html += '</tr>';
     });
-    
     html += '</tbody></table>';
     return html;
-}// Your existing mic recording function
+}
+
+// Voice Recording
 async function toggleRecording() {
+    console.log("Toggling recording...");
     const micButton = document.getElementById("chat-mic-button");
-
+    
     if (!isRecording) {
-        // Store the original button HTML before changing it
-        originalButtonHTML = micButton.innerHTML;
-
         // Start recording
-        micButton.innerHTML = "Recording... (Click to stop)";
-
+        originalButtonHTML = micButton.innerHTML;
+        micButton.innerHTML = '<i class="fas fa-stop"></i>';
+        micButton.style.color = "#f44336";
         isRecording = true;
-        audioChunks = []; // Reset recorded data
-
+        audioChunks = [];
+        
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
-
+            
             mediaRecorder.ondataavailable = (event) => {
-                if (event.data.size > 0) {
-                    audioChunks.push(event.data);
-                }
+                if (event.data.size > 0) audioChunks.push(event.data);
             };
-
+            
             mediaRecorder.onstop = async () => {
-                isRecording = false; // Allow next recording
-
+                isRecording = false;
+                micButton.innerHTML = originalButtonHTML;
+                micButton.style.color = "";
+                
                 if (audioChunks.length === 0) {
-                    alert("No audio recorded.");
+                    showToast("No audio recorded", "warning");
                     return;
                 }
-
+                
                 const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
                 const formData = new FormData();
                 formData.append("file", audioBlob, "recording.webm");
-
+                
                 try {
-                    console.log("Sending audio file to server...");
-                    const response = await fetch("/transcribe-audio/", {
-                        method: "POST",
-                        body: formData
-                    });
-
+                    const response = await fetch("/transcribe-audio/", { method: "POST", body: formData });
                     const data = await response.json();
-                    console.log("Server Response:", data);
-
+                    
                     if (data.transcription) {
                         document.getElementById("chat_user_query").value = data.transcription;
+                        showToast("Audio transcribed successfully", "success");
                     } else {
-                        alert("Failed to transcribe audio.");
+                        showToast("Failed to transcribe audio", "error");
                     }
                 } catch (error) {
                     console.error("Error transcribing audio:", error);
-                    alert("An error occurred while transcribing.");
+                    showToast("Transcription failed", "error");
                 }
-
-                // Restore the original button HTML (image inside button)
-                micButton.innerHTML = originalButtonHTML;
             };
-
+            
             mediaRecorder.start();
-            console.log("Recording started...");
+            showToast("Recording started... Click again to stop", "info");
         } catch (error) {
-            console.error("Microphone access denied or error:", error);
-            alert("Microphone access denied. Please allow microphone permissions.");
+            console.error("Microphone access denied:", error);
             isRecording = false;
+            micButton.innerHTML = originalButtonHTML;
+            showToast("Microphone access denied", "error");
         }
     } else {
         // Stop recording
         if (mediaRecorder && mediaRecorder.state === "recording") {
             mediaRecorder.stop();
-            console.log("Recording stopped.");
         }
     }
 }
 
-
-// Initialize mic button listener
-document.getElementById("chat-mic-button").addEventListener("click", toggleRecording); async function toggleRecording() {
-    const micButton = document.getElementById("chat-mic-button");
-
-    if (!isRecording) {
-        // Store the original button HTML before changing it
-        originalButtonHTML = micButton.innerHTML;
-
-        // Start recording
-        micButton.innerHTML = "Recording... (Click to stop)";
-
-        isRecording = true;
-        audioChunks = []; // Reset recorded data
-
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
-
-            mediaRecorder.ondataavailable = (event) => {
-                if (event.data.size > 0) {
-                    audioChunks.push(event.data);
-                }
-            };
-
-            mediaRecorder.onstop = async () => {
-                isRecording = false; // Allow next recording
-
-                if (audioChunks.length === 0) {
-                    alert("No audio recorded.");
-                    return;
-                }
-
-                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                const formData = new FormData();
-                formData.append("file", audioBlob, "recording.webm");
-
-                try {
-                    console.log("Sending audio file to server...");
-                    const response = await fetch("/transcribe-audio/", {
-                        method: "POST",
-                        body: formData
-                    });
-
-                    const data = await response.json();
-                    console.log("Server Response:", data);
-
-                    if (data.transcription) {
-                        document.getElementById("chat_user_query").value = data.transcription;
-                    } else {
-                        alert("Failed to transcribe audio.");
-                    }
-                } catch (error) {
-                    console.error("Error transcribing audio:", error);
-                    alert("An error occurred while transcribing.");
-                }
-
-                // Restore the original button HTML (image inside button)
-                micButton.innerHTML = originalButtonHTML;
-            };
-
-            mediaRecorder.start();
-            console.log("Recording started...");
-        } catch (error) {
-            console.error("Microphone access denied or error:", error);
-            alert("Microphone access denied. Please allow microphone permissions.");
-            isRecording = false;
-        }
-    } else {
-        // Stop recording
-        if (mediaRecorder && mediaRecorder.state === "recording") {
-            mediaRecorder.stop();
-            console.log("Recording stopped.");
-        }
-    }
-}
-
-// Attach event listener to button
-document.getElementById("chat-mic-button").addEventListener("click", toggleRecording);
-// document.getElementById("section-dropdown")?.addEventListener("change", (event) => {
-//     fetchQuestions(event.target.value)
-// });
-
-// Event listener for table dropdown change (if it exists)
-document.getElementById("table-dropdown")?.addEventListener("change", (event) => {
-    document.getElementById("download-button").style.display = event.target.value ? "block" : "none";
-});
-/**
- *
- */
-/**
- * Resets the session state by making a POST request to the backend.
- */
-function resetSession() {
-  window.location.reload();
-}
-// Helper functions for UI feedback (you'll need to implement these or use a library)
-function showToastMessage(message, type = 'info') {
-    // Implement or replace with your preferred notification system
-    // Example using a library: Toastify, SweetAlert, etc.
-    alert(message); // Fallback - replace with better UI
-}
-
-function showLoadingIndicator(message) {
-    // Could be a spinner with text, progress bar, etc.
-    console.log("Loading: " + message); // Fallback
-}
-
-function hideLoadingIndicator() {
-    // Hide whatever loading indicator you showed
-    console.log("Loading complete"); // Fallback
-}
-
-async function fetchQuestions(selectedSection) {
-    const questionDropdown = document.getElementById("faq-questions"); // Get datalist
-    questionDropdown.innerHTML = ''; // Clear previous options
-
-    if (selectedSection) {
-        try {
-            const response = await fetch(`/get_questions?subject=${selectedSection}`);
-            const data = await response.json();
-
-            if (data.questions && data.questions.length > 0) {
-                data.questions.forEach(question => {
-                    const option = document.createElement("option");
-                    option.value = question; // Set the value directly
-                    questionDropdown.appendChild(option);
-                });
-            } else {
-                console.warn(`No questions found for section: ${selectedSection}`);
-            }
-        } catch (error) {
-            console.error("Error fetching questions:", error);
-        }
-    }
-}
-async function submitFeedback(tableName, feedbackType) {
-    const userQueryInput = document.getElementById("chat_user_query");
-    const userQuery = userQueryInput.value;
-    const sqlQueryDisplay = document.getElementById("sql_query_display");
-    const sqlQuery = sqlQueryDisplay.textContent.replace('SQL Query:', '').trim();
-
-    try {
-        const response = await fetch("/submit_feedback", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                table_name: tableName,
-                feedback_type: feedbackType,
-                user_query: userQuery,
-                sql_query: sqlQuery
-            }),
-        });
-
-        const data = await response.json();
-        const feedbackMessageElement = document.getElementById(`${tableName}_feedback_message`);
-        feedbackMessageElement.textContent = data.message; // Display server's message
-        feedbackMessageElement.style.color = (data.success) ? 'green' : 'red'; // Color code the message
-    } catch (error) {
-        console.error("Error submitting feedback:", error);
-        const feedbackMessageElement = document.getElementById(`${tableName}_feedback_message`);
-        feedbackMessageElement.textContent = "Failed to submit feedback.";
-        feedbackMessageElement.style.color = 'red';
-    }
-}
-// // Ensure that the function is called when the section is selected
-// document.getElementById("section-dropdown")?.addEventListener("change", (event) => {
-//     fetchQuestions(event.target.value);
-// });
-
-/**
- *
- */
-function clearQuery() {
-    const userQueryInput = document.getElementById("chat_user_query"); // changed id
-    userQueryInput.value = ""
-
-}
-/**
- *
- */
-function chooseExampleQuestion() {
-    const questionDropdown = document.getElementById("questions-dropdown");
-    const selectedQuestion = questionDropdown.options[questionDropdown.selectedIndex].text;
-    if (!selectedQuestion || selectedQuestion === "Select a Question") {
-        alert("Please select a question.");
-        return;
-    }
-    const userQueryInput = document.getElementById("chat_user_query"); // changed id
-    userQueryInput.value = selectedQuestion;
-}
-/**
- *
- */
-document.addEventListener("DOMContentLoaded", function () {
-    const toggleBtn = document.getElementById("toggle-query-btn");
-    const userQueryDisplay = document.getElementById("user_query_display");
-
-    toggleBtn.addEventListener("click", function () {
-        if (userQueryDisplay.style.display === "none" || userQueryDisplay.style.display === "") {
-            userQueryDisplay.style.display = "block";
-            this.textContent = "Hide Description";
-        } else {
-            userQueryDisplay.style.display = "none";
-            this.textContent = "Show Description";
-        }
-    });
-});
-document.querySelectorAll('.copy-btn-popup').forEach(button => {
-    button.addEventListener('click', () => {
-        const targetId = button.getAttribute('data-target');
-        const targetEl = document.getElementById(targetId);
-
-        if (targetEl) {
-            const text = targetEl.textContent.trim();
-            if (text && text !== "No SQL query available") {
-                navigator.clipboard.writeText(text)
-                    .then(() => alert('Copied to clipboard!'))
-                    .catch(err => console.error('Failed to copy:', err));
-            }
-        }
-    });
-});
-function updatePageContent(data) {
-    document.getElementById("suggested-questions-container").style.display = "none";
-    const userQueryDisplay = document.getElementById("user_query_display");
-    const sqlQueryContent = document.getElementById("sql-query-content");
-    const tablesContainer = document.getElementById("tables_container");
-    const xlsxbtn = document.getElementById("xlsx-btn");
-    const selectedSection = document.getElementById('section-dropdown').value;
-    // Always update these elements regardless of success/failure
-    userQueryDisplay.querySelector('span').textContent = data.user_query || "";
-    const formattedQuery = data.query
-            .replace(/FROM/g, '\nFROM')
-            .replace(/WHERE/g, '\nWHERE')
-            .replace(/INNER JOIN/g, '\nINNER JOIN')
-            .replace(/LEFT JOIN/g, '\nLEFT JOIN')
-            .replace(/RIGHT JOIN/g, '\nRIGHT JOIN')
-            .replace(/FULL JOIN/g, '\nFULL JOIN')
-            .replace(/GROUP BY/g, '\nGROUP BY')
-            .replace(/ORDER BY/g, '\nORDER BY')
-            .replace(/HAVING/g, '\nHAVING')
-            .replace(/SELECT/g, '\nSELECT')
-            .replace(/ON/g, '\nON');
-    sqlQueryContent.textContent = formattedQuery || "No SQL query available";
-
-    // Clear containers
-    tablesContainer.innerHTML = "";
-    xlsxbtn.innerHTML = "";
-
-    // Always create these buttons (they'll be visible but potentially disabled)
-    const viewQueryBtn = document.createElement("button");
-    viewQueryBtn.textContent = "SQL Query";
-    viewQueryBtn.id = "view-sql-query-btn";
-    viewQueryBtn.onclick = showSQLQueryPopup;
-    viewQueryBtn.style.display = "block";
-    viewQueryBtn.disabled = !data.query; // Disable if no query available
-
-    const faqBtn = document.createElement("button");
-    faqBtn.textContent = "Add to FAQs";
-    faqBtn.id = "add-to-faqs-btn";
-    faqBtn.onclick = () => addToFAQs(selectedSection);
-    faqBtn.style.display = "block";
-
-    // const emailBtn = document.createElement("button");
-    // emailBtn.id = "send-email-btn";
-    // emailBtn.textContent = "Send Email";
-    // emailBtn.style.display = "block";
-    // emailBtn.disabled = !data.tables; // Disable if no tables available
-
-    // Add buttons to container
-    xlsxbtn.appendChild(viewQueryBtn);
-    xlsxbtn.appendChild(faqBtn);
-    // xlsxbtn.appendChild(emailBtn);
-
-    // Add copy button for SQL query
-    // const copyButton = document.createElement('button');
-    // copyButton.innerHTML = '<i class="fas fa-copy"></i>';
-    // copyButton.className = 'copy-btn-popup';
-    // copyButton.addEventListener('click', () => {
-    //     const sqlQueryText = sqlQueryContent.textContent;
-    //     if (sqlQueryText && sqlQueryText !== "No SQL query available") {
-    //         navigator.clipboard.writeText(sqlQueryText)
-    //             .then(() => alert('SQL query copied to clipboard!'))
-    //             .catch(err => console.error('Failed to copy:', err));
-    //     }
-    // });
-    // sqlQueryContent.parentNode.appendChild(copyButton);
-
-    // Handle table display (if data exists)
-    if (data.tables && data.tables.length > 0) {
-        data.tables.forEach((table) => {
-            if (data.tables_data && data.tables_data[table.table_name]) {
-                clientTableData[table.table_name] = data.tables_data[table.table_name]['Table data'] ||
-                    data.tables_data[table.table_name];
-            }
-            const tableWrapper = document.createElement("div");
-            tableWrapper.innerHTML = `
-                <div id="${table.table_name}_table">${table.table_html}</div>
-                <div id="${table.table_name}_pagination"></div>
-                <div class="feedback-section">
-                    <button class="like-button" data-table="${table.table_name}" onclick="submitFeedback('${table.table_name}', 'like')">Like</button>
-                    <button class="dislike-button" data-table="${table.table_name}" onclick="submitFeedback('${table.table_name}', 'dislike')">Dislike</button>
-                    <span id="${table.table_name}_feedback_message"></span>
-                </div>
-            `;
-            tablesContainer.appendChild(tableWrapper);
-            table_data = data.tables_data;
-
-            // Add download button for each table
-            const downloadButton = document.createElement("button");
-            downloadButton.id = `download-button-${table.table_name}`;
-            downloadButton.className = "download-btn";
-            downloadButton.innerHTML = `<img src="static/excel.png" alt="xlsx" class="excel-icon"> Download Excel`;
-            downloadButton.onclick = () => downloadSpecificTable(table_data);
-            xlsxbtn.appendChild(downloadButton);
-
-            setupClientPagination(
-                table.table_name,
-                clientTableData[table.table_name],
-                table.pagination.current_page,
-                table.pagination.records_per_page
-            );
-        });
-    } else {
-        tablesContainer.innerHTML = `<div class="no-data-message">
-            <p>${data.chat_response || "No data available"}</p>
-        </div>`;
-    }
-}/**
- *
- */
-function addToFAQs(subject) {
-    let userQuery = document.querySelector("#user_query_display span").innerText;
-
-    if (!userQuery.trim()) {
-        document.getElementById("faq-message").innerText = "Query cannot be empty!";
-        return;
-    }
-
-    fetch(`/add_to_faqs?subject=${encodeURIComponent(subject)}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ query: userQuery })
-    })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("faq-message").innerText = data.message;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById("faq-message").innerText = "Failed to add query to FAQs!";
-        });
-}
-/**
- * @param {any} tableName
- */
-function downloadSpecificTable(table_data) {
-    // Send a POST request with table_data as JSON
-    fetch('/download-table', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            table_name: "DBQuery_data",
-            table_data: table_data
-        })
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.blob(); // Get the binary Excel file
-        })
-        .then(blob => {
-            // Create a link to download the file
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `DBQuery_data.xlsx`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            window.URL.revokeObjectURL(url);
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-        });
-}
-/**
- *
- */
-function updatePaginationLinks(tableName, currentPage, totalPages, recordsPerPage) {
-    const paginationDiv = document.getElementById(`${tableName}_pagination`);
-    if (!paginationDiv) return;
-
-    paginationDiv.innerHTML = "";
-    const paginationList = document.createElement("ul");
-    paginationList.className = "pagination";
-
-    // Calculate start and end pages to display
-    let startPage = Math.max(1, currentPage - 2);
-    let endPage = Math.min(totalPages, startPage + 4);
-
-    // Ensure at most 5 page numbers are shown
-    if (endPage - startPage < 4) {
-        startPage = Math.max(1, endPage - 4);
-    }
-
-    // Previous Button
-    const prevLi = document.createElement("li");
-    prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
-    prevLi.innerHTML = `<a href="javascript:void(0);" onclick="${currentPage > 1 ? `changePage('${tableName}', ${currentPage - 1}, ${recordsPerPage})` : 'return false;'}" class="page-link">« Prev</a>`;
-    paginationList.appendChild(prevLi);
-
-    // Show "1 ..." if the startPage is greater than 1
-    if (startPage > 1) {
-        const firstPageLi = document.createElement("li");
-        firstPageLi.className = "page-item";
-        firstPageLi.innerHTML = `<a href="javascript:void(0);" onclick="changePage('${tableName}', 1, ${recordsPerPage})" class="page-link">1</a>`;
-        paginationList.appendChild(firstPageLi);
-
-        if (startPage > 2) {
-            const dotsLi = document.createElement("li");
-            dotsLi.className = "page-item disabled";
-            dotsLi.innerHTML = `<span class="page-link">...</span>`;
-            paginationList.appendChild(dotsLi);
-        }
-    }
-
-    // Page Numbers
-    for (let page = startPage; page <= endPage; page++) {
-        const pageLi = document.createElement("li");
-        pageLi.className = `page-item ${page === currentPage ? 'active' : ''}`;
-        pageLi.innerHTML = `<a href="javascript:void(0);" onclick="changePage('${tableName}', ${page}, ${recordsPerPage})" class="page-link">${page}</a>`;
-        paginationList.appendChild(pageLi);
-    }
-
-    // Show "... totalPages" if endPage is less than totalPages
-    if (endPage < totalPages) {
-        if (endPage < totalPages - 1) {
-            const dotsLi = document.createElement("li");
-            dotsLi.className = "page-item disabled";
-            dotsLi.innerHTML = `<span class="page-link">...</span>`;
-            paginationList.appendChild(dotsLi);
-        }
-        const lastPageLi = document.createElement("li");
-        lastPageLi.className = "page-item";
-        lastPageLi.innerHTML = `<a href="javascript:void(0);" onclick="changePage('${tableName}', ${totalPages}, ${recordsPerPage})" class="page-link">${totalPages}</a>`;
-        paginationList.appendChild(lastPageLi);
-    }
-
-    // Next Button
-    const nextLi = document.createElement("li");
-    nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
-    nextLi.innerHTML = `<a href="javascript:void(0);" onclick="${currentPage < totalPages ? `changePage('${tableName}', ${currentPage + 1}, ${recordsPerPage})` : 'return false;'}" class="page-link">Next »</a>`;
-    paginationList.appendChild(nextLi);
-
-    paginationDiv.appendChild(paginationList);
-}
-// Function to show SQL query in popup
-function showSQLQueryPopup() {
-    const sqlQueryText = document.getElementById("sql-query-content").textContent;
-
-    if (!sqlQueryText.trim()) {
-        alert("No SQL query available.");
-        return;
-    }
-
-    document.getElementById("sql-query-content").textContent = sqlQueryText;
-    document.getElementById("sql-query-popup").style.display = "flex";
-    Prism.highlightAll(); // Apply syntax highlighting
-}
-
-// Function to close the popup
-function closeSQLQueryPopup() {
-    document.getElementById("sql-query-popup").style.display = "none";
-}
-function showLangPromptPopup() {
-    document.getElementById("lang-prompt-popup").style.display = "flex";
-}
-
-
-// Function to close the popup
-function closepromptPopup() {
-    document.getElementById("lang-prompt-popup").style.display = "none";
-}
-function showinterPrompt() {
-    document.getElementById("interp-prompt-popup").style.display = "flex";
-}
-
-function closeinterpromptPopup() {
-    document.getElementById("interp-prompt-popup").style.display = "none";
-}
-
-
-// to handle the radio button for generic and usecasebased question
-
-// Function to handle question type change
+// Question Type Handler
 async function handleQuestionTypeChange(event) {
+    console.log("Changing question type to:", event.target.value);
     const questionType = event.target.value;
     const radioButtons = document.querySelectorAll('input[name="questionType"]');
-
-    // Disable radios during processing
+    
     radioButtons.forEach(radio => radio.disabled = true);
-
+    
     try {
-        // First reset the session
-        const resetResponse = await fetch('/new-session', { method: 'POST' });
-        if (!resetResponse.ok) throw new Error('Session reset failed');
-
-        // Then set the new question type
-        const typeResponse = await fetch('/set-question-type', {
+        await fetch('/new-session', { method: 'POST' });
+        await fetch('/set-question-type', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ question_type: questionType })
         });
-
-        if (!typeResponse.ok) throw new Error('Failed to set question type');
-
-        // Clear UI elements
-        document.getElementById("chat-messages").innerHTML = "";
-        document.getElementById("user_query_display").querySelector('span').textContent = ""; // Clear user query display
-        document.getElementById("tables_container").innerHTML = "";
-        document.getElementById("xlsx-btn").innerHTML = "";
-
-        // Refresh questions if section is selected
-        const selectedSection = document.getElementById('section-dropdown').value;
-        if (selectedSection) {
-            await fetchQuestions(selectedSection);
-        }
-
-        showToastMessage(`Switched to ${questionType} mode!`, 'success');
+        
+        clearChatUI();
+        showToast(`Switched to ${questionType} mode!`, "success");
     } catch (error) {
         console.error("Error changing question type:", error);
-        // Revert to previous selection
         event.target.checked = false;
         const currentType = document.body.dataset.initialQuestionType || 'generic';
         document.querySelector(`input[name="questionType"][value="${currentType}"]`).checked = true;
-        showToastMessage("Could not change question type. Try again.", 'error');
+        showToast("Could not change question type", "error");
     } finally {
-        // Re-enable radios
         radioButtons.forEach(radio => radio.disabled = false);
     }
 }
 
-// Attach event listeners to all radio buttons with name="questionType"
-document.querySelectorAll('input[name="questionType"]').forEach(radio => {
-    radio.addEventListener('change', handleQuestionTypeChange);
-});
+// Session Management
 async function loadSessions() {
-    const res = await fetch("/sessions");
-    if (!res.ok) return;
-
-    const sessions = await res.json();
-    const list = document.getElementById("session-list");
-    list.innerHTML = "";
-
-    sessions.forEach(s => {
-        const div = document.createElement("div");
-        div.className = "session-item";
-        div.innerText = s.title;
-        div.onclick = () => loadSessionMessages(s.session_id);
-        list.appendChild(div);
-    });
+    try {
+        console.log("Loading sessions...");
+        const res = await fetch("/sessions");
+        if (!res.ok) {
+            console.error("Failed to fetch sessions");
+            return;
+        }
+        
+        const sessions = await res.json();
+        console.log("Sessions loaded:", sessions);
+        const list = document.getElementById("session-list");
+        
+        if (!list) {
+            console.error("Session list container not found!");
+            return;
+        }
+        
+        list.innerHTML = "";
+        
+        // Add sessions to main list
+        sessions.forEach((s, index) => {
+            const sessionDiv = createSessionElement(s);
+            list.appendChild(sessionDiv);
+        });
+        
+        // Mark first session as active if none is active
+        if (sessions.length > 0 && !document.querySelector('.session-item.active')) {
+            const firstSession = document.querySelector('.session-item');
+            if (firstSession) {
+                firstSession.classList.add('active');
+            }
+        }
+        
+    } catch (error) {
+        console.error("Error loading sessions:", error);
+    }
 }
+
+// SINGLE createSessionElement function
+function createSessionElement(session) {
+    const div = document.createElement("div");
+    div.className = "session-item";
+    div.dataset.sessionId = session.session_id || session.id;
+    div.dataset.sessionTitle = session.title || 'Untitled Session';
+    
+    // Truncate title if too long
+    let displayTitle = session.title || 'Untitled Session';
+    if (displayTitle.length > 40) {
+        displayTitle = displayTitle.substring(0, 40) + '...';
+    }
+    
+    div.innerHTML = `
+        <i class="fas fa-comment"></i>
+        <div class="session-content">
+            <div class="session-title">${displayTitle}</div>
+            <div class="session-time">${formatTime(session.timestamp || session.created_at || Date.now())}</div>
+        </div>
+    `;
+    
+    // Add click event listener
+    div.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        await loadSessionMessages(session.session_id || session.id);
+    });
+    
+    return div;
+}
+
+function formatTime(timestamp) {
+    try {
+        const date = new Date(timestamp);
+        const now = new Date();
+        const diffMs = now - date;
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMs / 3600000);
+        const diffDays = Math.floor(diffMs / 86400000);
+        
+        if (diffMins < 1) return 'Just now';
+        if (diffMins < 60) return `${diffMins}m ago`;
+        if (diffHours < 24) return `${diffHours}h ago`;
+        if (diffDays < 7) return `${diffDays}d ago`;
+        
+        return date.toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    } catch (error) {
+        return 'Recent';
+    }
+}
+
 async function loadSessionMessages(sessionId) {
-    const res = await fetch(`/sessions/${sessionId}`);
-    const data = await res.json();
-
-    const chat = document.getElementById("chat-messages");
-    chat.innerHTML = "";
-
-    data.messages.forEach(m => {
-        const div = document.createElement("div");
-        div.className = `message user-message`;
-        div.innerHTML = `<div class="message-content">${m.content}</div>`;
-        chat.appendChild(div);
-    });
+    console.log("Loading session messages for ID:", sessionId);
+    
+    try {
+        // Show loading state
+        const chatMessages = document.getElementById("chat-messages");
+        chatMessages.innerHTML = '<div class="loading-message">Loading session...</div>';
+        
+        const res = await fetch(`/sessions/${sessionId}`);
+        if (!res.ok) {
+            throw new Error(`Failed to load session: ${res.status}`);
+        }
+        
+        const data = await res.json();
+        console.log("Session data loaded:", data);
+        
+        // Clear chat
+        chatMessages.innerHTML = "";
+        
+        // Load messages
+        if (data.messages && Array.isArray(data.messages)) {
+            data.messages.forEach(m => {
+                const sender = m.sender === 'user' ? 'user' : 'ai';
+                const content = m.content || m.message || '';
+                appendMessage(content, sender);
+            });
+        } else {
+            appendMessage("No messages in this session.", 'ai');
+        }
+        
+        // Update active session in sidebar
+        document.querySelectorAll('.session-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        
+        const activeSession = document.querySelector(`.session-item[data-session-id="${sessionId}"]`);
+        if (activeSession) {
+            activeSession.classList.add('active');
+        }
+        
+        // Close sidebar on mobile (but not on desktop)
+        if (window.innerWidth < 768) {
+            closeSidebar();
+        }
+        
+        // Update page title with session name
+        const sessionTitle = activeSession?.dataset.sessionTitle || 'Session';
+        document.title = `${sessionTitle} - DBQuery Assistant`;
+        
+        showToast(`Session loaded: ${sessionTitle}`, "success");
+        
+        // Clear results panel
+        clearResultsPanel();
+        
+    } catch (error) {
+        console.error("Error loading session messages:", error);
+        const chatMessages = document.getElementById("chat-messages");
+        chatMessages.innerHTML = `<div class="error-message">Failed to load session: ${error.message}</div>`;
+        showToast("Failed to load session", "error");
+    }
 }
 
+function clearResultsPanel() {
+    document.getElementById("tables_container").innerHTML = "";
+    document.getElementById("xlsx-btn").innerHTML = "";
+    document.getElementById("suggested-questions-container").style.display = "none";
+    document.getElementById("user_query_display").querySelector('span').textContent = "";
+    document.getElementById("sql_query_display").innerHTML = "";
+    document.getElementById("user_query_display").style.display = "none";
+}
 
-// Function to display suggested questions
+// Suggested Questions
 function displaySuggestedQuestions(questions) {
+    console.log("Displaying suggested questions:", questions);
     const container = document.getElementById("suggested-questions-container");
     const grid = document.getElementById("suggested-questions");
+    
+    if (!container || !grid) {
+        console.error("Suggested questions containers not found!");
+        return;
+    }
     
     if (!questions || !Array.isArray(questions) || questions.length === 0) {
         container.style.display = "none";
         return;
     }
     
-    // Clear previous suggestions
-    grid.innerHTML = "";
-    
-    // Create question boxes
-    questions.forEach((question, index) => {
-        const questionBox = document.createElement("button");
-        questionBox.className = "suggested-question-box";
-        questionBox.innerHTML = `
-            ${question}
-            <div class="click-hint">Click to use this question</div>
-        `;
-        
-        // Add click event
-        questionBox.onclick = () => {
-            useSuggestedQuestion(question);
-        };
-        
-        // Add animation delay for staggered appearance
-        questionBox.style.animationDelay = `${index * 0.1}s`;
-        
-        grid.appendChild(questionBox);
-    });
-    
-    // Show the container
-    container.style.display = "block";
-    
-    // Scroll to show suggestions
-    setTimeout(() => {
-        container.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    }, 100);
+grid.innerHTML = "";  
+questions.forEach((question, index) => {  
+    const questionBox = document.createElement("button");  
+    questionBox.className = "suggested-question-box";  
+    questionBox.innerHTML = `  
+    ${question}  
+    <div class="click-hint">Click to use this question</div>  
+    `;  
+    questionBox.onclick = () => useSuggestedQuestion(question);  
+    questionBox.style.animationDelay = `${index * 0.1}s`;  
+    grid.appendChild(questionBox);  
+});  
+
+container.style.display = "block";  
+setTimeout(() => container.scrollIntoView({ behavior: "smooth", block: "near" }));
 }
 
-// Function to handle clicking on a suggested question
 function useSuggestedQuestion(question) {
     const inputField = document.getElementById("chat_user_query");
     inputField.value = question;
     inputField.focus();
     
-    // Highlight the input field briefly
     inputField.style.backgroundColor = "#f1f8ff";
     inputField.style.borderColor = "#4285f4";
     
@@ -1239,47 +975,408 @@ function useSuggestedQuestion(question) {
         inputField.style.borderColor = "";
     }, 1000);
     
-    // Show a subtle toast
     showToast("Question added to input!", "success");
 }
 
-// Simple toast function
-function showToast(message, type = "info") {
-    // Create toast element if it doesn't exist
-    let toast = document.getElementById("custom-toast");
-    if (!toast) {
-        toast = document.createElement("div");
-        toast.id = "custom-toast";
-        toast.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 12px 20px;
-            background: ${type === "success" ? "#4CAF50" : "#2196F3"};
-            color: white;
-            border-radius: 5px;
-            z-index: 1000;
-            font-size: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s ease;
-        `;
-        document.body.appendChild(toast);
+// Question Fetching
+async function fetchQuestions(selectedSection) {
+    const questionDropdown = document.getElementById("faq-questions");
+    if (!questionDropdown) return;
+    
+    questionDropdown.innerHTML = '';
+    
+    if (selectedSection) {
+        try {
+            const response = await fetch(`/get_questions?subject=${selectedSection}`);
+            const data = await response.json();
+            
+            if (data.questions && data.questions.length > 0) {
+                data.questions.forEach(question => {
+                    const option = document.createElement("option");
+                    option.value = question;
+                    questionDropdown.appendChild(option);
+                });
+            }
+        } catch (error) {
+            console.error("Error fetching questions:", error);
+        }
+    }
+}
+
+// Update Page Content
+function updatePageContent(data) {
+    console.log("Updating page content with:", data);
+    
+    // Update query display
+    const userQueryDisplay = document.getElementById("user_query_display");
+    if (userQueryDisplay) {
+        userQueryDisplay.querySelector('span').textContent = data.user_query || "";
     }
     
-    toast.textContent = message;
-    toast.style.backgroundColor = type === "success" ? "#4CAF50" : "#2196F3";
+    // Update SQL query
+    const sqlQueryContent = document.getElementById("sql-query-content");
+    if (sqlQueryContent) {
+        const formattedQuery = data.query
+            ? data.query
+                .replace(/FROM/g, '\nFROM')
+                .replace(/WHERE/g, '\nWHERE')
+                .replace(/INNER JOIN/g, '\nINNER JOIN')
+                .replace(/LEFT JOIN/g, '\nLEFT JOIN')
+                .replace(/RIGHT JOIN/g, '\nRIGHT JOIN')
+                .replace(/FULL JOIN/g, '\nFULL JOIN')
+                .replace(/GROUP BY/g, '\nGROUP BY')
+                .replace(/ORDER BY/g, '\nORDER BY')
+                .replace(/HAVING/g, '\nHAVING')
+                .replace(/SELECT/g, '\nSELECT')
+                .replace(/ON/g, '\nON')
+            : "No SQL query available";
+        sqlQueryContent.textContent = formattedQuery;
+    }
     
-    // Show toast
-    setTimeout(() => {
-        toast.style.transform = "translateY(0)";
-        toast.style.opacity = "1";
-    }, 10);
+    // Update prompts
+    const interpPromptContent = document.getElementById("interp-prompt-content");
+    if (interpPromptContent && data.interprompt) {
+        interpPromptContent.textContent = data.interprompt;
+    }
     
-    // Hide after 3 seconds
-    setTimeout(() => {
-        toast.style.transform = "translateY(100px)";
-        toast.style.opacity = "0";
-    }, 3000);
+    const langPromptContent = document.getElementById("lang-prompt-content");
+    if (langPromptContent && data.langprompt) {
+        const langdata = data.langprompt?.match(/template='([\s\S]*?)'\)\),/);
+        let promptText = langdata ? langdata[1] : data.langprompt || "Not available";
+        promptText = promptText.replace(/\\n/g, '\n');
+        langPromptContent.textContent = promptText;
+        Prism.highlightElement(langPromptContent);
+    }
+    
+    // Clear containers
+    const tablesContainer = document.getElementById("tables_container");
+    const xlsxbtn = document.getElementById("xlsx-btn");
+    if (tablesContainer) tablesContainer.innerHTML = "";
+    if (xlsxbtn) xlsxbtn.innerHTML = "";
+    
+    // Create action buttons in the #xlsx-btn container
+    createActionButtons(data, xlsxbtn);
+    
+    // Handle table display
+    if (data.tables && data.tables.length > 0) {
+        displayTables(data, tablesContainer, xlsxbtn);
+    } else {
+        if (tablesContainer) {
+            tablesContainer.innerHTML = `
+                <div class="no-data-message">
+                    <p>${data.chat_response || "No data available"}</p>
+                </div>
+            `;
+        }
+    }
 }
+
+function createActionButtons(data, container) {
+    if (!container) return;
+    
+    // Create Show Description button
+    const showDescBtn = createButton("Show Description", "toggle-query-btn", "fas fa-eye", 
+        function() {
+            const userQueryDisplay = document.getElementById("user_query_display");
+            if (userQueryDisplay.style.display === "none" || userQueryDisplay.style.display === "") {
+                userQueryDisplay.style.display = "block";
+                this.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Description';
+                this.classList.add('active');
+            } else {
+                userQueryDisplay.style.display = "none";
+                this.innerHTML = '<i class="fas fa-eye"></i> Show Description';
+                this.classList.remove('active');
+            }
+        });
+    container.appendChild(showDescBtn);
+    
+    // Create SQL Query button
+    const sqlQueryBtn = createButton("SQL Query", "view-sql-query-btn", "fas fa-code", 
+        showSQLQueryPopup, !data.query || data.query === "No SQL query available");
+    container.appendChild(sqlQueryBtn);
+    
+    // Create Add to FAQs button
+    const addToFaqsBtn = createButton("Add to FAQs", "add-to-faqs-btn", "fas fa-plus", 
+        () => addToFAQs(document.getElementById('section-dropdown')?.value),
+        !data.user_query);
+    container.appendChild(addToFaqsBtn);
+    
+    // Only create Download button if there's table data
+    if (data.tables && data.tables.length > 0) {
+        const downloadButton = createButton("Download Excel", "download-button-all", "fas fa-download", 
+            () => downloadSpecificTable(data.tables_data));
+        container.appendChild(downloadButton);
+    }
+}
+
+function createButton(text, id, icon, onClick, disabled = false) {
+    const button = document.createElement("button");
+    button.id = id;
+    button.innerHTML = `<i class="${icon}"></i> ${text}`;
+    button.className = "action-btn";
+    button.onclick = onClick;
+    button.disabled = disabled;
+    return button;
+}
+
+function displayTables(data, tablesContainer, xlsxbtn) {
+    data.tables.forEach((table) => {
+        if (data.tables_data && data.tables_data[table.table_name]) {
+            clientTableData[table.table_name] = data.tables_data[table.table_name]['Table data'] ||
+                data.tables_data[table.table_name];
+        }
+        
+        const tableWrapper = document.createElement("div");
+        tableWrapper.className = "table-wrapper";
+        tableWrapper.innerHTML = `
+            <div class="table-header">
+                <h4><i class="fas fa-table"></i> ${table.table_name}</h4>
+            </div>
+            <div id="${table.table_name}_table">${table.table_html || ''}</div>
+            <div id="${table.table_name}_pagination"></div>
+            <div class="feedback-section">
+                <button class="like-button" onclick="submitFeedback('${table.table_name}', 'like')">
+                    <i class="fas fa-thumbs-up"></i> Like
+                </button>
+                <button class="dislike-button" onclick="submitFeedback('${table.table_name}', 'dislike')">
+                    <i class="fas fa-thumbs-down"></i> Dislike
+                </button>
+                <span id="${table.table_name}_feedback_message"></span>
+            </div>
+        `;
+        if (tablesContainer) tablesContainer.appendChild(tableWrapper);
+        
+        // Setup pagination
+        if (clientTableData[table.table_name]) {
+            setupClientPagination(
+                table.table_name,
+                clientTableData[table.table_name],
+                table.pagination?.current_page || 1,
+                table.pagination?.records_per_page || 10
+            );
+        }
+    });
+}
+
+// Modal Functions
+function showSQLQueryPopup() {
+    console.log("Showing SQL query popup");
+    const sqlQueryText = document.getElementById("sql-query-content")?.textContent;
+    if (!sqlQueryText || sqlQueryText === "No SQL query available") {
+        showToast("No SQL query available", "warning");
+        return;
+    }
+    document.getElementById("sql-query-popup").style.display = "flex";
+    Prism.highlightAll();
+}
+
+function closeSQLQueryPopup() {
+    document.getElementById("sql-query-popup").style.display = "none";
+}
+
+function showLangPromptPopup() {
+    console.log("Showing lang prompt popup");
+    document.getElementById("lang-prompt-popup").style.display = "flex";
+    Prism.highlightAll();
+}
+
+function closepromptPopup() {
+    document.getElementById("lang-prompt-popup").style.display = "none";
+}
+
+function showinterPrompt() {
+    console.log("Showing interpretation prompt popup");
+    document.getElementById("interp-prompt-popup").style.display = "flex";
+    Prism.highlightAll();
+}
+
+function closeinterpromptPopup() {
+    document.getElementById("interp-prompt-popup").style.display = "none";
+}
+
+// FAQ Functions
+async function addToFAQs(subject) {
+    if (!subject) {
+        showToast("Please select a subject first!", "warning");
+        return;
+    }
+    
+    let userQuery = document.querySelector("#user_query_display span")?.innerText;
+    if (!userQuery || !userQuery.trim()) {
+        showToast("No query available to add to FAQs!", "warning");
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/add_to_faqs?subject=${encodeURIComponent(subject)}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: userQuery })
+        });
+        
+        const data = await response.json();
+        showToast(data.message, data.success ? "success" : "error");
+    } catch (error) {
+        console.error('Error:', error);
+        showToast("Failed to add query to FAQs!", "error");
+    }
+}
+
+// Download Functions
+async function downloadSpecificTable(table_data) {
+    try {
+        const response = await fetch('/download-table', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                table_name: "DBQuery_data",
+                table_data: table_data
+            })
+        });
+        
+        if (!response.ok) throw new Error('Network response was not ok');
+        
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `DBQuery_data.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+        
+        showToast("Download started!", "success");
+    } catch (error) {
+        console.error('Download error:', error);
+        showToast("Download failed!", "error");
+    }
+}
+
+// Pagination Links
+function updatePaginationLinks(tableName, currentPage, totalPages, recordsPerPage) {
+    const paginationDiv = document.getElementById(`${tableName}_pagination`);
+    if (!paginationDiv) {
+        console.error("Pagination div not found:", `${tableName}_pagination`);
+        return;
+    }
+    
+    paginationDiv.innerHTML = "";
+    
+    if (totalPages <= 1) return;
+    
+    const paginationList = document.createElement("ul");
+    paginationList.className = "pagination";
+    
+    // Previous Button
+    if (currentPage > 1) {
+        const prevLi = document.createElement("li");
+        prevLi.className = "page-item";
+        prevLi.innerHTML = `<a href="javascript:void(0);" class="page-link" onclick="changePage('${tableName}', ${currentPage - 1}, ${recordsPerPage})">« Prev</a>`;
+        paginationList.appendChild(prevLi);
+    }
+    
+    // Page Numbers
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, startPage + 4);
+    if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+    
+    if (startPage > 1) {
+        const firstLi = document.createElement("li");
+        firstLi.className = "page-item";
+        firstLi.innerHTML = `<a href="javascript:void(0);" class="page-link" onclick="changePage('${tableName}', 1, ${recordsPerPage})">1</a>`;
+        paginationList.appendChild(firstLi);
+        
+        if (startPage > 2) {
+            const dotsLi = document.createElement("li");
+            dotsLi.className = "page-item disabled";
+            dotsLi.innerHTML = '<span class="page-link">...</span>';
+            paginationList.appendChild(dotsLi);
+        }
+    }
+    
+    for (let page = startPage; page <= endPage; page++) {
+        const pageLi = document.createElement("li");
+        pageLi.className = `page-item ${page === currentPage ? 'active' : ''}`;
+        pageLi.innerHTML = `<a href="javascript:void(0);" class="page-link" onclick="changePage('${tableName}', ${page}, ${recordsPerPage})">${page}</a>`;
+        paginationList.appendChild(pageLi);
+    }
+    
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            const dotsLi = document.createElement("li");
+            dotsLi.className = "page-item disabled";
+            dotsLi.innerHTML = '<span class="page-link">...</span>';
+            paginationList.appendChild(dotsLi);
+        }
+        
+        const lastLi = document.createElement("li");
+        lastLi.className = "page-item";
+        lastLi.innerHTML = `<a href="javascript:void(0);" class="page-link" onclick="changePage('${tableName}', ${totalPages}, ${recordsPerPage})">${totalPages}</a>`;
+        paginationList.appendChild(lastLi);
+    }
+    
+    // Next Button
+    if (currentPage < totalPages) {
+        const nextLi = document.createElement("li");
+        nextLi.className = "page-item";
+        nextLi.innerHTML = `<a href="javascript:void(0);" class="page-link" onclick="changePage('${tableName}', ${currentPage + 1}, ${recordsPerPage})">Next »</a>`;
+        paginationList.appendChild(nextLi);
+    }
+    
+    paginationDiv.appendChild(paginationList);
+}
+
+// Feedback Submission
+async function submitFeedback(tableName, feedbackType) {
+    const userQuery = document.getElementById("chat_user_query").value;
+    const sqlQuery = document.getElementById("sql-query-content")?.textContent || "";
+    
+    try {
+        const response = await fetch("/submit_feedback", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                table_name: tableName,
+                feedback_type: feedbackType,
+                user_query: userQuery,
+                sql_query: sqlQuery
+            }),
+        });
+        
+        const data = await response.json();
+        const feedbackMessage = document.getElementById(`${tableName}_feedback_message`);
+        if (feedbackMessage) {
+            feedbackMessage.textContent = data.message;
+            feedbackMessage.style.color = data.success ? 'green' : 'red';
+        }
+        
+        if (data.success) {
+            showToast("Feedback submitted!", "success");
+        }
+    } catch (error) {
+        console.error("Error submitting feedback:", error);
+        showToast("Failed to submit feedback", "error");
+    }
+}
+
+// Make functions globally available
+window.connectToDatabase = connectToDatabase;
+window.fetchQuestions = fetchQuestions;
+window.sendMessage = sendMessage;
+window.toggleRecording = toggleRecording;
+window.createNewSession = createNewSession;
+window.toggleDevMode = toggleDevMode;
+window.generateChart = generateChart;
+window.openTab = openTab;
+window.showSQLQueryPopup = showSQLQueryPopup;
+window.closeSQLQueryPopup = closeSQLQueryPopup;
+window.showLangPromptPopup = showLangPromptPopup;
+window.closepromptPopup = closepromptPopup;
+window.showinterPrompt = showinterPrompt;
+window.closeinterpromptPopup = closeinterpromptPopup;
+window.addToFAQs = addToFAQs;
+window.downloadSpecificTable = downloadSpecificTable;
+window.changePage = changePage;
+window.submitFeedback = submitFeedback;
+window.useSuggestedQuestion = useSuggestedQuestion;

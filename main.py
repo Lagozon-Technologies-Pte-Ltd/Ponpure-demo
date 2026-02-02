@@ -1129,8 +1129,8 @@ async def submit_query(
             )
 
             response_data["langprompt"] = str(final_prompt)  
-                                               
-            response_data["suggested_questions"]=response.get("Suggested_question")
+                                              
+            response_data["suggested_questions"]=response.get("Suggested_question","")
             
             print("Suggested_questions",response_data["suggested_questions"])           
             
@@ -1140,6 +1140,7 @@ async def submit_query(
                 # session_data['generated_query'] = response
             else:
                 response_data["query"] = response.get("query", "")
+                print("Query:",response_data["query"])
                 # session_data['generated_query'] = response.get("query", "")
                 # session_data['chosen_tables'] = chosen_tables
                 # request.session['tables_data'] = tables_data

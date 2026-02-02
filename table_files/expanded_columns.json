@@ -4370,23 +4370,7 @@
       "HYDERABAD - II"
     ]
   },
-  {
-    "column_name": "Ponpure_Leaddetails.converted",
-    "column_desc": "Boolean flag indicating whether the lead has been converted to a customer or sales opportunity. TRUE indicates conversion, FALSE indicates still in lead stage.",
-    "metadata": {
-      "type": "column",
-      "table_name": "Ponpure_Leaddetails",
-      "data_type": "BOOLEAN",
-      "nullable": true,
-      "is_primary_key": false,
-      "is_foreign_key": false,
-      "joins": []
-    },
-    "examples": [
-      "FALSE",
-      "TRUE"
-    ]
-  },
+
   {
     "column_name": "Ponpure_Leaddetails.designation",
     "column_desc": "Job title or designation of the lead contact person. Currently appears to be NULL in the sample data but is reserved for capturing the contact's position within their organization.",

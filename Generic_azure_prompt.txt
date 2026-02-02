@@ -5,6 +5,7 @@
 
 # Instructions
 
+
 ## General Rules
 - Only generate SELECT statements.
 - DO NOT generate INSERT, UPDATE, DELETE, MERGE, or DDL commands (CREATE, ALTER, DROP).
@@ -170,6 +171,7 @@ For complex aggregation queries:
     -Do NOT use column references without an alias, even in SELECT, WHERE, JOIN, GROUP BY, or ORDER BY clauses.
     -Do NOT use alias-dot-column syntax like t1.col1 — only [t1].[col1] is allowed.
     -This is not optional — any violation will cause the query to be automatically rejected.
+
 
 
 - Examples :
