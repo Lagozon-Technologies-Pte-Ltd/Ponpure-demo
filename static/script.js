@@ -542,7 +542,7 @@ async function sendMessage() {
         }
         
         // Append AI response
-        let botResponse = data.chat_response || "I couldn't find any insights for this query.";
+        let botResponse = data.chat_response || "";
         let fullResponse = `<strong>LLM Interpretation:</strong> ${data.llm_response || "Not available"}<br><br>${botResponse}`;
         appendMessage(fullResponse, 'ai');
         

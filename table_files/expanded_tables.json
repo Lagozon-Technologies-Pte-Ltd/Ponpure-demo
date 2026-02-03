@@ -1,129 +1,167 @@
 [
   {
-  "id": "PONPURE_SALEORDERHDRS",
-  "document": "Sales Order Header: Represents the finalized commercial sales order generated after quotation approval or direct order creation. It captures customer identity, quotation linkage, organizational context, currency and pricing terms, sales ownership, and commercial controls. This table acts as the parent transactional record for all sales order line items and is the foundation for dispatch, invoicing, and revenue reporting.",
-  "metadata": {
-    "type": "table",
-    "primary_key": "header_id",
-    "join_guidance": [
-      {
-        "table": "PONPURE_SALEORDERDTLS",
-        "on": "header_id",
-        "join_type": "INNER JOIN",
-        "optional": false,
-        "description": "Use this join to retrieve item-level sales information such as quantities, unit prices, discounts, taxes, and delivery dates. This join is mandatory for order value calculations, product-wise sales analysis, fulfillment tracking, and margin reporting."
-      },
-      {
-        "table": "PONPURE_QUOTATIONHDRS",
-        "on": "quotation_number",
-        "join_type": "LEFT OUTER JOIN",
-        "optional": true,
-        "description": "Use this join to trace the sales order back to its originating quotation for conversion analysis, approval timelines, negotiated pricing, and quotation validity. Left join is required because not all sales orders originate from quotations."
-      },
-      {
-        "table": "PONPURE_LEADDETAILS",
-        "on": "customer_id",
-        "join_type": "LEFT OUTER JOIN",
-        "optional": true,
-        "description": "Use this join to enrich sales orders with lead or customer context such as industry, lead source, decision-maker, and conversion history. This join supports pipeline-to-revenue and customer lifecycle analysis."
-      }
-    ]
+    "id": "PONPURE_LEADDETAILS",
+    "document": "Lead Details: Captures prospect and customer enquiry information including contact details, industry, interest areas, lead source, sales ownership, and conversion status. This table represents the earliest stage of the sales lifecycle and feeds into quotations and orders.",
+    "metadata": {
+      "type": "table",
+      "primary_key": "enquiry_id",
+      "join_guidance": [
+        {
+          "table": "PONPURE_QUOTATIONHDRS",
+          "on": "enquiry_id",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Use this join to measure lead-to-quotation conversion, sales responsiveness, and pre-sales effectiveness."
+        }
+      ]
+    }
+  },
+  {
+    "id": "PONPURE_QUOTATIONHDRS",
+    "document": "Quotation Header: Represents commercial quotations issued to customers during the pre-sales stage. It includes pricing terms, approval workflow, validity, export and logistics conditions, and negotiated values. This table acts as the source document for many sales orders.",
+    "metadata": {
+      "type": "table",
+      "primary_key": "header_id",
+      "join_guidance": [
+        {
+          "table": "PONPURE_LEADDETAILS",
+          "on": "enquiry_id",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Use this join to connect quotations to originating leads or enquiries for pipeline effectiveness, source attribution, and pre-sales performance analysis."
+        },
+        {
+          "table": "PONPURE_SALEORDERHDRS",
+          "on": "quotation_number",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Use this join to analyze quotation-to-order conversion rates, approval efficiency, revenue realization, and dropped or expired quotations."
+        }
+      ]
+    }
+  },
+  {
+    "id": "PONPURE_SALEORDERHDRS",
+    "document": "Sales Order Header: Represents the finalized commercial sales order generated after quotation approval or direct order creation. It captures customer identity, quotation linkage, organizational context, currency and pricing terms, sales ownership, and commercial controls. This table acts as the parent transactional record for all sales order line items and is the foundation for scheduling, dispatch, invoicing, and revenue reporting.",
+    "metadata": {
+      "type": "table",
+      "primary_key": "header_id",
+      "join_guidance": [
+        {
+          "table": "PONPURE_SALEORDERDTLS",
+          "on": "header_id",
+          "join_type": "INNER JOIN",
+          "optional": false,
+          "description": "Mandatory join to retrieve item-level sales information such as quantities, unit prices, discounts, taxes, and delivery commitments."
+        },
+        {
+          "table": "PONPURE_SCHEDULES",
+          "on": "sale_order_header_id",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Use this join to analyze delivery planning, order splitting, scheduled quantities, and customer-requested delivery dates."
+        },
+        {
+          "table": "PONPURE_DISPATCHDETAILS",
+          "on": "sale_order_header_id",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Use this join to roll up dispatch, billing, and fulfillment metrics at the sales order level."
+        }
+      ]
+    }
+  },
+  {
+    "id": "PONPURE_SALEORDERDTLS",
+    "document": "Sales Order Details: Stores item-wise line information for each sales order including product, quantity, pricing, discounts, tax structure, delivery commitments, and fulfillment attributes. Each record represents a single sellable line item linked to a sales order header.",
+    "metadata": {
+      "type": "table",
+      "primary_key": "line_id",
+      "join_guidance": [
+        {
+          "table": "PONPURE_SALEORDERHDRS",
+          "on": "header_id",
+          "join_type": "INNER JOIN",
+          "optional": false,
+          "description": "Mandatory join to obtain customer, order-level attributes, currency, and commercial context for each line item."
+        },
+        {
+          "table": "PONPURE_SCHEDULES",
+          "on": "sale_order_detail_line_id",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Use this join to analyze how each order line is scheduled across multiple delivery dates or quantities."
+        },
+        {
+          "table": "PONPURE_DISPATCHDETAILS",
+          "on": "sale_order_detail_line_id",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Use this join to track dispatched quantities, invoiced values, packaging, and logistics execution against each sales order line."
+        }
+      ]
+    }
+  },
+  {
+    "id": "PONPURE_SCHEDULES",
+    "document": "Schedules: Represents delivery planning and execution commitments for sales order line items. This table captures scheduled quantities, requested dates, rescheduling actions, dispatch readiness, and fulfillment tracking prior to physical dispatch.",
+    "metadata": {
+      "type": "table",
+      "primary_key": "line_id",
+      "join_guidance": [
+        {
+          "table": "PONPURE_SALEORDERHDRS",
+          "on": "sale_order_header_id",
+          "join_type": "INNER JOIN",
+          "optional": false,
+          "description": "Mandatory join to associate delivery schedules with the parent sales order."
+        },
+        {
+          "table": "PONPURE_SALEORDERDTLS",
+          "on": "sale_order_detail_line_id",
+          "join_type": "INNER JOIN",
+          "optional": false,
+          "description": "Mandatory join to associate schedules with specific sales order line items."
+        },
+        {
+          "table": "PONPURE_DISPATCHDETAILS",
+          "on": "schedule_line_id",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Use this join to track actual dispatch execution against planned schedules."
+        }
+      ]
+    }
+  },
+  {
+    "id": "PONPURE_DISPATCHDETAILS",
+    "document": "Dispatch Details: Records logistics and fulfillment execution for scheduled sales order lines, including dispatched quantities, packaging, freight, taxes, billing references, and inventory organization. This table represents the final execution layer of the order-to-cash lifecycle.",
+    "metadata": {
+      "type": "table",
+      "primary_key": "line_id",
+      "join_guidance": [
+        {
+          "table": "PONPURE_SCHEDULES",
+          "on": "schedule_line_id",
+          "join_type": "INNER JOIN",
+          "optional": false,
+          "description": "Mandatory join to connect physical dispatch execution to the originating delivery schedule."
+        },
+        {
+          "table": "PONPURE_SALEORDERHDRS",
+          "on": "sale_order_header_id",
+          "join_type": "INNER JOIN",
+          "optional": false,
+          "description": "Mandatory join to roll up dispatch, billing, and fulfillment metrics at the sales order level."
+        },
+        {
+          "table": "PONPURE_SALEORDERDTLS",
+          "on": "sale_order_detail_line_id",
+          "join_type": "INNER JOIN",
+          "optional": false,
+          "description": "Mandatory join to attribute dispatched quantities and values to specific order line items."
+        }
+      ]
+    }
   }
-},
-{
-  "id": "PONPURE_SALEORDERDTLS",
-  "document": "Sales Order Details: Stores item-wise line information for each sales order including product, quantity, pricing, discounts, tax structure, delivery commitments, and fulfillment attributes. Each record represents a single sellable line item linked to a sales order header.",
-  "metadata": {
-    "type": "table",
-    "primary_key": "line_id",
-    "join_guidance": [
-      {
-        "table": "PONPURE_SALEORDERHDRS",
-        "on": "header_id",
-        "join_type": "INNER JOIN",
-        "optional": false,
-        "description": "Mandatory join to obtain customer, order-level attributes, currency, and commercial context for each line item."
-      },
-      {
-        "table": "PONPURE_DISPATCHDETAILS",
-        "on": "line_id = sale_order_detail_line_id",
-        "join_type": "LEFT OUTER JOIN",
-        "optional": true,
-        "description": "Use this join to track dispatched quantities, invoiced values, packaging, and logistics execution against each sales order line. Left join ensures visibility of undelivered or pending items."
-      }
-    ]
-  }
-},
-{
-  "id": "PONPURE_QUOTATIONHDRS",
-  "document": "Quotation Header: Represents commercial quotations issued to customers during the pre-sales stage. It includes pricing terms, approval workflow, validity, export and logistics conditions, and negotiated values. This table acts as the source document for many sales orders.",
-  "metadata": {
-    "type": "table",
-    "primary_key": "header_id",
-    "join_guidance": [
-      {
-        "table": "PONPURE_SALEORDERHDRS",
-        "on": "quotation_number",
-        "join_type": "LEFT OUTER JOIN",
-        "optional": true,
-        "description": "Use this join to analyze quotation-to-order conversion rates, approval efficiency, revenue realization, and dropped or expired quotations."
-      },
-      {
-        "table": "PONPURE_LEADDETAILS",
-        "on": "enquiry_id",
-        "join_type": "LEFT OUTER JOIN",
-        "optional": true,
-        "description": "Use this join to connect quotations to originating leads or enquiries for pipeline effectiveness, source attribution, and pre-sales performance analysis."
-      }
-    ]
-  }
-},
-{
-  "id": "PONPURE_LEADDETAILS",
-  "document": "Lead Details: Captures prospect and customer enquiry information including contact details, industry, interest areas, lead source, sales ownership, and conversion status. This table represents the earliest stage of the sales lifecycle and feeds into quotations and orders.",
-  "metadata": {
-    "type": "table",
-    "primary_key": "enquiry_id",
-    "join_guidance": [
-      {
-        "table": "PONPURE_QUOTATIONHDRS",
-        "on": "enquiry_id",
-        "join_type": "LEFT OUTER JOIN",
-        "optional": true,
-        "description": "Use this join to measure lead-to-quotation conversion, sales responsiveness, and pre-sales effectiveness."
-      },
-      {
-        "table": "PONPURE_SALEORDERHDRS",
-        "on": "customer_id",
-        "join_type": "LEFT OUTER JOIN",
-        "optional": true,
-        "description": "Use this join to analyze full funnel performance from lead generation to revenue realization."
-      }
-    ]
-  }
-},
-{
-  "id": "PONPURE_DISPATCHDETAILS",
-  "document": "Dispatch Details: Records logistics and fulfillment execution for sales order lines, including dispatched quantities, packaging, freight, taxes, billing references, and inventory organization. This table bridges sales orders with invoicing and physical delivery.",
-  "metadata": {
-    "type": "table",
-    "primary_key": "line_id",
-    "join_guidance": [
-      {
-        "table": "PONPURE_SALEORDERDTLS",
-        "on": "sale_order_detail_line_id",
-        "join_type": "INNER JOIN",
-        "optional": false,
-        "description": "Mandatory join to connect dispatch execution with ordered items for fulfillment tracking, billing validation, and logistics analysis."
-      },
-      {
-        "table": "PONPURE_SALEORDERHDRS",
-        "on": "sale_order_header_id",
-        "join_type": "INNER JOIN",
-        "optional": false,
-        "description": "Use this join to roll up dispatch and invoicing metrics at the sales order and customer level."
-      }
-    ]
-  }
-}
 ]

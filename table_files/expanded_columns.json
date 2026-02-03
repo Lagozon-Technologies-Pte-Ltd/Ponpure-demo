@@ -4370,7 +4370,7 @@
       "HYDERABAD - II"
     ]
   },
-
+   
   {
     "column_name": "Ponpure_Leaddetails.designation",
     "column_desc": "Job title or designation of the lead contact person. Currently appears to be NULL in the sample data but is reserved for capturing the contact's position within their organization.",
@@ -5505,7 +5505,715 @@
       "1425946",
       "8219"
     ]
+  },
+  
+  {
+    "column_name": "Ponpure_DispatchDetails.line_id",
+    "column_desc": "Unique identifier for each dispatch detail record. Primary key that distinguishes one dispatch line from another. Represents a single line item in a dispatch transaction.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": false,
+      "is_primary_key": true,
+      "is_foreign_key": false,
+      "joins": [
+        {
+          "table": "Ponpure_Schedules",
+          "on": "Ponpure_DispatchDetails.schedule_line_id = Ponpure_Schedules.line_id",
+          "join_type": "INNER JOIN",
+          "description": "Use this join to connect physical dispatch execution to the originating delivery schedule for tracking fulfillment against planned deliveries."
+        },
+        {
+          "table": "Ponpure_Saleorderdtls",
+          "on": "Ponpure_DispatchDetails.sale_order_detail_line_id = Ponpure_Saleorderdtls.line_id",
+          "join_type": "INNER JOIN",
+          "description": "Use this join to attribute dispatched quantities and values to specific sales order line items for order fulfillment analysis."
+        }
+      ]
+    },
+    "examples": ["3233361", "3233360", "3233359"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.header_id",
+    "column_desc": "Unique identifier for the dispatch header grouping multiple dispatch lines together. Links dispatch details to a parent dispatch transaction header.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": true,
+      "joins": []
+    },
+    "examples": ["1384762", "1384761", "1384760"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.item_id",
+    "column_desc": "Identifier for the product or material being dispatched. References the master item catalog for product details like name, description, and specifications.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["72", "95890", "5189"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.uom",
+    "column_desc": "Unit of Measure for the dispatched item. Specifies the measurement unit in which the quantity is expressed (e.g., KG, EA, L, BOX).",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "VARCHAR",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["KG", "EA", "L"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.sale_quantity",
+    "column_desc": "Actual quantity dispatched to the customer. Represents the physical quantity shipped against the sales order line.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "DECIMAL",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["5", "3", "10"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.unit_price",
+    "column_desc": "Price per unit of the dispatched item at the time of dispatch. Used to calculate the total value before taxes and discounts.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "DECIMAL",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["1050", "0", "52"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.schedule_date",
+    "column_desc": "Planned dispatch date from the delivery schedule. Indicates when the item was scheduled to be shipped to the customer.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "DATETIME",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["2025-12-10 06:30:00.0000000", "2025-12-10 00:00:00.0000000"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.sale_category",
+    "column_desc": "Categorization of the sales transaction type. Indicates the nature of the sale such as Repack, Intact, E-Commerce, Bulk, etc.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "VARCHAR",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["Repack", "Intact", "E-Commerce", "Bulk"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.frieght_out_ward",
+    "column_desc": "Outward freight charges associated with the dispatch. Represents transportation costs for delivering goods to the customer.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "DECIMAL",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["NULL"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.packing_cost",
+    "column_desc": "Cost incurred for packaging the dispatched goods. Includes materials and labor for preparing items for shipment.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "DECIMAL",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["0"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.inventory_org_id",
+    "column_desc": "Identifier for the inventory organization from where the goods were dispatched. References the warehouse or storage location.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["1184", "944", "804"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.schedule_line_id",
+    "column_desc": "Foreign key linking to the schedule line that generated this dispatch. Connects dispatch execution to the planned delivery schedule.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": true,
+      "joins": [
+        {
+          "table": "Ponpure_Schedules",
+          "on": "Ponpure_DispatchDetails.schedule_line_id = Ponpure_Schedules.line_id",
+          "join_type": "INNER JOIN",
+          "description": "Mandatory join to connect physical dispatch execution to the originating delivery schedule for tracking fulfillment against planned deliveries."
+        }
+      ]
+    },
+    "examples": ["3022660", "3028148", "3028149"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.sale_order_header_id",
+    "column_desc": "Foreign key linking to the sales order header. Connects dispatch details to the parent sales order for customer and order-level context.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": true,
+      "joins": [
+        {
+          "table": "Ponpure_SaleorderHdrs",
+          "on": "Ponpure_DispatchDetails.sale_order_header_id = Ponpure_SaleorderHdrs.header_id",
+          "join_type": "INNER JOIN",
+          "description": "Mandatory join to roll up dispatch, billing, and fulfillment metrics at the sales order level and access customer information."
+        }
+      ]
+    },
+    "examples": ["1091149", "1094353", "1094354"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.sale_order_detail_line_id",
+    "column_desc": "Foreign key linking to the sales order detail line. Connects dispatch execution to the specific line item in the sales order.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": true,
+      "joins": [
+        {
+          "table": "Ponpure_Saleorderdtls",
+          "on": "Ponpure_DispatchDetails.sale_order_detail_line_id = Ponpure_Saleorderdtls.line_id",
+          "join_type": "INNER JOIN",
+          "description": "Mandatory join to attribute dispatched quantities and values to specific sales order line items for order fulfillment analysis."
+        }
+      ]
+    },
+    "examples": ["2977978", "2983338", "2983339"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.schedule_quantity",
+    "column_desc": "Originally scheduled quantity for dispatch from the delivery plan. Represents the planned quantity before actual dispatch execution.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "DECIMAL",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["5", "3", "10"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.tolerance_quantity",
+    "column_desc": "Allowable variance quantity between scheduled and actual dispatch. Represents the tolerance limit for quantity deviations.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "DECIMAL",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["0"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.item_group",
+    "column_desc": "Product category or group classification for the dispatched item. Used for product categorization and reporting purposes.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "VARCHAR",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["AFCONA", "RAW MATERIAL", "TEXTILE PURE", "PURETONE"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.oracle_line_id",
+    "column_desc": "Identifier from the Oracle ERP system for the dispatch line. Used for integration and reconciliation with external ERP systems.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["0", "5777921", "5777917"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.customer_trx_line_id",
+    "column_desc": "Transaction line identifier from the customer transaction system. Links dispatch to customer billing and invoicing records.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["0", "7417633", "7417616"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.trading_manufacture",
+    "column_desc": "Indicates whether the item is traded or manufactured. Distinguishes between traded goods and manufactured products.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "VARCHAR",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["Trading", "Manufacturing"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.packing_details",
+    "column_desc": "Details about the packaging configuration for the dispatch. Describes how items are packed (e.g., 1X5, 3X50, 8X25).",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "VARCHAR",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["1X5", "0", "3X50", "3 NOS"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.tax_percentage",
+    "column_desc": "Tax rate applied to the dispatch transaction. Represents the percentage of tax levied on the sale.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "DECIMAL",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["18", "0", "5"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.total_value",
+    "column_desc": "Total monetary value of the dispatched line item including applicable taxes. Calculated as sale_quantity * unit_price plus taxes.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "DECIMAL",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["5250", "0", "7800", "99000"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.item_segment",
+    "column_desc": "Business segment or division classification for the item. Used for business unit reporting and analysis.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "VARCHAR",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["Performance Chemicals", "General Chemicals", "NPD"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.pkg_item_id",
+    "column_desc": "Identifier for packaged items when applicable. Used for bundled or packaged products that have separate identification.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["NULL"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.pkg_item_code",
+    "column_desc": "Code for packaged items when applicable. Supplementary identifier for bundled or packaged products.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "VARCHAR",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["NULL"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.pkg_item_name",
+    "column_desc": "Name of packaged items when applicable. Descriptive name for bundled or packaged products.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "VARCHAR",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["NULL"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.pkg_size",
+    "column_desc": "Size specification for packaged items. Describes the packaging dimensions or capacity.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "VARCHAR",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["NULL"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.pkg_no_of_drum",
+    "column_desc": "Number of drums used for packaging. Indicates packaging quantity in terms of drums.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["NULL"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.pkg_price",
+    "column_desc": "Price associated with packaging when separately charged. Cost of packaging materials or service.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "DECIMAL",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["NULL"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.billing_header_id",
+    "column_desc": "Identifier linking to the billing header for invoicing purposes. Connects dispatch to customer billing records.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["2652842", "2652876", "2652875"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.duty_other_cost",
+    "column_desc": "Additional costs such as duties, taxes, or other charges associated with the dispatch. Used for cost accounting and pricing.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "DECIMAL",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["NULL"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.non_claimable_duty",
+    "column_desc": "Duty amounts that cannot be claimed or recovered. Non-recoverable tax or duty components.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "DECIMAL",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["0"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.discount",
+    "column_desc": "Discount amount applied to the dispatch line item. Represents price reductions or promotional discounts.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "DECIMAL",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["NULL"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.basic_price",
+    "column_desc": "Base price of the item before taxes, discounts, and other charges. Used for price analysis and comparison.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "DECIMAL",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["1050", "0", "52", "120"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.transaction_set_id",
+    "column_desc": "Identifier for transaction sets used in system integration. Used for batch processing or EDI transactions.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "VARCHAR",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["NULL"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.transaction_id",
+    "column_desc": "Unique identifier for the transaction within external systems. Used for system integration and reconciliation.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "VARCHAR",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["NULL"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.inventory_org_name",
+    "column_desc": "Name of the inventory organization or warehouse from where goods were dispatched. Descriptive name of the dispatch location.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "VARCHAR",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["PPC - Bhiwandi New", "PSM - Thervoykandigai MFG", "PPC - Kappalur"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.inventory_org_code",
+    "column_desc": "Code for the inventory organization. Short identifier for the warehouse or dispatch location.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "VARCHAR",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["0"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.oracle_header_id",
+    "column_desc": "Header identifier from the Oracle ERP system. Used for integration and reconciliation with external ERP systems.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["0", "4324030", "4324026"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.oracle_status",
+    "column_desc": "Status code from the Oracle ERP system. Indicates the processing status in the integrated ERP system.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "VARCHAR",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["NULL"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.billing_confimration_comment",
+    "column_desc": "Comments related to billing confirmation. Notes or remarks about billing verification or approval.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "VARCHAR",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["NULL", "JAY AMBEY ROADLINE, MH04HD2374, LR NO 3504"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.created_by",
+    "column_desc": "User identifier who created the dispatch record. Tracks the originator of the dispatch transaction.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["55", "1294", "77", "11"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.creation_date",
+    "column_desc": "Date and time when the dispatch record was created. Timestamp of record creation in the system.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "DATETIME",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["2025-12-10 11:40:00.0000000", "2025-12-10 11:39:00.0000000"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.last_updated_by",
+    "column_desc": "User identifier who last updated the dispatch record. Tracks the most recent modifier of the dispatch transaction.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["55", "19", "77", "11"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.last_update_date",
+    "column_desc": "Date and time when the dispatch record was last updated. Timestamp of the most recent modification.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "DATETIME",
+      "nullable": false,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["10-12-2025 11:40", "10-12-2025 11:41", "10-12-2025 11:37"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.dtl_requisition_header_id",
+    "column_desc": "Identifier linking to detail requisition header when applicable. Used for requisition-based dispatch processes.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["NULL"]
+  },
+  {
+    "column_name": "Ponpure_DispatchDetails.requisition_line_id",
+    "column_desc": "Identifier linking to requisition line when applicable. Used for requisition-based dispatch processes.",
+    "metadata": {
+      "type": "column",
+      "table_name": "Ponpure_DispatchDetails",
+      "data_type": "INT",
+      "nullable": true,
+      "is_primary_key": false,
+      "is_foreign_key": false,
+      "joins": []
+    },
+    "examples": ["NULL", "990573", "990572"]
   }
+
 
 
 ]
