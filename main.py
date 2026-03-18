@@ -127,10 +127,13 @@ def get_cache_key(*args, **kwargs):
     key_parts.extend([f"{k}={v}" for k, v in kwargs.items()])
     return "::".join(key_parts)
 
-async def cache_response(redis_client, key: str, data: dict, expire: int = 3600):
+async def cache_response(redis_client, key: str, data: dict, expire: int | None = None):
     """Cache the response data with expiration"""
     try:
-        redis_client.setex(key, expire, json.dumps(data))
+        if expire is not None:
+            redis_client.setex(key, expire, json.dumps(data))
+        else:
+            redis_client.set(key, json.dumps(data))
     except Exception as e:
         logger.error(f"Error caching data: {str(e)}")
 
@@ -154,7 +157,7 @@ async def get_session_data(redis_client, session_id: str):
 def user_sessions_key(user_oid: str) -> str:
     return f"user::{user_oid}::sessions"
 
-async def set_session_data(redis_client, session_id: str, data: dict, expire: int = 3600):
+async def set_session_data(redis_client, session_id: str, data: dict, expire: int |None= None):
     await cache_response(redis_client, key=f"session::{session_id}", data=data, expire=expire)
 
 async def clear_session_data(redis_client, session_id: str):
@@ -300,7 +303,6 @@ async def login(
     response.set_cookie(
         key=SESSION_COOKIE_NAME,
         value=session_id,
-        max_age=86400,
         httponly=True,
         secure=False,
         samesite="lax"
@@ -362,8 +364,7 @@ async def get_a_token(
             "user": user_claims,
             "current_question_type": "generic",
             "created_at": int(time.time())
-        },
-        expire=86400,
+        }
     )
 
     # 🔗 Register session under user
@@ -384,7 +385,6 @@ async def get_a_token(
     response.set_cookie(
         key=SESSION_COOKIE_NAME,
         value=session_id,
-        max_age=86400,
         httponly=True,
         secure=False,  # True in prod
         samesite="lax",
@@ -1185,9 +1185,11 @@ async def submit_query(
         # await cache_response(redis_client, cache_key, response_data)
         messages.append({
             "role": "user",
-            "content": llm_reframed_query
+            "content": llm_reframed_query,
+            "user_query": user_query,
+            "reframed_query": llm_reframed_query,
+            "sql_query": response_data.get("query", "")
         })
-
 
         session_data["messages"] = messages
 
@@ -1195,7 +1197,6 @@ async def submit_query(
             redis_client,
             key=f"session::{session_id}",
             data=session_data,
-            expire=86400
         )
 
         response_data["history"] = messages
@@ -1346,8 +1347,7 @@ async def reset_session(
             "messages": [],
             "created_at": int(time.time()),
             "current_question_type": "generic"
-        },
-        expire=86400
+        }
     )
 
     # 2️⃣ Register session under user
@@ -1364,7 +1364,6 @@ async def reset_session(
         value=new_session_id,
         httponly=True,
         samesite="lax",
-        max_age=86400
     )
 
     return response
@@ -1565,7 +1564,6 @@ async def set_question_type(payload: QuestionTypeRequest, request: Request,
         redis_client,
         key=f"user::{user_oid}",
         data=session_data,
-        expire=86400
     )
 
     print("Received question type:", current_question_type)
