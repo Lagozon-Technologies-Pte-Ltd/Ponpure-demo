@@ -500,7 +500,7 @@ body.sidebar-open main {
     padding: 16px;
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    font-size: 18px; /* Increased from 15px */
+    font-size: 18px;
     background: white;
     color: var(--text-primary);
     cursor: pointer;
@@ -581,7 +581,7 @@ body.sidebar-open main {
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 17px; /* Increased from 15px */
+    font-size: 17px;
     font-weight: 500;
 }
 
@@ -872,7 +872,7 @@ body.sidebar-open main {
 }
 
 .dev-mode-label {
-    font-size: 20px; /* Increased from 15px */
+    font-size: 20px;
     font-weight: 500;
     color: var(--text-secondary);
 }
@@ -1006,7 +1006,6 @@ input:checked + .slider:before {
     font-size: 13px;
 }
 
-/* Add this for active state of Show Description button when description is visible */
 .action-btn.active {
     background: var(--gradient-primary);
     color: white;
@@ -1127,7 +1126,7 @@ input:checked + .slider:before {
 }
 
 .viz-control label {
-    font-size: 17px; /* Increased from 15px */
+    font-size: 17px;
     font-weight: 500;
     color: var(--text-secondary);
     display: flex;
@@ -1143,7 +1142,7 @@ input:checked + .slider:before {
     padding: 14px;
     border: 1px solid var(--border-color);
     border-radius: 10px;
-    font-size: 16px; /* Increased from 14px */
+    font-size: 16px;
     background: white;
     color: var(--text-primary);
     cursor: pointer;
@@ -1202,7 +1201,7 @@ input:checked + .slider:before {
     border: 1px solid var(--border-color);
     border-radius: 10px;
     cursor: pointer;
-    font-size: 16px; /* Increased from 15px */
+    font-size: 16px;
     font-weight: 500;
     color: white;
     transition: all 0.3s ease;
@@ -1451,13 +1450,13 @@ input:checked + .slider:before {
     
     #session-sidebar {
         width: 280px;
-        z-index: 1003; /* Higher z-index on mobile */
+        z-index: 1003;
     }
     
     .sidebar-toggle {
         top: 15px;
         left: 15px;
-        z-index: 1004; /* Higher than sidebar on mobile */
+        z-index: 1004;
     }
     
     .user-profile-dropdown {
@@ -1474,7 +1473,6 @@ input:checked + .slider:before {
         margin-left: 0 !important;
     }
     
-    /* On mobile, we want overlay but only on the main content, not sidebar */
     body.sidebar-open::before {
         content: '';
         position: fixed;
@@ -1487,7 +1485,6 @@ input:checked + .slider:before {
         display: block;
     }
     
-    /* Responsive buttons */
     #xlsx-btn {
         flex-direction: column;
         align-items: stretch;
@@ -1608,13 +1605,15 @@ input:checked + .slider:before {
 .session-content {
     flex: 1;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .session-title {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
     color: var(--text-primary);
-    margin-bottom: 4px;
     line-height: 1.4;
     word-break: break-word;
 }
@@ -1623,6 +1622,11 @@ input:checked + .slider:before {
     font-size: 12px;
     color: var(--text-secondary);
     white-space: nowrap;
+}
+
+.session-item.active .session-title,
+.session-item.active .session-time {
+    color: white;
 }
 
 /* Loading and error messages in chat */
@@ -1661,7 +1665,6 @@ input:checked + .slider:before {
         animation: fadeIn 0.3s ease;
     }
     
-    /* Prevent overlay from covering sidebar */
     .sidebar-overlay.active {
         left: 280px;
         width: calc(100% - 280px);
@@ -1673,4 +1676,258 @@ input:checked + .slider:before {
     .sidebar-overlay {
         display: none !important;
     }
+}
+
+/* ===== NEW CHAT MESSAGE STYLES - UPDATED WITH CORRECT ORDER ===== */
+.message-content.ai-detailed {
+    background: white;
+    color: var(--text-primary);
+    border-bottom-left-radius: 5px;
+    padding: 20px;
+    max-width: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Force the order of sections using data attributes */
+.query-section[data-section-type="rephrased"] {
+    order: 1;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.query-section[data-section-type="sql"] {
+    order: 2;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.query-section[data-section-type="response"] {
+    order: 3;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.query-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-size: 16px;
+    flex-wrap: wrap;
+}
+
+.section-header i {
+    font-size: 16px;
+}
+
+.section-header i.fa-search {
+    color: #4CAF50;
+}
+
+.section-header i.fa-code {
+    color: #2196F3;
+}
+
+.section-header i.fa-comment {
+    color: #FF9800;
+}
+
+.section-header strong {
+    font-size: 15px;
+}
+
+.section-content {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    padding-left: 26px;
+}
+
+.section-content.rephrased-query {
+    font-style: italic;
+    color: var(--text-secondary);
+    background: var(--light-bg);
+    padding: 15px 20px;
+    border-radius: 8px;
+    border-left: 3px solid var(--accent-color);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.section-content.sql-query {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    border-left: 3px solid #6c5ce7;
+}
+
+.section-content.sql-query code {
+    background: transparent;
+    color: #020202;
+    padding: 0;
+    font-family: inherit;
+}
+
+/* SQL syntax highlighting colors */
+.section-content.sql-query .sql-keyword {
+    color: #569cd6;
+    font-weight: bold;
+}
+
+.section-content.sql-query .sql-function {
+    color: #dcdcaa;
+}
+
+.section-content.sql-query .sql-string {
+    color: #ce9178;
+}
+
+.section-content.sql-query .sql-comment {
+    color: #6a9955;
+    font-style: italic;
+}
+
+/* Response section styling */
+.section-content:last-child {
+    background: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+/* User message styling */
+.user-message .message-content {
+    background: var(--gradient-primary);
+    color: white;
+    border-bottom-right-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-message .message-content i {
+    font-size: 16px;
+    color: white;
+    opacity: 0.9;
+}
+
+/* Copy SQL button */
+.copy-sql-btn {
+    background: none;
+    border: none;
+    color: var(--accent-color);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-left: 10px;
+    transition: all 0.3s ease;
+}
+
+.copy-sql-btn:hover {
+    background: rgba(108, 92, 231, 0.1);
+    transform: scale(1.1);
+}
+
+.copy-sql-btn i {
+    font-size: 14px;
+}
+
+/* Chat history scrollbar */
+.chat-history {
+    flex: 1;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: var(--light-bg);
+    border-radius: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 500px;
+}
+
+/* Responsive fixes */
+@media (max-width: 768px) {
+    .message-content.ai-detailed {
+        max-width: 100%;
+    }
+    
+    .section-content {
+        padding-left: 0;
+    }
+    
+    .section-header {
+        font-size: 14px;
+    }
+    
+    .section-content {
+        font-size: 13px;
+    }
+}
+
+/* Enhanced toast */
+#custom-toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 15px 25px;
+    background: var(--accent-color);
+    color: white;
+    border-radius: 10px;
+    box-shadow: var(--shadow-heavy);
+    z-index: 3000;
+    display: none;
+    font-size: 14px;
+    max-width: 350px;
+    word-wrap: break-word;
+    animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Force correct order in chat session */
+.message-content.ai-detailed {
+    display: flex;
+    flex-direction: column;
+}
+
+.query-section[data-section-type="rephrased"] {
+    order: 1;
+}
+
+.query-section[data-section-type="response"] {
+    order: 2;
+}
+
+.query-section[data-section-type="sql"] {
+    order: 3;
 }

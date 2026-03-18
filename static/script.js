@@ -20,7 +20,7 @@ async function initPage() {
     try {
         // Initialize UI components
         initUserProfile();
-        initSidebarToggle(); // Only call this once
+        initSidebarToggle();
         
         // Load sessions first
         await loadSessions();
@@ -81,7 +81,7 @@ function initUserProfile() {
     });
 }
 
-// Sidebar Functions - FIXED VERSION
+// Sidebar Functions
 function initSidebarToggle() {
     console.log("Initializing sidebar toggle...");
     const sidebarToggle = document.querySelector('.sidebar-toggle');
@@ -92,13 +92,12 @@ function initSidebarToggle() {
         return;
     }
     
-    // Create overlay if it doesn't exist - BUT ONLY FOR MOBILE
+    // Create overlay if it doesn't exist - ONLY FOR MOBILE
     if (!document.querySelector('.sidebar-overlay') && window.innerWidth < 768) {
         const overlay = document.createElement('div');
         overlay.className = 'sidebar-overlay';
         document.body.appendChild(overlay);
         
-        // On mobile, clicking overlay closes sidebar
         overlay.addEventListener('click', closeSidebar);
     }
     
@@ -107,9 +106,6 @@ function initSidebarToggle() {
         console.log("Sidebar toggle clicked");
         toggleSidebar();
     });
-    
-    // On desktop, don't close when clicking outside
-    // On mobile, we already have the overlay handler
     
     // Handle escape key
     document.addEventListener('keydown', function(e) {
@@ -129,7 +125,6 @@ function toggleSidebar() {
         sidebar.classList.add('sidebar-open');
         document.body.classList.add('sidebar-open');
         
-        // Only show overlay on mobile
         if (overlay && window.innerWidth < 768) {
             overlay.classList.add('active');
         }
@@ -140,7 +135,6 @@ function toggleSidebar() {
         sidebar.classList.remove('sidebar-open');
         document.body.classList.remove('sidebar-open');
         
-        // Hide overlay if it exists
         if (overlay) {
             overlay.classList.remove('active');
         }
@@ -179,15 +173,12 @@ async function connectToDatabase(selectedDatabase) {
         return;
     }
     
-    // Clear previous options
-    sectionDropdown.innerHTML = '<option value="" disabled selected><i class="fas fa-folder"></i> Select Subject</option>';
+    sectionDropdown.innerHTML = '<option value="" disabled selected>Select Subject</option>';
     
-    // Update connection status
     connectionStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
     connectionStatus.classList.remove('connected');
     connectionStatus.classList.add('connecting');
     
-    // Define sections based on database
     let sections = [];
     if (selectedDatabase === 'GCP') {
         sections = ['Demo', 'Mahindra-PoC-V2'];
@@ -202,7 +193,6 @@ async function connectToDatabase(selectedDatabase) {
         return;
     }
     
-    // Add sections to dropdown
     sections.forEach(section => {
         const option = document.createElement('option');
         option.value = section;
@@ -210,13 +200,11 @@ async function connectToDatabase(selectedDatabase) {
         sectionDropdown.appendChild(option);
     });
     
-    // Enable the dropdown and update status
     sectionDropdown.disabled = false;
     connectionStatus.innerHTML = `<i class="fas fa-check-circle"></i> Connected to ${selectedDatabase}`;
     connectionStatus.classList.remove('connecting');
     connectionStatus.classList.add('connected');
     
-    // Save selection
     sessionStorage.setItem('selectedDatabase', selectedDatabase);
 }
 
@@ -224,7 +212,6 @@ async function connectToDatabase(selectedDatabase) {
 function attachEventListeners() {
     console.log("Attaching event listeners...");
     
-    // Enter key for chat input
     const chatInput = document.getElementById("chat_user_query");
     if (chatInput) {
         chatInput.addEventListener("keyup", function (event) {
@@ -235,7 +222,6 @@ function attachEventListeners() {
         });
     }
     
-    // Section dropdown change
     const sectionDropdown = document.getElementById('section-dropdown');
     if (sectionDropdown) {
         sectionDropdown.addEventListener('change', function() {
@@ -249,12 +235,10 @@ function attachEventListeners() {
         });
     }
     
-    // Question type radio buttons
     document.querySelectorAll('input[name="questionType"]').forEach(radio => {
         radio.addEventListener('change', handleQuestionTypeChange);
     });
     
-    // Tab navigation
     const tabButtons = document.querySelectorAll('.tab button');
     tabButtons.forEach(button => {
         button.addEventListener('click', function(e) {
@@ -263,12 +247,10 @@ function attachEventListeners() {
         });
     });
     
-    // Initialize first tab as active
     if (tabButtons.length > 0) {
         tabButtons[0].classList.add('active');
     }
     
-    // Copy buttons in modals
     document.querySelectorAll('.copy-btn-popup').forEach(button => {
         button.addEventListener('click', function() {
             const targetId = this.getAttribute('data-target');
@@ -297,11 +279,9 @@ function loadTableColumns(columnNames) {
         return;
     }
     
-    // Reset dropdown options
     xAxisDropdown.innerHTML = '<option value="" disabled selected>Select X-Axis</option>';
     yAxisDropdown.innerHTML = '<option value="" disabled selected>Select Y-Axis</option>';
     
-    // Populate options
     columnNames.forEach((column) => {
         const xOption = document.createElement("option");
         const yOption = document.createElement("option");
@@ -373,25 +353,21 @@ async function generateChart() {
 function openTab(evt, tabName) {
     console.log("Opening tab:", tabName);
     
-    // Hide all tab content
     document.querySelectorAll(".tabcontent").forEach(tab => {
         tab.style.display = "none";
         tab.classList.remove("active");
     });
     
-    // Remove active class from all tab buttons
     document.querySelectorAll(".tablinks").forEach(tab => {
         tab.classList.remove("active");
     });
     
-    // Show the current tab
     const activeTab = document.getElementById(tabName);
     if (activeTab) {
         activeTab.style.display = "block";
         activeTab.classList.add("active");
     }
     
-    // Set the button that opened the tab as active
     if (evt && evt.currentTarget) {
         evt.currentTarget.classList.add("active");
     }
@@ -404,10 +380,7 @@ async function createNewSession() {
         const res = await fetch('/new-session', { method: 'POST' });
         if (!res.ok) throw new Error('Failed to create new session');
         
-        // Reload sessions list
         await loadSessions();
-        
-        // Clear UI
         clearChatUI();
         
         showToast("New session created!", "success");
@@ -422,9 +395,17 @@ function clearChatUI() {
     document.getElementById("tables_container").innerHTML = "";
     document.getElementById("xlsx-btn").innerHTML = "";
     document.getElementById("suggested-questions-container").style.display = "none";
-    document.getElementById("user_query_display").querySelector('span').textContent = "";
-    document.getElementById("sql_query_display").innerHTML = "";
-    document.getElementById("user_query_display").style.display = "none";
+    
+    const userQueryDisplay = document.getElementById("user_query_display");
+    if (userQueryDisplay) {
+        userQueryDisplay.querySelector('span').textContent = "";
+        userQueryDisplay.style.display = "none";
+    }
+    
+    const sqlQueryContent = document.getElementById("sql-query-content");
+    if (sqlQueryContent) {
+        sqlQueryContent.textContent = "";
+    }
 }
 
 // Dev Mode Toggle
@@ -439,14 +420,13 @@ function toggleDevMode() {
     }
     
     if (devModeToggle.checked) {
-        // Create buttons if they don't exist
         let interpBtn = document.getElementById('interpBtn');
         let langchainBtn = document.getElementById('langchainBtn');
         
         if (!interpBtn) {
             interpBtn = document.createElement('button');
             interpBtn.id = 'interpBtn';
-            interpBtn.innerHTML = '<i class="fas fa-comment-alt"></i> Interpretation Prompt';
+            interpBtn.innerHTML = '<i class="fas fa-comment-alt"></i> Rephrased Query';
             interpBtn.className = 'action-btn';
             interpBtn.onclick = showinterPrompt;
             xlsxbtn.appendChild(interpBtn);
@@ -455,7 +435,7 @@ function toggleDevMode() {
         if (!langchainBtn) {
             langchainBtn = document.createElement('button');
             langchainBtn.id = 'langchainBtn';
-            langchainBtn.innerHTML = '<i class="fas fa-terminal"></i> Query Prompt';
+            langchainBtn.innerHTML = '<i class="fas fa-terminal"></i> SQL Query';
             langchainBtn.className = 'action-btn';
             langchainBtn.onclick = showLangPromptPopup;
             xlsxbtn.appendChild(langchainBtn);
@@ -463,7 +443,6 @@ function toggleDevMode() {
         
         showToast("Developer mode enabled", "success");
     } else {
-        // Remove buttons if they exist
         const interpBtn = document.getElementById('interpBtn');
         const langchainBtn = document.getElementById('langchainBtn');
         
@@ -473,6 +452,8 @@ function toggleDevMode() {
     }
 }
 
+// Main Message Sending Function
+// Main Message Sending Function
 // Main Message Sending Function
 async function sendMessage() {
     console.log("Sending message...");
@@ -489,7 +470,6 @@ async function sendMessage() {
         return;
     }
     
-    // Get selected database and section
     const selectedDatabase = document.getElementById('database-dropdown').value;
     const selectedSection = document.getElementById('section-dropdown').value;
     
@@ -498,17 +478,20 @@ async function sendMessage() {
         return;
     }
     
-    // Clear previous results
     tablesContainer.innerHTML = "";
     xlsxbtn.innerHTML = "";
     document.getElementById("suggested-questions-container").style.display = "none";
-    document.getElementById("user_query_display").style.display = "none";
     
-    // Append user message to chat
-    appendMessage(userMessage, 'user');
+    const userQueryDisplay = document.getElementById("user_query_display");
+    if (userQueryDisplay) {
+        userQueryDisplay.querySelector('span').textContent = "";
+        userQueryDisplay.style.display = "none";
+    }
+    
+    // Append user message to chat (simple format)
+    appendSimpleMessage(userMessage, 'user');
     userQueryInput.value = "";
     
-    // Show loading state
     typingIndicator.style.display = "flex";
     queryResultsDiv.style.display = "block";
     
@@ -523,14 +506,13 @@ async function sendMessage() {
         const data = await response.json();
         console.log("Server response:", data);
         
-        // Hide typing indicator
         typingIndicator.style.display = "none";
         
         if (!response.ok) {
             throw new Error(data.chat_response || "An error occurred");
         }
         
-        // Store table data
+        // Store all data in clientTableData for later use
         if (data.tables_data) {
             clientTableData = {};
             for (const tableName in data.tables_data) {
@@ -541,18 +523,55 @@ async function sendMessage() {
             table_data = data.tables_data;
         }
         
-        // Append AI response
-        let botResponse = data.chat_response || "";
-        let fullResponse = `<strong>LLM Interpretation:</strong> ${data.llm_response || "Not available"}<br><br>${botResponse}`;
-        appendMessage(fullResponse, 'ai');
+        // Determine what to show in live chat - PRIORITIZE rephrased query
+        let liveChatText = "";
+        
+        // First try to show the rephrased query (llm_response)
+        if (data.llm_response && data.llm_response !== "Not available") {
+            liveChatText = data.llm_response;
+        }
+        // If no rephrased query, try the response
+        else if (data.chat_response && data.chat_response !== "No response available") {
+            liveChatText = data.chat_response;
+        }
+        else if (data.response) {
+            liveChatText = data.response;
+        }
+        else if (data.answer) {
+            liveChatText = data.answer;
+        }
+        else if (data.message) {
+            liveChatText = data.message;
+        }
+        else {
+            // If no text found, check if there's table data to indicate success
+            if (data.tables && data.tables.length > 0) {
+                liveChatText = "Query executed successfully. See results in the table below.";
+            } else {
+                liveChatText = "Query processed. No data returned.";
+            }
+        }
+        
+        // Append AI response in simple format for live chat
+        // This will show the rephrased query in the chat bubble
+        appendSimpleMessage(liveChatText, 'ai');
+        
+        // Store the complete message data for session history
+        const messageData = {
+            user_query: userMessage,
+            llm_response: data.llm_response || data.rephrased_query || "Not available",
+            sql_query: data.query || data.sql_query || "No SQL query available",
+            content: data.chat_response || data.response || data.answer || liveChatText,
+            timestamp: new Date().toISOString()
+        };
+        
+        // Update the page content with all data for the right panel
+        updatePageContent(data);
         
         // Display suggested questions if available
         if (data.suggested_questions && Array.isArray(data.suggested_questions) && data.suggested_questions.length > 0) {
             setTimeout(() => displaySuggestedQuestions(data.suggested_questions), 100);
         }
-        
-        // Update page content
-        updatePageContent(data);
         
         // Load table columns for visualization
         if (data.tables && data.tables_data) {
@@ -566,16 +585,210 @@ async function sendMessage() {
     } catch (error) {
         console.error("Error:", error);
         typingIndicator.style.display = "none";
-        appendMessage(`<strong>Error:</strong> ${error.message}. Please try again.`, 'ai');
+        appendSimpleMessage(`Error: ${error.message}. Please try again.`, 'ai');
     }
 }
 
-// Helper Functions
+// Simple message appender for live chat
+// Simple message appender for live chat
+function appendSimpleMessage(content, sender) {
+    const chatMessages = document.getElementById("chat-messages");
+    const messageDiv = document.createElement("div");
+    messageDiv.className = `message ${sender}-message`;
+    
+    const messageContent = document.createElement("div");
+    messageContent.className = "message-content";
+    
+    if (sender === 'user') {
+        messageContent.innerHTML = `<i class="fas fa-user"></i> ${content}`;
+    } else {
+        // If it's an AI message and it looks like a rephrased query, style it nicely
+        if (content.length > 0 && !content.startsWith('Error')) {
+            messageContent.innerHTML = `<i class="fas fa-robot"></i> ${content}`;
+        } else {
+            messageContent.innerHTML = content;
+        }
+    }
+    
+    messageDiv.appendChild(messageContent);
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Detailed message appender for session history viewing
+function appendDetailedMessage(messageData) {
+    const chatMessages = document.getElementById("chat-messages");
+    
+    // User message
+    const userDiv = document.createElement("div");
+    userDiv.className = "message user-message";
+    const userContent = document.createElement("div");
+    userContent.className = "message-content";
+    userContent.innerHTML = `<i class="fas fa-user"></i> ${messageData.user_query || ''}`;
+    userDiv.appendChild(userContent);
+    chatMessages.appendChild(userDiv);
+    
+    // AI detailed response
+    const aiDiv = document.createElement("div");
+    aiDiv.className = "message ai-message";
+    const aiContent = document.createElement("div");
+    aiContent.className = "message-content ai-detailed";
+    
+    let html = '';
+    
+    // 1. Add rephrased query first (if available)
+    if (messageData.llm_response && messageData.llm_response !== "Not available") {
+        html += `
+            <div class="query-section" data-section-type="rephrased">
+                <div class="section-header">
+                    <i class="fas fa-search"></i>
+                    <strong>Rephrased Query:</strong>
+                </div>
+                <div class="section-content rephrased-query">${messageData.llm_response}</div>
+            </div>
+        `;
+    }
+    
+    // 2. Add RESPONSE second (the text explanation) - THIS SHOULD COME BEFORE SQL
+    if (messageData.content) {
+        html += `
+            <div class="query-section" data-section-type="response">
+                <div class="section-header">
+                    <i class="fas fa-comment"></i>
+                    <strong>Response:</strong>
+                </div>
+                <div class="section-content">${messageData.content}</div>
+            </div>
+        `;
+    }
+    
+    // 3. Add SQL query THIRD (at the bottom)
+    if (messageData.sql_query && messageData.sql_query !== "No SQL query available") {
+        // Format the SQL query
+        const formattedQuery = messageData.sql_query
+            .replace(/FROM/g, '<br>FROM')
+            .replace(/WHERE/g, '<br>WHERE')
+            .replace(/INNER JOIN/g, '<br>INNER JOIN')
+            .replace(/LEFT JOIN/g, '<br>LEFT JOIN')
+            .replace(/RIGHT JOIN/g, '<br>RIGHT JOIN')
+            .replace(/GROUP BY/g, '<br>GROUP BY')
+            .replace(/ORDER BY/g, '<br>ORDER BY')
+            .replace(/HAVING/g, '<br>HAVING')
+            .replace(/SELECT/g, '<br>SELECT')
+            .replace(/ON/g, '<br>&nbsp;&nbsp;ON');
+        
+        html += `
+            <div class="query-section" data-section-type="sql">
+                <div class="section-header">
+                    <i class="fas fa-code"></i>
+                    <strong>SQL Query:</strong>
+                    <button class="copy-sql-btn" onclick="copySQLToClipboard('${messageData.sql_query.replace(/'/g, "\\'")}')">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
+                <pre class="section-content sql-query"><code>${formattedQuery}</code></pre>
+            </div>
+        `;
+    }
+    
+    aiContent.innerHTML = html;
+    aiDiv.appendChild(aiContent);
+    chatMessages.appendChild(aiDiv);
+}
+
+
+// New function to display query results in separate sections
+// New function to display query results in separate sections
+function displayQueryResults(data, userMessage) {
+    const chatMessages = document.getElementById("chat-messages");
+    
+    // User message is already appended, so we just need to add AI response with separate sections
+    
+    // Create AI message container
+    const aiMessageDiv = document.createElement("div");
+    aiMessageDiv.className = "message ai-message";
+    
+    const messageContent = document.createElement("div");
+    messageContent.className = "message-content ai-detailed";
+    
+    let html = '';
+    
+    // Add rephrased query section first
+    if (data.llm_response && data.llm_response !== "Not available") {
+        html += `
+            <div class="query-section" data-section-type="rephrased">
+                <div class="section-header">
+                    <i class="fas fa-search"></i>
+                    <strong>Rephrased Query:</strong>
+                </div>
+                <div class="section-content rephrased-query">${data.llm_response}</div>
+            </div>
+        `;
+    }
+    
+    // Add SQL query section second
+    if (data.query && data.query !== "No SQL query available") {
+        // Format the SQL query for better readability
+        const formattedQuery = data.query
+            .replace(/FROM/g, '<br>FROM')
+            .replace(/WHERE/g, '<br>WHERE')
+            .replace(/INNER JOIN/g, '<br>INNER JOIN')
+            .replace(/LEFT JOIN/g, '<br>LEFT JOIN')
+            .replace(/RIGHT JOIN/g, '<br>RIGHT JOIN')
+            .replace(/GROUP BY/g, '<br>GROUP BY')
+            .replace(/ORDER BY/g, '<br>ORDER BY')
+            .replace(/HAVING/g, '<br>HAVING')
+            .replace(/SELECT/g, '<br>SELECT')
+            .replace(/ON/g, '<br>&nbsp;&nbsp;ON');
+        
+        html += `
+            <div class="query-section" data-section-type="sql">
+                <div class="section-header">
+                    <i class="fas fa-code"></i>
+                    <strong>SQL Query:</strong>
+                    <button class="copy-sql-btn" onclick="copySQLToClipboard('${data.query.replace(/'/g, "\\'")}')">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
+                <pre class="section-content sql-query"><code>${formattedQuery}</code></pre>
+            </div>
+        `;
+    }
+    
+    // Add response text last
+    if (data.chat_response) {
+        html += `
+            <div class="query-section" data-section-type="response">
+                <div class="section-header">
+                    <i class="fas fa-comment"></i>
+                    <strong>Response:</strong>
+                </div>
+                <div class="section-content">${data.chat_response}</div>
+            </div>
+        `;
+    }
+    
+    messageContent.innerHTML = html;
+    aiMessageDiv.appendChild(messageContent);
+    chatMessages.appendChild(aiMessageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
 function appendMessage(content, sender) {
     const chatMessages = document.getElementById("chat-messages");
     const messageDiv = document.createElement("div");
     messageDiv.className = `message ${sender}-message`;
-    messageDiv.innerHTML = `<div class="message-content">${content}</div>`;
+    
+    const messageContent = document.createElement("div");
+    messageContent.className = "message-content";
+    
+    if (sender === 'user') {
+        messageContent.innerHTML = `<i class="fas fa-user"></i> ${content}`;
+    } else {
+        messageContent.innerHTML = content;
+    }
+    
+    messageDiv.appendChild(messageContent);
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
@@ -598,7 +811,6 @@ function showToast(message, type = "info") {
     toast.style.backgroundColor = colors[type] || colors.info;
     toast.style.display = "block";
     
-    // Auto-hide after 3 seconds
     setTimeout(() => {
         toast.style.display = "none";
     }, 3000);
@@ -673,7 +885,6 @@ async function toggleRecording() {
     const micButton = document.getElementById("chat-mic-button");
     
     if (!isRecording) {
-        // Start recording
         originalButtonHTML = micButton.innerHTML;
         micButton.innerHTML = '<i class="fas fa-stop"></i>';
         micButton.style.color = "#f44336";
@@ -727,7 +938,6 @@ async function toggleRecording() {
             showToast("Microphone access denied", "error");
         }
     } else {
-        // Stop recording
         if (mediaRecorder && mediaRecorder.state === "recording") {
             mediaRecorder.stop();
         }
@@ -784,13 +994,11 @@ async function loadSessions() {
         
         list.innerHTML = "";
         
-        // Add sessions to main list
         sessions.forEach((s, index) => {
             const sessionDiv = createSessionElement(s);
             list.appendChild(sessionDiv);
         });
         
-        // Mark first session as active if none is active
         if (sessions.length > 0 && !document.querySelector('.session-item.active')) {
             const firstSession = document.querySelector('.session-item');
             if (firstSession) {
@@ -803,14 +1011,12 @@ async function loadSessions() {
     }
 }
 
-// SINGLE createSessionElement function
 function createSessionElement(session) {
     const div = document.createElement("div");
     div.className = "session-item";
     div.dataset.sessionId = session.session_id || session.id;
     div.dataset.sessionTitle = session.title || 'Untitled Session';
     
-    // Truncate title if too long
     let displayTitle = session.title || 'Untitled Session';
     if (displayTitle.length > 40) {
         displayTitle = displayTitle.substring(0, 40) + '...';
@@ -820,11 +1026,10 @@ function createSessionElement(session) {
         <i class="fas fa-comment"></i>
         <div class="session-content">
             <div class="session-title">${displayTitle}</div>
-            <div class="session-time">${formatTime(session.timestamp || session.created_at || Date.now())}</div>
+            <div class="session-time">${formatTime(session.timestamp || session.created_at)}</div>
         </div>
     `;
     
-    // Add click event listener
     div.addEventListener('click', async (e) => {
         e.stopPropagation();
         await loadSessionMessages(session.session_id || session.id);
@@ -859,66 +1064,137 @@ function formatTime(timestamp) {
 }
 
 async function loadSessionMessages(sessionId) {
-    console.log("Loading session messages for ID:", sessionId);
-    
     try {
-        // Show loading state
-        const chatMessages = document.getElementById("chat-messages");
-        chatMessages.innerHTML = '<div class="loading-message">Loading session...</div>';
-        
         const res = await fetch(`/sessions/${sessionId}`);
-        if (!res.ok) {
-            throw new Error(`Failed to load session: ${res.status}`);
-        }
-        
         const data = await res.json();
-        console.log("Session data loaded:", data);
+        console.log("Session messages loaded:", data); // Add this to debug
+
+        const chat = document.getElementById("chat-messages");
+        const userQueryDisplay = document.getElementById("user_query_display");
+        const sqlQueryContent = document.getElementById("sql-query-content");
         
         // Clear chat
-        chatMessages.innerHTML = "";
-        
-        // Load messages
-        if (data.messages && Array.isArray(data.messages)) {
-            data.messages.forEach(m => {
-                const sender = m.role === 'user' ? 'user' : 'ai';
-                const content = m.content || m.message || '';
-                const user_query = m.user_query || '';
-                const sql_query = m.sql_query || '';
-                appendMessage(content, sender, user_query, sql_query);
-            });
-        } else {
-            appendMessage("No messages in this session.", 'ai');
+        chat.innerHTML = "";
+        if (userQueryDisplay) {
+            userQueryDisplay.querySelector('span').textContent = "";
         }
-        
-        // Update active session in sidebar
-        document.querySelectorAll('.session-item').forEach(item => {
-            item.classList.remove('active');
+        if (sqlQueryContent) {
+            sqlQueryContent.textContent = "";
+        }
+
+        // Add each message in detailed format
+        data.messages.forEach((messageData, index) => {
+            console.log(`Message ${index + 1}:`, messageData); // Debug each message
+            appendDetailedMessage(messageData);
         });
         
-        const activeSession = document.querySelector(`.session-item[data-session-id="${sessionId}"]`);
-        if (activeSession) {
-            activeSession.classList.add('active');
-        }
+        chat.scrollTop = chat.scrollHeight;
         
-        // Close sidebar on mobile (but not on desktop)
-        if (window.innerWidth < 768) {
-            closeSidebar();
-        }
-        
-        // Update page title with session name
-        const sessionTitle = activeSession?.dataset.sessionTitle || 'Session';
-        document.title = `${sessionTitle} - DBQuery Assistant`;
-        
-        showToast(`Session loaded: ${sessionTitle}`, "success");
-        
-        // Clear results panel
-        clearResultsPanel();
+        showToast("Viewing chat history", "info");
         
     } catch (error) {
         console.error("Error loading session messages:", error);
-        const chatMessages = document.getElementById("chat-messages");
-        chatMessages.innerHTML = `<div class="error-message">Failed to load session: ${error.message}</div>`;
-        showToast("Failed to load session", "error");
+        showToast("Failed to load chat history", "error");
+    }
+}
+
+
+// Add helper function to copy SQL to clipboard
+function copySQLToClipboard(sql) {
+    navigator.clipboard.writeText(sql)
+        .then(() => showToast('SQL query copied to clipboard!', 'success'))
+        .catch(err => {
+            console.error('Failed to copy:', err);
+            showToast('Failed to copy SQL', 'error');
+        });
+}
+
+// Keep the original appendMessage function for backward compatibility
+function appendMessage(content, sender) {
+    appendSimpleMessage(content, sender);
+}
+
+// Also update the updatePageContent function to ensure it shows the rephrased query in the right panel
+// Update the updatePageContent function
+function updatePageContent(data) {
+    console.log("Updating page content with:", data);
+    
+    const userQueryDisplay = document.getElementById("user_query_display");
+    if (userQueryDisplay) {
+        const span = userQueryDisplay.querySelector('span');
+        if (span) {
+            span.textContent = data.user_query || "";
+        }
+    }
+    
+    // Update the rephrased query in the right panel
+    const rephrasedQueryDisplay = document.getElementById("rephrased-query-display");
+    if (rephrasedQueryDisplay) {
+        const rephrasedText = data.llm_response || data.rephrased_query || "";
+        if (rephrasedText) {
+            rephrasedQueryDisplay.innerHTML = `<strong><i class="fas fa-search"></i> Rephrased Query:</strong> ${rephrasedText}`;
+            rephrasedQueryDisplay.style.display = "block";
+        } else {
+            rephrasedQueryDisplay.style.display = "none";
+        }
+    }
+    
+    const sqlQueryContent = document.getElementById("sql-query-content");
+    const sqlQuery = data.query || data.sql_query || "";
+    
+    if (sqlQueryContent && sqlQuery && sqlQuery !== "No SQL query available") {
+        const formattedQuery = sqlQuery
+            .replace(/FROM/g, '\nFROM')
+            .replace(/WHERE/g, '\nWHERE')
+            .replace(/INNER JOIN/g, '\nINNER JOIN')
+            .replace(/LEFT JOIN/g, '\nLEFT JOIN')
+            .replace(/RIGHT JOIN/g, '\nRIGHT JOIN')
+            .replace(/FULL JOIN/g, '\nFULL JOIN')
+            .replace(/GROUP BY/g, '\nGROUP BY')
+            .replace(/ORDER BY/g, '\nORDER BY')
+            .replace(/HAVING/g, '\nHAVING')
+            .replace(/SELECT/g, '\nSELECT')
+            .replace(/ON/g, '\nON');
+        sqlQueryContent.textContent = formattedQuery;
+    } else if (sqlQueryContent) {
+        sqlQueryContent.textContent = "No SQL query available";
+    }
+    
+    const interpPromptContent = document.getElementById("interp-prompt-content");
+    if (interpPromptContent && data.interprompt) {
+        interpPromptContent.textContent = data.interprompt;
+    }
+    
+    const langPromptContent = document.getElementById("lang-prompt-content");
+    if (langPromptContent && data.langprompt) {
+        const langdata = data.langprompt?.match(/template='([\s\S]*?)'\)\),/);
+        let promptText = langdata ? langdata[1] : data.langprompt || "Not available";
+        promptText = promptText.replace(/\\n/g, '\n');
+        langPromptContent.textContent = promptText;
+        if (window.Prism) {
+            Prism.highlightElement(langPromptContent);
+        }
+    }
+    
+    const tablesContainer = document.getElementById("tables_container");
+    const xlsxbtn = document.getElementById("xlsx-btn");
+    if (tablesContainer) tablesContainer.innerHTML = "";
+    if (xlsxbtn) xlsxbtn.innerHTML = "";
+    
+    createActionButtons(data, xlsxbtn);
+    
+    if (data.tables && data.tables.length > 0) {
+        displayTables(data, tablesContainer, xlsxbtn);
+    } else {
+        // If there's a response but no tables, still show the response
+        const responseText = data.chat_response || data.response || data.answer || data.message || "No data available";
+        if (tablesContainer) {
+            tablesContainer.innerHTML = `
+                <div class="no-data-message">
+                    <p>${responseText}</p>
+                </div>
+            `;
+        }
     }
 }
 
@@ -926,9 +1202,17 @@ function clearResultsPanel() {
     document.getElementById("tables_container").innerHTML = "";
     document.getElementById("xlsx-btn").innerHTML = "";
     document.getElementById("suggested-questions-container").style.display = "none";
-    document.getElementById("user_query_display").querySelector('span').textContent = "";
-    document.getElementById("sql_query_display").innerHTML = "";
-    document.getElementById("user_query_display").style.display = "none";
+    
+    const userQueryDisplay = document.getElementById("user_query_display");
+    if (userQueryDisplay) {
+        userQueryDisplay.querySelector('span').textContent = "";
+        userQueryDisplay.style.display = "none";
+    }
+    
+    const sqlQueryContent = document.getElementById("sql-query-content");
+    if (sqlQueryContent) {
+        sqlQueryContent.textContent = "";
+    }
 }
 
 // Suggested Questions
@@ -947,21 +1231,21 @@ function displaySuggestedQuestions(questions) {
         return;
     }
     
-grid.innerHTML = "";  
-questions.forEach((question, index) => {  
-    const questionBox = document.createElement("button");  
-    questionBox.className = "suggested-question-box";  
-    questionBox.innerHTML = `  
-    ${question}  
-    <div class="click-hint">Click to use this question</div>  
-    `;  
-    questionBox.onclick = () => useSuggestedQuestion(question);  
-    questionBox.style.animationDelay = `${index * 0.1}s`;  
-    grid.appendChild(questionBox);  
-});  
+    grid.innerHTML = "";  
+    questions.forEach((question, index) => {  
+        const questionBox = document.createElement("button");  
+        questionBox.className = "suggested-question-box";  
+        questionBox.innerHTML = `  
+        ${question}  
+        <div class="click-hint">Click to use this question</div>  
+        `;  
+        questionBox.onclick = () => useSuggestedQuestion(question);  
+        questionBox.style.animationDelay = `${index * 0.1}s`;  
+        grid.appendChild(questionBox);  
+    });  
 
-container.style.display = "block";  
-setTimeout(() => container.scrollIntoView({ behavior: "smooth", block: "near" }));
+    container.style.display = "block";  
+    setTimeout(() => container.scrollIntoView({ behavior: "smooth", block: "nearest" }));
 }
 
 function useSuggestedQuestion(question) {
@@ -1009,33 +1293,33 @@ async function fetchQuestions(selectedSection) {
 function updatePageContent(data) {
     console.log("Updating page content with:", data);
     
-    // Update query display
     const userQueryDisplay = document.getElementById("user_query_display");
     if (userQueryDisplay) {
-        userQueryDisplay.querySelector('span').textContent = data.user_query || "";
+        const span = userQueryDisplay.querySelector('span');
+        if (span) {
+            span.textContent = data.user_query || "";
+        }
     }
     
-    // Update SQL query
     const sqlQueryContent = document.getElementById("sql-query-content");
-    if (sqlQueryContent) {
+    if (sqlQueryContent && data.query) {
         const formattedQuery = data.query
-            ? data.query
-                .replace(/FROM/g, '\nFROM')
-                .replace(/WHERE/g, '\nWHERE')
-                .replace(/INNER JOIN/g, '\nINNER JOIN')
-                .replace(/LEFT JOIN/g, '\nLEFT JOIN')
-                .replace(/RIGHT JOIN/g, '\nRIGHT JOIN')
-                .replace(/FULL JOIN/g, '\nFULL JOIN')
-                .replace(/GROUP BY/g, '\nGROUP BY')
-                .replace(/ORDER BY/g, '\nORDER BY')
-                .replace(/HAVING/g, '\nHAVING')
-                .replace(/SELECT/g, '\nSELECT')
-                .replace(/ON/g, '\nON')
-            : "No SQL query available";
+            .replace(/FROM/g, '\nFROM')
+            .replace(/WHERE/g, '\nWHERE')
+            .replace(/INNER JOIN/g, '\nINNER JOIN')
+            .replace(/LEFT JOIN/g, '\nLEFT JOIN')
+            .replace(/RIGHT JOIN/g, '\nRIGHT JOIN')
+            .replace(/FULL JOIN/g, '\nFULL JOIN')
+            .replace(/GROUP BY/g, '\nGROUP BY')
+            .replace(/ORDER BY/g, '\nORDER BY')
+            .replace(/HAVING/g, '\nHAVING')
+            .replace(/SELECT/g, '\nSELECT')
+            .replace(/ON/g, '\nON');
         sqlQueryContent.textContent = formattedQuery;
+    } else if (sqlQueryContent) {
+        sqlQueryContent.textContent = "No SQL query available";
     }
     
-    // Update prompts
     const interpPromptContent = document.getElementById("interp-prompt-content");
     if (interpPromptContent && data.interprompt) {
         interpPromptContent.textContent = data.interprompt;
@@ -1047,19 +1331,18 @@ function updatePageContent(data) {
         let promptText = langdata ? langdata[1] : data.langprompt || "Not available";
         promptText = promptText.replace(/\\n/g, '\n');
         langPromptContent.textContent = promptText;
-        Prism.highlightElement(langPromptContent);
+        if (window.Prism) {
+            Prism.highlightElement(langPromptContent);
+        }
     }
     
-    // Clear containers
     const tablesContainer = document.getElementById("tables_container");
     const xlsxbtn = document.getElementById("xlsx-btn");
     if (tablesContainer) tablesContainer.innerHTML = "";
     if (xlsxbtn) xlsxbtn.innerHTML = "";
     
-    // Create action buttons in the #xlsx-btn container
     createActionButtons(data, xlsxbtn);
     
-    // Handle table display
     if (data.tables && data.tables.length > 0) {
         displayTables(data, tablesContainer, xlsxbtn);
     } else {
@@ -1076,34 +1359,32 @@ function updatePageContent(data) {
 function createActionButtons(data, container) {
     if (!container) return;
     
-    // Create Show Description button
     const showDescBtn = createButton("Show Description", "toggle-query-btn", "fas fa-eye", 
         function() {
             const userQueryDisplay = document.getElementById("user_query_display");
-            if (userQueryDisplay.style.display === "none" || userQueryDisplay.style.display === "") {
-                userQueryDisplay.style.display = "block";
-                this.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Description';
-                this.classList.add('active');
-            } else {
-                userQueryDisplay.style.display = "none";
-                this.innerHTML = '<i class="fas fa-eye"></i> Show Description';
-                this.classList.remove('active');
+            if (userQueryDisplay) {
+                if (userQueryDisplay.style.display === "none" || userQueryDisplay.style.display === "") {
+                    userQueryDisplay.style.display = "block";
+                    this.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Description';
+                    this.classList.add('active');
+                } else {
+                    userQueryDisplay.style.display = "none";
+                    this.innerHTML = '<i class="fas fa-eye"></i> Show Description';
+                    this.classList.remove('active');
+                }
             }
         });
     container.appendChild(showDescBtn);
     
-    // Create SQL Query button
     const sqlQueryBtn = createButton("SQL Query", "view-sql-query-btn", "fas fa-code", 
         showSQLQueryPopup, !data.query || data.query === "No SQL query available");
     container.appendChild(sqlQueryBtn);
     
-    // Create Add to FAQs button
     const addToFaqsBtn = createButton("Add to FAQs", "add-to-faqs-btn", "fas fa-plus", 
         () => addToFAQs(document.getElementById('section-dropdown')?.value),
         !data.user_query);
     container.appendChild(addToFaqsBtn);
     
-    // Only create Download button if there's table data
     if (data.tables && data.tables.length > 0) {
         const downloadButton = createButton("Download Excel", "download-button-all", "fas fa-download", 
             () => downloadSpecificTable(data.tables_data));
@@ -1148,7 +1429,6 @@ function displayTables(data, tablesContainer, xlsxbtn) {
         `;
         if (tablesContainer) tablesContainer.appendChild(tableWrapper);
         
-        // Setup pagination
         if (clientTableData[table.table_name]) {
             setupClientPagination(
                 table.table_name,
@@ -1169,7 +1449,9 @@ function showSQLQueryPopup() {
         return;
     }
     document.getElementById("sql-query-popup").style.display = "flex";
-    Prism.highlightAll();
+    if (window.Prism) {
+        Prism.highlightAll();
+    }
 }
 
 function closeSQLQueryPopup() {
@@ -1179,7 +1461,9 @@ function closeSQLQueryPopup() {
 function showLangPromptPopup() {
     console.log("Showing lang prompt popup");
     document.getElementById("lang-prompt-popup").style.display = "flex";
-    Prism.highlightAll();
+    if (window.Prism) {
+        Prism.highlightAll();
+    }
 }
 
 function closepromptPopup() {
@@ -1189,7 +1473,9 @@ function closepromptPopup() {
 function showinterPrompt() {
     console.log("Showing interpretation prompt popup");
     document.getElementById("interp-prompt-popup").style.display = "flex";
-    Prism.highlightAll();
+    if (window.Prism) {
+        Prism.highlightAll();
+    }
 }
 
 function closeinterpromptPopup() {
@@ -1203,7 +1489,8 @@ async function addToFAQs(subject) {
         return;
     }
     
-    let userQuery = document.querySelector("#user_query_display span")?.innerText;
+    const userQueryDisplay = document.querySelector("#user_query_display span");
+    let userQuery = userQueryDisplay?.innerText;
     if (!userQuery || !userQuery.trim()) {
         showToast("No query available to add to FAQs!", "warning");
         return;
@@ -1270,7 +1557,6 @@ function updatePaginationLinks(tableName, currentPage, totalPages, recordsPerPag
     const paginationList = document.createElement("ul");
     paginationList.className = "pagination";
     
-    // Previous Button
     if (currentPage > 1) {
         const prevLi = document.createElement("li");
         prevLi.className = "page-item";
@@ -1278,7 +1564,6 @@ function updatePaginationLinks(tableName, currentPage, totalPages, recordsPerPag
         paginationList.appendChild(prevLi);
     }
     
-    // Page Numbers
     let startPage = Math.max(1, currentPage - 2);
     let endPage = Math.min(totalPages, startPage + 4);
     if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
@@ -1318,7 +1603,6 @@ function updatePaginationLinks(tableName, currentPage, totalPages, recordsPerPag
         paginationList.appendChild(lastLi);
     }
     
-    // Next Button
     if (currentPage < totalPages) {
         const nextLi = document.createElement("li");
         nextLi.className = "page-item";
