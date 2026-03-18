@@ -880,9 +880,11 @@ async function loadSessionMessages(sessionId) {
         // Load messages
         if (data.messages && Array.isArray(data.messages)) {
             data.messages.forEach(m => {
-                const sender = m.sender === 'user' ? 'user' : 'ai';
+                const sender = m.role === 'user' ? 'user' : 'ai';
                 const content = m.content || m.message || '';
-                appendMessage(content, sender);
+                const user_query = m.user_query || '';
+                const sql_query = m.sql_query || '';
+                appendMessage(content, sender, user_query, sql_query);
             });
         } else {
             appendMessage("No messages in this session.", 'ai');
