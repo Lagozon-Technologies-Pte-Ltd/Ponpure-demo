@@ -1109,7 +1109,7 @@ async def submit_query(
         # Rest of your code remains the same...
         # Step 2: Invoke LangChain
         try:
-            relationships = find_relationships_for_tables(["Ponpure_LeadDetails","Ponpure_Schedules","Ponpure_Quotationhdrs","Ponpure_SaleOrderdtls","Ponpure_SaleorderHdrs","Ponpure_DispatchDetails"] , 'table_relation.json')
+            relationships = find_relationships_for_tables(["MH_AD_AI_DIMENSION","MH_CUST_VERBATIM","MH_MODEL_MASTER","MH_RO_HDR_DETAILS","MH_RO_LABOUR","MH_RO_PARTS"], 'table_relation.json')
             table_details = get_table_details(table_name=chosen_tables)
             examples = get_examples(llm_reframed_query, current_question_type)
             logger.info(f"relationships: {relationships}")

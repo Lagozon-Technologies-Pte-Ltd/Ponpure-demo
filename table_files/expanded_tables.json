@@ -1,165 +1,130 @@
 [
   {
-    "id": "PONPURE_LEADDETAILS",
-    "document": "Lead Details: Captures prospect and customer enquiry information including contact details, industry, interest areas, lead source, sales ownership, and conversion status. This table represents the earliest stage of the sales lifecycle and feeds into quotations and orders.",
+    "id": "MH_AD_AI_DIMENSION",
+    "document": "Dealer/Service Center Dimension: Captures detailed dealer and service center information including location, contact details, organizational hierarchy, sales and service ownership, and dealer categorization. This table serves as the master reference for all dealer-related attributes across service operations.",
     "metadata": {
-      "type": "table",
-      "primary_key": "enquiry_id",
+      "type": "dimension_table",
+      "primary_key": "delr_cd",
       "join_guidance": [
         {
-          "table": "PONPURE_QUOTATIONHDRS",
-          "on": "enquiry_id",
+          "table": "MH_RO_HDR_DETAILS",
+          "on": "LOCTN_CD",
           "join_type": "LEFT OUTER JOIN",
           "optional": true,
-          "description": "Use this join to measure lead-to-quotation conversion, sales responsiveness, and pre-sales effectiveness."
+          "description": "Use this join to analyze service operations by dealer location, including service volumes, revenue, and customer satisfaction metrics per dealer."
         }
       ]
     }
   },
   {
-    "id": "PONPURE_QUOTATIONHDRS",
-    "document": "Quotation Header: Represents commercial quotations issued to customers during the pre-sales stage. It includes pricing terms, approval workflow, validity, export and logistics conditions, and negotiated values. This table acts as the source document for many sales orders.",
+    "id": "MH_CUST_VERBATIM",
+    "document": "Customer Verbatim/Comments: Stores customer-reported issues and service requests in their own words, along with standardized verbatim codes and groupings. This table captures the voice of customer at the time of service request and helps in categorizing common service issues and complaints.",
     "metadata": {
-      "type": "table",
-      "primary_key": "header_id",
+      "type": "fact_table",
+      "primary_key": "sv_ro_hdr_sk",
       "join_guidance": [
         {
-          "table": "PONPURE_LEADDETAILS",
-          "on": "enquiry_id",
-          "join_type": "LEFT OUTER JOIN",
-          "optional": true,
-          "description": "Use this join to connect quotations to originating leads or enquiries for pipeline effectiveness, source attribution, and pre-sales performance analysis."
-        },
-        {
-          "table": "PONPURE_SALEORDERHDRS",
-          "on": "quotation_number",
-          "join_type": "LEFT OUTER JOIN",
-          "optional": true,
-          "description": "Use this join to analyze quotation-to-order conversion rates, approval efficiency, revenue realization, and dropped or expired quotations."
+          "table": "MH_RO_HDR_DETAILS",
+          "on": "sv_ro_hdr_sk",
+          "join_type": "INNER JOIN",
+          "optional": false,
+          "description": "Mandatory join to connect customer-reported issues with the corresponding repair order details for comprehensive service analysis."
         }
       ]
     }
   },
   {
-    "id": "PONPURE_SALEORDERHDRS",
-    "document": "Sales Order Header: Represents the finalized commercial sales order generated after quotation approval or direct order creation. It captures customer identity, quotation linkage, organizational context, currency and pricing terms, sales ownership, and commercial controls. This table acts as the parent transactional record for all sales order line items and is the foundation for scheduling, dispatch, invoicing, and revenue reporting.",
+    "id": "MH_MODEL_MASTER",
+    "document": "Vehicle Model Master: Contains master data for vehicle models including model codes, descriptions, variants, fuel types, transmission types, seating capacity, and product divisions. This table serves as the reference for vehicle specifications and attributes across all service transactions.",
     "metadata": {
-      "type": "table",
-      "primary_key": "header_id",
+      "type": "dimension_table",
+      "primary_key": "MODL_CD",
       "join_guidance": [
         {
-          "table": "PONPURE_SALEORDERDTLS",
-          "on": "header_id",
-          "join_type": "INNER JOIN",
-          "optional": false,
-          "description": "Mandatory join to retrieve item-level sales information such as quantities, unit prices, discounts, taxes, and delivery commitments."
-        },
-        {
-          "table": "PONPURE_SCHEDULES",
-          "on": "sale_order_header_id",
+          "table": "MH_RO_HDR_DETAILS",
+          "on": "MODL_CD",
           "join_type": "LEFT OUTER JOIN",
           "optional": true,
-          "description": "Use this join to analyze delivery planning, order splitting, scheduled quantities, and customer-requested delivery dates."
-        },
-        {
-          "table": "PONPURE_DISPATCHDETAILS",
-          "on": "sale_order_header_id",
-          "join_type": "LEFT OUTER JOIN",
-          "optional": true,
-          "description": "Use this join to roll up dispatch, billing, and fulfillment metrics at the sales order level."
+          "description": "Use this join to analyze service patterns, common issues, and repair costs by vehicle model, variant, and specifications."
         }
       ]
     }
   },
   {
-    "id": "PONPURE_SALEORDERDTLS",
-    "document": "Sales Order Details: Stores item-wise line information for each sales order including product, quantity, pricing, discounts, tax structure, delivery commitments, and fulfillment attributes. Each record represents a single sellable line item linked to a sales order header.",
+    "id": "MH_RO_HDR_DETAILS",
+    "document": "Repair Order Header: Central transaction table capturing repair order information including order dates, vehicle details, odometer readings, billing amounts, service advisor assignments, warranty status, and order status. This table represents the core service transaction record and serves as the primary entry point for all service-related analysis.",
     "metadata": {
-      "type": "table",
-      "primary_key": "line_id",
+      "type": "fact_table",
+      "primary_key": "sv_ro_hdr_sk",
       "join_guidance": [
         {
-          "table": "PONPURE_SALEORDERHDRS",
-          "on": "header_id",
+          "table": "MH_AD_AI_DIMENSION",
+          "on": "LOCTN_CD",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Use this join to enrich repair orders with dealer location and organizational hierarchy information for regional performance analysis."
+        },
+        {
+          "table": "MH_MODEL_MASTER",
+          "on": "MODL_CD",
+          "join_type": "LEFT OUTER JOIN",
+          "optional": true,
+          "description": "Use this join to analyze repair orders by vehicle model attributes for model-specific service trends and issues."
+        },
+        {
+          "table": "MH_RO_LABOUR",
+          "on": "sv_ro_hdr_sk",
           "join_type": "INNER JOIN",
           "optional": false,
-          "description": "Mandatory join to obtain customer, order-level attributes, currency, and commercial context for each line item."
+          "description": "Mandatory join to access labor line items associated with each repair order for detailed labor cost and productivity analysis."
         },
         {
-          "table": "PONPURE_SCHEDULES",
-          "on": "sale_order_detail_line_id",
-          "join_type": "LEFT OUTER JOIN",
-          "optional": true,
-          "description": "Use this join to analyze how each order line is scheduled across multiple delivery dates or quantities."
+          "table": "MH_RO_PARTS",
+          "on": "sv_ro_hdr_sk",
+          "join_type": "INNER JOIN",
+          "optional": false,
+          "description": "Mandatory join to access parts line items associated with each repair order for parts consumption and inventory analysis."
         },
         {
-          "table": "PONPURE_DISPATCHDETAILS",
-          "on": "sale_order_detail_line_id",
+          "table": "MH_CUST_VERBATIM",
+          "on": "sv_ro_hdr_sk",
           "join_type": "LEFT OUTER JOIN",
           "optional": true,
-          "description": "Use this join to track dispatched quantities, invoiced values, packaging, and logistics execution against each sales order line."
+          "description": "Use this join to analyze customer-reported issues and their relationship to repair actions, parts replaced, and labor performed."
         }
       ]
     }
   },
   {
-    "id": "PONPURE_SCHEDULES",
-    "document": "Schedules: Represents delivery planning and execution commitments for sales order line items. This table captures scheduled quantities, requested dates, rescheduling actions, dispatch readiness, and fulfillment tracking prior to physical dispatch.",
+    "id": "MH_RO_LABOUR",
+    "document": "Repair Order Labour Details: Line-item details of labor services performed during a repair order, including labor codes, descriptions, standard hours, charged hours, labor rates, taxes, and discounts. This table enables detailed analysis of service productivity, labor utilization, and revenue from service operations.",
     "metadata": {
-      "type": "table",
-      "primary_key": "line_id",
+      "type": "fact_table",
+      "primary_key": "sv_ro_bill_labr_dtl_sk",
       "join_guidance": [
         {
-          "table": "PONPURE_SALEORDERHDRS",
-          "on": "sale_order_header_id",
+          "table": "MH_RO_HDR_DETAILS",
+          "on": "sv_ro_hdr_sk",
           "join_type": "INNER JOIN",
           "optional": false,
-          "description": "Mandatory join to associate delivery schedules with the parent sales order."
-        },
-        {
-          "table": "PONPURE_SALEORDERDTLS",
-          "on": "sale_order_detail_line_id",
-          "join_type": "INNER JOIN",
-          "optional": false,
-          "description": "Mandatory join to associate schedules with specific sales order line items."
-        },
-        {
-          "table": "PONPURE_DISPATCHDETAILS",
-          "on": "schedule_line_id",
-          "join_type": "LEFT OUTER JOIN",
-          "optional": true,
-          "description": "Use this join to track actual dispatch execution against planned schedules."
+          "description": "Mandatory join to associate labor line items with their parent repair order for header-level context and aggregations."
         }
       ]
     }
   },
   {
-    "id": "PONPURE_DISPATCHDETAILS",
-    "document": "Dispatch Details: Records logistics and fulfillment execution for scheduled sales order lines, including dispatched quantities, packaging, freight, taxes, billing references, and inventory organization. This table represents the final execution layer of the order-to-cash lifecycle.",
+    "id": "MH_RO_PARTS",
+    "document": "Repair Order Parts Details: Line-item details of parts consumed during a repair order, including part codes, descriptions, quantities, pricing, taxes, discounts, and landed costs. This table supports parts inventory analysis, warranty parts tracking, and profitability analysis of service operations at the part level.",
     "metadata": {
-      "type": "table",
-      "primary_key": "line_id",
+      "type": "fact_table",
+      "primary_key": "sv_ro_bill_part_dtl_sk",
       "join_guidance": [
         {
-          "table": "PONPURE_SCHEDULES",
-          "on": "schedule_line_id",
+          "table": "MH_RO_HDR_DETAILS",
+          "on": "sv_ro_hdr_sk",
           "join_type": "INNER JOIN",
           "optional": false,
-          "description": "Mandatory join to connect physical dispatch execution to the originating delivery schedule."
-        },
-        {
-          "table": "PONPURE_SALEORDERHDRS",
-          "on": "sale_order_header_id",
-          "join_type": "INNER JOIN",
-          "optional": false,
-          "description": "Mandatory join to roll up dispatch, billing, and fulfillment metrics at the sales order level."
-        },
-        {
-          "table": "PONPURE_SALEORDERDTLS",
-          "on": "sale_order_detail_line_id",
-          "join_type": "INNER JOIN",
-          "optional": false,
-          "description": "Mandatory join to attribute dispatched quantities and values to specific order line items."
+          "description": "Mandatory join to associate parts line items with their parent repair order for header-level context and aggregations."
         }
       ]
     }
